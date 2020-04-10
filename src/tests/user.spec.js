@@ -10,6 +10,8 @@ describe('users', () => {
           user: {
             id: '1',
             username: 'rwieruch',
+            first_name: 'roy',
+            last_name: 'theboy',
             email: 'hello@robin.com',
             role: 'ADMIN',
           },
@@ -43,13 +45,17 @@ describe('users', () => {
               id: '1',
               username: 'rwieruch',
               email: 'hello@robin.com',
-              role: 'ADMIN',
+              role: 'ADMIN', // podcasters, listeners? 
+              first_name: 'test',
+              last_name: 'testy',
             },
             {
               id: '2',
               username: 'ddavids',
               email: 'hello@david.com',
               role: null,
+              first_name: 'test2',
+              last_name: 'test2',
             },
           ],
         },
@@ -246,7 +252,7 @@ describe('users', () => {
     });
 
     expect(errors[0].message).to.eql(
-      'No user found with this login credentials.',
+      'No user found with this login credentials.'
     );
   });
 });

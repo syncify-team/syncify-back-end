@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+// const { DataTypes } = require('sequelize'); // Import the built-in data types
 
 const user = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
@@ -6,6 +7,20 @@ const user = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: true,
       validate: {
         notEmpty: true,
       },
@@ -27,8 +42,9 @@ const user = (sequelize, DataTypes) => {
         len: [7, 42],
       },
     },
-    role: {
+    social_login_type: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
   });
 
