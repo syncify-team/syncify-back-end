@@ -26,50 +26,60 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This Repo uses [Nest](https://github.com/nestjs/nest) framework. It works with Typescript and Javascript. 
+
 
 ## Installation
+You will need to have node.js installed as well as [docker](https://docs.docker.com/engine/install/). 
 
 ```bash
-$ npm install
+$ yarn install
+$ docker-compose up
+$ touch .env
 ```
+
+## Envionrment Setup 
+Since this boilerplate project is using a dockerPostgreSQL, you have to install it for your machine and get a database up and running. You find everything for the setup over here: After you have created a database and a database user, you can fill out the environment variables in the *syncify-back-end/.env* file.
+
+```
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+POSTGRES_USER=username
+POSTGRES_PASSWORD=password
+POSTGRES_DATABASE=db_name
+PORT=3000
+MODE=DEV
+RUN_MIGRATIONS=true
+SECRET=thisIsASecretKey
+```
+
+The `SECRET` is just a random string for your authentication. Keep all these information secure by adding the *.env* file to your *.gitignore* file. No third-party should have access to this information.
+
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+Syncify Backend is [MIT licensed](LICENSE).
