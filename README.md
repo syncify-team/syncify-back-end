@@ -39,7 +39,7 @@ $ touch .env
 ```
 
 ## Envionrment Setup 
-Since this boilerplate project is using a dockerPostgreSQL, you have to install it for your machine and get a database up and running. You find everything for the setup over here: After you have created a database and a database user, you can fill out the environment variables in the *syncify-back-end/.env* file.
+Since this project is using a docker image of PostgreSQL, you have to install docker for your machine. However, you can run it locally if you have PostgreSQL installed - make sure you have a database up and running. You find everything for the setup over here: After you have created a database and a database user, you can fill out the environment variables in the *syncify-back-end/.env* file.
 
 ```
 POSTGRES_HOST=127.0.0.1
