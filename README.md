@@ -26,7 +26,12 @@
 
 ## Description
 
-This Repo uses [Nest](https://github.com/nestjs/nest) framework. It works with Typescript and Javascript. 
+This Repo uses [Nestjs](https://github.com/nestjs/nest) framework. It works with Typescript and/or Javascript. 
+
+Some good options to learn up on Nestjs:
+- [Build an API with Nestjs Intro (1hr)](https://www.youtube.com/watch?v=F_oOtaxb0L8)
+- [Ideas app series - Complete back end (5hrs)](https://www.youtube.com/playlist?list=PLBeQxJQNprbiJm55q7nTAfhMmzIC8MWxc)
+- [Udemy - Nestjs and Typescript back end course (8hr)](https://www.udemy.com/course/nestjs-zero-to-hero/)
 
 
 ## Installation
@@ -38,7 +43,7 @@ $ docker-compose up
 $ touch .env
 ```
 
-## Envionrment Setup 
+## Environment Setup 
 Since this project is using a docker image of PostgreSQL, you have to install docker for your machine. However, you can run it locally if you have PostgreSQL installed - make sure you have a database up and running. You find everything for the setup over here: After you have created a database and a database user, you can fill out the environment variables in the *syncify-back-end/.env* file.
 
 ```
