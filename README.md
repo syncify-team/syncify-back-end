@@ -26,9 +26,13 @@
 
 ## Description
 
-This Repo uses [Nestjs](https://github.com/nestjs/nest) framework. It works with Typescript and/or Javascript. 
+This Repo uses [Nestjs](https://github.com/nestjs/nest) framework. It works with Typescript and/or Javascript.
 
-Some good options to learn up on Nestjs:
+Required basics:
+- [How To Build a Database](https://typeorm.io/#/entities)
+- [How To Build an API](https://typeorm.io/#/select-query-builder)
+
+Some good tutorial options if needed to help learning up on Nestjs:
 - [Build an API with Nestjs Intro (1hr)](https://www.youtube.com/watch?v=F_oOtaxb0L8)
 - [Ideas app series - Complete back end (5hrs)](https://www.youtube.com/playlist?list=PLBeQxJQNprbiJm55q7nTAfhMmzIC8MWxc)
 - [Udemy - Nestjs and Typescript back end course (8hr)](https://www.udemy.com/course/nestjs-zero-to-hero/)
