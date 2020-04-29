@@ -1,8 +1,10 @@
 import Api from '../api'
+import Auth from '../api/auth'
 
 export default class Routes {
   static configure(app) {
     Api.up(app)
+    Auth.up(app)
 
     app.get('/', (req, res) => {
       res.render('index', { title: 'Express' })
