@@ -12,6 +12,7 @@ import Auth0Strategy from 'passport-auth0'
 import Database from './config/database'
 import GraphQL from './config/graphql'
 import Routes from './config/routes'
+import authRouter from './config/auth'
 
 const app = express()
 dotenv.config();
@@ -34,8 +35,7 @@ var strategy = new Auth0Strategy(
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL:
-      process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+    callbackURL: 'http://localhost:3033/callback'
   },
   function (accessToken, refreshToken, extraParams, profile, done) {
     return done(null, profile);
@@ -47,6 +47,21 @@ app.use(session(sess))
 // need to be after app.use(session(sess)
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  next();
+});
+
+app.use("/", authRouter)
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))

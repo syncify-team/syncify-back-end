@@ -3,3 +3,10 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  if isAuthenticated
+        a(href="/api/users/list")
+          div.NavButton Get User List!
+      else
+        a(href="/login")
+          div.NavButton Log in
