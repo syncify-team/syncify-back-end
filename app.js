@@ -19,13 +19,13 @@ dotenv.config();
 const port = process.env.PORT || 3033
 
 var sess = {
-  secret: 'CHANGE THIS TO A RANDOM SECRET',
+  secret: process.env.SESSION_SECRET,
   cookie: {},
   resave: false,
   saveUninitialized: true
 };
 
-if (process.env.LIVE === 'yes') {
+if (process.env.NODE_ENV === 'production') {
   // Use secure cookies in production (requires SSL/TLS)
   sess.cookie.secure = true;
 }
@@ -35,7 +35,7 @@ var strategy = new Auth0Strategy(
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL: 'http://localhost:3033/callback'
+    callbackURL: process.env.AUTH0_CALLBACK_URL
   },
   function (accessToken, refreshToken, extraParams, profile, done) {
     return done(null, profile);
