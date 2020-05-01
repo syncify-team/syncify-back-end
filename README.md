@@ -31,10 +31,28 @@ use etherpay
 
 -----
 
-### Run the app
+### Installation
 
 `npm install`
 
-`npm start`
+-----
 
-It will run on port 3033 unless specified otherwise on env.PORT
+### Environment Setup
+
+```
+AUTH0_CLIENT_ID=
+AUTH0_DOMAIN= 
+AUTH0_CLIENT_SECRET=
+AUTH0_CALLBACK_URL=http://localhost:3033/callback
+
+SESSION_SECRET=CHANGE THIS TO A SECRET
+
+NODE_ENV=development
+PORT=3033
+```
+
+-----
+
+### Run the app
+
+`npm start`
