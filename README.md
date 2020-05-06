@@ -26,27 +26,13 @@ This is a NodeJS project with Express, GraphQL, PSQL and Auth0 login
 
 ### Database
 
-Currently we use MongoDB (until it is changed)
+This repo is currently using a local PostgreSQL instance
 
-The repo won't run locally if you don't set up a basic mongodb.
-You can do it in your local checkout; the /data directory is ignored by gitignore.
+This is temporarily till docker is set up
 
-If you've never done this before
-brew services stop mongodb
-brew uninstall mongodb
+You will need to set up a local PostgreSQL db to connect to the db: https://www.postgresql.org/download/
 
-brew tap mongodb/brew
-brew install mongodb-community
-brew services start mongodb-community
-sudo mkdir -p data/db
-
-Then
-mongod --dbpath data/db
-in a separate window
-mongo
-
-then in the mongo interface
-use etherpay
+The repo will run locally if you don't set up a basic PostgreSQL db, however you will see a SequelizeConnectionError
 
 ---
 
@@ -68,6 +54,11 @@ SESSION_SECRET=CHANGE THIS TO A SECRET
 
 NODE_ENV=development
 PORT=3033
+
+DB_NAME=test
+DB_USER=postgres
+DB_PASSWORD=
+DB_HOST=127.0.0.1
 ```
 
 ---

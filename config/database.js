@@ -1,22 +1,16 @@
-import mongoose from 'mongoose'
-import colors from 'colors'
-
-const mongoDbUrl =
-  process.env.MONGOLAB_URI ||
-  process.env.MONGODB_URI ||
-  'mongodb://localhost/etherpay'
+const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'postgres'
+});
 
 export default class Database {
   static configure() {
-    mongoose.Promise = global.Promise
-    mongoose.connect(mongoDbUrl)
-
-    mongoose.connection.on('error', () => {
-      console.error('-- Mongodb connection error'.red)
-    })
-
-    mongoose.connection.once('open', () => {
-      console.log(`-- Connected to mongodb`.green)
-    })
+    try {
+      sequelize.authenticate();
+      console.log('DB Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
   }
 }
