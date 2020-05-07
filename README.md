@@ -28,21 +28,20 @@ This is a NodeJS project with Express, GraphQL, PSQL and Auth0 login
 
 This repo is currently using a local PostgreSQL instance
 
-This is temporarily till docker is set up
+This is temporarily until docker is set up
 
-You will need to set up a local PostgreSQL db to connect to the db: https://www.postgresql.org/download/
+You will need to set up a local [PostgreSQL db](https://www.postgresql.org/download/) to connect to the db
 
-The repo will run locally if you don't set up a basic PostgreSQL db, however you will see a SequelizeConnectionError
+The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
 
----
-
-### Installation
-
-`npm install`
+For testing routes through postman or equivalent 
 
 ---
 
 ### Environment Setup
+
+- For Auth0 ask someone for the variables
+- DB variables are form the Database section above
 
 ```
 AUTH0_CLIENT_ID=
@@ -60,6 +59,14 @@ DB_USER=postgres
 DB_PASSWORD=
 DB_HOST=127.0.0.1
 ```
+
+---
+
+### Installation
+
+`npm install`
+
+`knex migrate:latest` or `node_modules/.bin/knex migrate:latest`
 
 ---
 

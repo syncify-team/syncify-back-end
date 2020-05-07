@@ -9,7 +9,6 @@ import dotenv from 'dotenv'
 import passport from 'passport'
 import Auth0Strategy from 'passport-auth0'
 
-import Database from './config/database'
 import GraphQL from './config/graphql'
 import Routes from './config/routes'
 import authRouter from './config/auth'
@@ -72,7 +71,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 GraphQL.configure(app)
-Database.configure(app)
 Routes.configure(app)
 
 app.listen(port, () => {
