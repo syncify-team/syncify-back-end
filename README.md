@@ -34,7 +34,7 @@ You will need to set up a local [PostgreSQL db](https://www.postgresql.org/downl
 
 The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
 
-For testing routes through postman or equivalent 
+For testing routes through postman or an equivalent feel free to remove the secured middleware on the route
 
 ---
 
