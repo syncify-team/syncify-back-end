@@ -1,7 +1,7 @@
 export default `
 
 type Mutation {
-  createJob(input: JobCreationInput!): Job!
+  createUser(input: UserCreationInput): User!
 }
 
 `

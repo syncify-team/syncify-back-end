@@ -24,7 +24,9 @@ const graph = () => {
       request.connection.socket.remoteAddress;
 
     const connector = new Connector({
-      uid: user.sub,
+      // fix this should be
+      // uid: user.sub,
+      uid: user,
       roles: ['user'],
       ip: ip,
     });
@@ -77,7 +79,9 @@ const jwt = () => {
 
 export default class GraphQL {
   static configure(app) {
-    app.use('/graphql', cors(), jwt(), graph());
+    // fix this middleware
+    // app.use('/graphql', cors(), jwt(), graph());
+    app.use('/graphql', cors(), graph())
 
     app.use('/graphiql', graphUi());
   }

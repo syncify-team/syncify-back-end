@@ -34,14 +34,18 @@ You will need to set up a local [PostgreSQL db](https://www.postgresql.org/downl
 
 The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
 
-For testing routes through postman or an equivalent feel free to remove the secured middleware on the route
+---
+
+### GraphQL
+
+Testing GraphQL querys/mutations can be done through [GraphIQL](https://graphql.org/learn/queries/)
 
 ---
 
 ### Environment Setup
 
 - For Auth0 ask someone for the variables
-- DB variables are form the Database section above
+- DB variables are from the Database section above
 
 ```
 AUTH0_CLIENT_ID=
