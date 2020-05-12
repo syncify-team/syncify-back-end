@@ -40,6 +40,12 @@ The application is currently using [bookshelf.js](https://bookshelfjs.org/) and 
 
 Testing GraphQL querys/mutations can be done through [GraphIQL](https://graphql.org/learn/queries/)
 
+Testing endpoints with bearer token:
+- You can get your bearer token if you console.log(extraParams.id_token) in app.js during the Auth0Strategy set up.
+- After that click "edit HTTP Headers" in graphiql.
+- Add "Bearer " to the beginning of the jwt string
+- Add a new header name:authorization value:*from the step above*
+
 ---
 
 ### Environment Setup
@@ -52,6 +58,7 @@ AUTH0_CLIENT_ID=
 AUTH0_DOMAIN=
 AUTH0_CLIENT_SECRET=
 AUTH0_CALLBACK_URL=http://localhost:3033/callback
+AUTH0_ISSUER
 
 SESSION_SECRET=CHANGE THIS TO A SECRET
 

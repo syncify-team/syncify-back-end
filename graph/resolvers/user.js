@@ -3,7 +3,7 @@ import User from '../../models/user'
 export default {
 	users: (_, params, context) => {
 		return User.fetchAll()
-			.then((users) => { 
+			.then((users) => {
 				const retLists = [];
 				users.forEach((user) => {
 					retLists.push(user.attributes)

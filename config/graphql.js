@@ -24,9 +24,7 @@ const graph = () => {
       request.connection.socket.remoteAddress;
 
     const connector = new Connector({
-      // fix this should be
-      // uid: user.sub,
-      uid: user,
+      uid: user.sub,
       roles: ['user'],
       ip: ip,
     });
@@ -59,12 +57,13 @@ const jwt = () => {
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: 'https://dev-pk6q9q8u.eu.auth0.com/.well-known/jwks.json',
+    jwksUri: `${process.env.AUTH0_ISSUER}.well-known/jwks.json`,
   });
 
   return Jwt({
     secret: secret,
-    issuer: 'https://dev-pk6q9q8u.eu.auth0.com/',
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: process.env.AUTH0_ISSUER,
     algorithms: ['RS256'],
     getToken: (request) => {
       if (request.headers.authorization) {
@@ -79,9 +78,7 @@ const jwt = () => {
 
 export default class GraphQL {
   static configure(app) {
-    // fix this middleware
-    // app.use('/graphql', cors(), jwt(), graph());
-    app.use('/graphql', cors(), graph())
+    app.use('/graphql', cors(), jwt(), graph())
 
     app.use('/graphiql', graphUi());
   }
