@@ -6,7 +6,8 @@
   },
   "private": true,
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "migrate": "knex migrate:latest"
   },
   "dependencies": {
     "apollo-server-express": "^1.2.0",
