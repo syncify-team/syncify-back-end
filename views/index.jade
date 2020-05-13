@@ -6,7 +6,9 @@ block content
 
   if isAuthenticated
         a(href="/api/test")
-          div.NavButton Test Endpoint!
+          div.NavButton API Endpoint!
+        a(href="/graphql-passport?query=query%7B%0A%20%20users%7B%0A%20%20%20%20id%0A%20%20%20%20username%0A%20%20%20%20email%0A%20%20%20%20first_name%0A%20%20%20%20last_name%0A%20%20%20%20social_login_type%0A%20%20%7D%0A%7D%0A&variables=null")
+          div.NavButton GraphQL Get User List Endpoint!
       else
         a(href="/login")
           div.NavButton Log in

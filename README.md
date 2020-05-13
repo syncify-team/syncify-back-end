@@ -40,7 +40,7 @@ The application is currently using [bookshelf.js](https://bookshelfjs.org/) and 
 
 Testing GraphQL querys/mutations can be done through [GraphIQL](https://graphql.org/learn/queries/)
 
-Testing endpoints with bearer token:
+Testing endpoints with your context in GraphIQL:
 - You can get your bearer token if you console.log(extraParams.id_token) in app.js during the Auth0Strategy set up.
 - After that click "edit HTTP Headers" in graphiql.
 - Add "Bearer " to the beginning of the jwt string

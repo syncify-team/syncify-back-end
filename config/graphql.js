@@ -8,7 +8,7 @@ import schema from '../graph/schema';
 import resolvers from '../graph/resolvers';
 import Connector from '../graph/connector';
 
-const graph = () => {
+const graph = (usePassport = false) => {
   const graphSchema = makeExecutableSchema({
     typeDefs: schema,
     resolvers: resolvers,
@@ -24,7 +24,7 @@ const graph = () => {
       request.connection.socket.remoteAddress;
 
     const connector = new Connector({
-      uid: user.sub,
+      uid: usePassport ? user.user_id : user.sub,
       roles: ['user'],
       ip: ip,
     });
@@ -78,7 +78,13 @@ const jwt = () => {
 
 export default class GraphQL {
   static configure(app) {
-    app.use('/graphql', cors(), jwt(), graph())
+    app.use('/graphql', cors(), jwt(), graph());
+
+    app.use('/graphql-passport', cors(), (req, res, next) => {
+      if (req.user) { return next(); }
+      req.session.returnTo = req.originalUrl;
+      res.redirect("/login");
+    }, graph(true));
 
     app.use('/graphiql', graphUi());
   }
