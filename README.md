@@ -47,12 +47,12 @@ For testing routes through postman or an equivalent feel free to remove the secu
 AUTH0_CLIENT_ID=
 AUTH0_DOMAIN=
 AUTH0_CLIENT_SECRET=
-AUTH0_CALLBACK_URL=http://localhost:3033/callback
+AUTH0_CALLBACK_URL=http://localhost:3000/callback
 
-SESSION_SECRET=CHANGE THIS TO A SECRET
+SESSION_SECRET=change_this_to_a_secret
 
 NODE_ENV=development
-PORT=3033
+PORT=3000
 
 DB_NAME=test
 DB_USER=postgres
@@ -61,6 +61,18 @@ DB_HOST=127.0.0.1
 ```
 
 ---
+
+### Running with DOCKER
+
+Make sure you have DOCKER engine (with *docker-compose*) on your machine, then just play:
+
+`docker-compose up`
+
+---
+
+And that should work!
+
+Below is the old way...
 
 ### Installation
 
