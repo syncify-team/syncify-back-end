@@ -26,27 +26,53 @@ This is a NodeJS project with Express, GraphQL, PSQL and Auth0 login
 
 ### Database
 
-Currently we use MongoDB (until it is changed)
+This repo is currently using a local PostgreSQL instance
 
-The repo won't run locally if you don't set up a basic mongodb.
-You can do it in your local checkout; the /data directory is ignored by gitignore.
+This is temporarily until docker is set up
 
-If you've never done this before
-brew services stop mongodb
-brew uninstall mongodb
+You will need to set up a local [PostgreSQL db](https://www.postgresql.org/download/) to connect to the db
 
-brew tap mongodb/brew
-brew install mongodb-community
-brew services start mongodb-community
-sudo mkdir -p data/db
+The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
 
-Then
-mongod --dbpath data/db
-in a separate window
-mongo
+---
 
-then in the mongo interface
-use etherpay
+### GraphQL
+
+Testing GraphQL querys/mutations can be done through GraphIQL.
+- Examples of how to build queries and mutations: https://graphql.org/learn/queries/
+- The endpoint for passing the bearing token in the request is: http://localhost:3000/graphql
+- The endpoint for authentication through passport is: http://localhost:3000/graphql-passport
+
+Testing endpoints with your context in GraphIQL:
+- You can get your bearer token if you console.log(extraParams.id_token) in app.js during the Auth0Strategy set up.
+- After that click "edit HTTP Headers" in graphiql.
+- Add "Bearer " to the beginning of the jwt string
+- Add a new header name:authorization value:*from the step above*
+
+---
+
+### Environment Setup
+
+- For Auth0 ask someone for the variables
+- DB variables are from the Database section above
+
+```
+AUTH0_CLIENT_ID=
+AUTH0_DOMAIN=
+AUTH0_CLIENT_SECRET=
+AUTH0_CALLBACK_URL=http://localhost:3033/callback
+AUTH0_ISSUER
+
+SESSION_SECRET=CHANGE THIS TO A SECRET
+
+NODE_ENV=development
+PORT=3033
+
+DB_NAME=test
+DB_USER=postgres
+DB_PASSWORD=
+DB_HOST=127.0.0.1
+```
 
 ---
 
@@ -54,21 +80,7 @@ use etherpay
 
 `npm install`
 
----
-
-### Environment Setup
-
-```
-AUTH0_CLIENT_ID=
-AUTH0_DOMAIN=
-AUTH0_CLIENT_SECRET=
-AUTH0_CALLBACK_URL=http://localhost:3033/callback
-
-SESSION_SECRET=CHANGE THIS TO A SECRET
-
-NODE_ENV=development
-PORT=3033
-```
+`npm run migrate`
 
 ---
 

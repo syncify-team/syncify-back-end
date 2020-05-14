@@ -1,11 +1,11 @@
-import job, { createJob } from './job'
+import user, { createUser } from './user'
 
 export default {
   Query: {
-    ...job,
+    ...user
   },
 
   Mutation: {
-    createJob,
+    createUser
   }
 }

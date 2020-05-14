@@ -1,8 +1,8 @@
 export default `
 
 type Query {
-  jobs: [Job]
-  job(id: ID!): Job
+  users: [User]
+  user(id: ID!): User
 }
 
 `

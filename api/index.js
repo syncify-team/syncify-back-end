@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import User from '../models/user'
 
 export default class Api {
   static up(app) {
@@ -11,8 +12,8 @@ export default class Api {
       res.redirect("/login");
     };
 
-    app.get('/api/users/list', secured, (req, res) => {
-      res.send('Not yet')
+    app.get('/api/test', secured, (req, res) => {
+      res.send('Test route!')
     })
   }
 }
