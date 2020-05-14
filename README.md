@@ -38,7 +38,10 @@ The application is currently using [bookshelf.js](https://bookshelfjs.org/) and 
 
 ### GraphQL
 
-Testing GraphQL querys/mutations can be done through [GraphIQL](https://graphql.org/learn/queries/)
+Testing GraphQL querys/mutations can be done through GraphIQL.
+- Examples of how to build queries and mutations: https://graphql.org/learn/queries/
+- The endpoint for passing the bearing token in the request is: http://localhost:3000/graphql
+- The endpoint for authentication through passport is: http://localhost:3000/graphql-passport
 
 Testing endpoints with your context in GraphIQL:
 - You can get your bearer token if you console.log(extraParams.id_token) in app.js during the Auth0Strategy set up.
@@ -77,7 +80,7 @@ DB_HOST=127.0.0.1
 
 `npm install`
 
-`knex migrate:latest` or `node_modules/.bin/knex migrate:latest`
+`npm run migrate`
 
 ---
 
