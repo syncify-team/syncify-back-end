@@ -34,14 +34,29 @@ You will need to set up a local [PostgreSQL db](https://www.postgresql.org/downl
 
 The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
 
-For testing routes through postman or an equivalent feel free to remove the secured middleware on the route
+---
+
+### GraphQL
+
+Testing GraphQL querys/mutations can be done through GraphIQL.
+
+- Examples of how to build queries and mutations: https://graphql.org/learn/queries/
+- The endpoint for passing the bearing token in the request is: http://localhost:3000/graphql
+- The endpoint for authentication through passport is: http://localhost:3000/graphql-passport
+
+Testing endpoints with your context in GraphIQL:
+
+- You can get your bearer token if you console.log(extraParams.id_token) in app.js during the Auth0Strategy set up.
+- After that click "edit HTTP Headers" in graphiql.
+- Add "Bearer " to the beginning of the jwt string
+- Add a new header name:authorization value:_from the step above_
 
 ---
 
 ### Environment Setup
 
 - For Auth0 ask someone for the variables
-- DB variables are form the Database section above
+- DB variables are from the Database section above
 
 ```
 AUTH0_CLIENT_ID=
@@ -57,14 +72,16 @@ PORT=3000
 DB_NAME=test
 DB_USER=postgres
 DB_PASSWORD=
-DB_HOST=127.0.0.1
+DB_HOST=db
+DB_PORT=5432
+DOCKER_DB_KEY_NAME=db
 ```
 
 ---
 
 ### Running with DOCKER
 
-Make sure you have DOCKER engine (with *docker-compose*) on your machine, then just play:
+Make sure you have DOCKER engine (with _docker-compose_) on your machine, then just play:
 
 `docker-compose up`
 
@@ -78,7 +95,7 @@ Below is the old way...
 
 `npm install`
 
-`knex migrate:latest` or `node_modules/.bin/knex migrate:latest`
+`npm run migrate`
 
 ---
 
