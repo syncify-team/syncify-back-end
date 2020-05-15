@@ -53,7 +53,7 @@ Testing endpoints with your context in GraphIQL:
 
 ---
 
-### Environment Setup
+### Environment Setup (.env file)
 
 - For Auth0 ask someone for the variables
 - DB variables are from the Database section above
@@ -69,12 +69,11 @@ SESSION_SECRET=change_this_to_a_secret
 NODE_ENV=development
 PORT=3000
 
-DB_NAME=test
-DB_USER=postgres
-DB_PASSWORD=
+DB_NAME=testDB
+DB_USER=syncifyDbUser
+DB_PASSWORD=somePassw0rD
 DB_HOST=db
 DB_PORT=5432
-DOCKER_DB_KEY_NAME=db
 ```
 
 ---
@@ -83,7 +82,17 @@ DOCKER_DB_KEY_NAME=db
 
 Make sure you have DOCKER engine (with _docker-compose_) on your machine, then just play:
 
+For the first run (make sure you don't have ./pgdata directory)
+
 `docker-compose up`
+
+Wait for the database to full initialize: "*LOG:  database system is ready to accept connections*"
+
+Migration cmd:
+
+`docker exec syncify-back-end_app_1 sh -c "npm run migrate"`
+
+And you should be good to test on a browser or other tool.
 
 ---
 

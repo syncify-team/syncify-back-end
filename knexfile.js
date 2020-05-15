@@ -4,7 +4,7 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      host: process.env.DOCKER_DB_KEY_NAME,
+      host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
@@ -15,7 +15,7 @@ module.exports = {
   staging: {
     client: 'pg',
     connection: {
-      host: process.env.DOCKER_DB_KEY_NAME,
+      host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
@@ -33,7 +33,7 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      host: process.env.DOCKER_DB_KEY_NAME,
+      host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
