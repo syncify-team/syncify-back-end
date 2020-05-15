@@ -1,26 +1,27 @@
 version: '3.7'
 services:
+
   app:
     build: .
     depends_on:
       - db
     environment:
-      DATABASE_URL: ${DB_HOST}://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}
       NODE_ENV: ${NODE_ENV}
-      PORT: 3000
     ports:
-      - '3000:3000'
+      - target: ${APP_PORT}
+        published: 3000
     volumes:
       - .:/app/
       - /app/node_modules
+  
   db:
     image: postgres:12
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - target: ${DB_PORT}
+        published: 5432
     volumes:
       - ./pgdata:/var/lib/postgresql/data
-
-    ports:
-      - '5432:5432'
