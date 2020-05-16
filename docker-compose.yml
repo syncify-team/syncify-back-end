@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - target: ${APP_PORT}
+        published: 3000
+    volumes:
+      - .:/app/
+      - /app/node_modules
+  
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - target: ${DB_PORT}
+        published: 5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
