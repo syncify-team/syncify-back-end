@@ -40,5 +40,8 @@
     "q": "^1.5.1",
     "redux": "^3.7.2",
     "web3": "^1.0.0-beta.26"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
   }
 }

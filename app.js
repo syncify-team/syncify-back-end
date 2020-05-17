@@ -13,6 +13,9 @@ import GraphQL from './config/graphql';
 import Routes from './config/routes';
 import authRouter from './config/auth';
 
+const Bundler = require('parcel-bundler');
+let bundler = new Bundler('./server.js', {'target': 'node'});
+
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -72,6 +75,8 @@ app.use(cookieParser());
 
 GraphQL.configure(app);
 Routes.configure(app);
+
+app.use(bundler.middleware());
 
 app.listen(port, () => {
   console.log(`Syncify Server listening on port ${port}!`.bold);
