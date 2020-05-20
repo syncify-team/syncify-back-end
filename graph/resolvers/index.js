@@ -1,11 +1,15 @@
-import user, { createUser } from './user'
+import user, { createUser } from './user';
+import friendship, { createFriendship, deleteFriendship } from './friendship';
 
 export default {
   Query: {
-    ...user
+    ...user,
+    ...friendship,
   },
 
   Mutation: {
-    createUser
-  }
-}
+    createUser,
+    createFriendship,
+    deleteFriendship,
+  },
+};
