@@ -20,6 +20,10 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 3000;
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(bundler.middleware());
+}
+
 var sess = {
   secret: process.env.SESSION_SECRET,
   cookie: {},
@@ -75,8 +79,6 @@ app.use(cookieParser());
 
 GraphQL.configure(app);
 Routes.configure(app);
-
-app.use(bundler.middleware());
 
 app.listen(port, () => {
   console.log(`Syncify Server listening on port ${port}!`.bold);
