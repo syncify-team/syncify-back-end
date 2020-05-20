@@ -89,7 +89,9 @@ Wait for the database to full initialize: "*LOG:  database system is ready to ac
 
 MIGRATION cmd (can be executed in any terminal):
 
-`docker exec syncify-back-end_app_1 sh -c "npm run migrate"`
+`docker exec {nodejs-app-container-name} sh -c "npm run migrate"`
+
+Some examples of container names: syncify-back-end_app_1, server-syncify_app_1
 
 And you should be good to test on a browser or other testing tool.
 
