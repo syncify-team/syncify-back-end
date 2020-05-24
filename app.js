@@ -13,9 +13,16 @@ import GraphQL from './config/graphql';
 import Routes from './config/routes';
 import authRouter from './config/auth';
 
+const Bundler = require('parcel-bundler');
+let bundler = new Bundler('./server.js', {'target': 'node'});
+
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(bundler.middleware());
+}
 
 var sess = {
   secret: process.env.SESSION_SECRET,
