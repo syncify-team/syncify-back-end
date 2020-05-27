@@ -26,11 +26,11 @@ This is a NodeJS project with Express, GraphQL, PSQL and Auth0 login
 
 ### Database
 
-This repo is currently using a local PostgreSQL instance
+This repo is currently using DOCKER-COMPOSE with two services:
 
-This is temporarily until docker is set up
+app: NodeServer
 
-You will need to set up a local [PostgreSQL db](https://www.postgresql.org/download/) to connect to the db
+db: PostgreSQL
 
 The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
 
@@ -39,40 +39,65 @@ The application is currently using [bookshelf.js](https://bookshelfjs.org/) and 
 ### GraphQL
 
 Testing GraphQL querys/mutations can be done through GraphIQL.
+
 - Examples of how to build queries and mutations: https://graphql.org/learn/queries/
 - The endpoint for passing the bearing token in the request is: http://localhost:3000/graphql
 - The endpoint for authentication through passport is: http://localhost:3000/graphql-passport
 
 Testing endpoints with your context in GraphIQL:
+
 - You can get your bearer token if you console.log(extraParams.id_token) in app.js during the Auth0Strategy set up.
 - After that click "edit HTTP Headers" in graphiql.
 - Add "Bearer " to the beginning of the jwt string
-- Add a new header name:authorization value:*from the step above*
+- Add a new header name:authorization value:_from the step above_
 
 ---
 
-### Environment Setup
+### Environment Setup (.env file)
 
 - For Auth0 ask someone for the variables
-- DB variables are from the Database section above
 
 ```
 AUTH0_CLIENT_ID=
 AUTH0_DOMAIN=
 AUTH0_CLIENT_SECRET=
-AUTH0_CALLBACK_URL=http://localhost:3033/callback
-AUTH0_ISSUER
+AUTH0_CALLBACK_URL=http://localhost:3000/callback
 
-SESSION_SECRET=CHANGE THIS TO A SECRET
+SESSION_SECRET=change_this_to_a_secret
 
 NODE_ENV=development
-PORT=3033
+APP_PORT=3000
 
-DB_NAME=test
-DB_USER=postgres
-DB_PASSWORD=
-DB_HOST=127.0.0.1
+DB_NAME=testDB
+DB_USER=syncifyDbUser
+DB_PASSWORD=somePassw0rD
+DB_HOST=db
+DB_PORT=5432
 ```
+
+---
+
+### Running with DOCKER
+
+Make sure you have DOCKER engine (with _docker-compose_) on your machine, then just play:
+
+For the first run (make sure you don't have ./pgdata directory)
+
+`docker-compose up`
+
+Wait for the database to full initialize: "*LOG:  database system is ready to accept connections*"
+
+MIGRATION cmd (can be executed in any terminal):
+
+`docker exec {nodejs-app-container-name} sh -c "npm run migrate"`
+
+Some examples of container names: syncify-back-end_app_1, server-syncify_app_1
+
+And you should be good to test on a browser or other testing tool.
+
+
+
+Below are instructions for the app when running without docker..
 
 ---
 
