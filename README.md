@@ -45,7 +45,7 @@ Testing endpoints with your context in GraphIQL:
 
 The current database structure for the MVP (subject to change)
 
-![](https://imgur.com/a/wrK7GK2)
+![](https://i.imgur.com/BsqcZPC.png)
 
 Details and code here - https://dbdiagram.io/d/5e8648fb4495b02c3b892c24
 
