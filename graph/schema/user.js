@@ -19,4 +19,8 @@ input UserCreationInput {
   auth0_id: String
 }
 
-`
+input SignInInput {
+  token: String!
+}
+
+`;
