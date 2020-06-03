@@ -30,16 +30,22 @@ const valid = (newUser) => {
 	}
 }
 
-export const createUser = (_, { input }) => (
-	valid(input)
-		.then(
-			User.forge({
-				username: input.username,
-				email: input.email,
-				first_name: input.first_name,
-				last_name: input.last_name,
-				social_login_type: input.social_login_type,
-				auth0_id: input.auth0_id
-			}).save()
-		)
-)
+export const createUser = async (_, { input }) => {
+	await valid(input);
+
+	let returnObject = {};
+
+	let userPromise = await User.forge({
+		username: input.username,
+		email: input.email,
+		first_name: input.first_name,
+		last_name: input.last_name,
+		social_login_type: input.social_login_type,
+		auth0_id: input.auth0_id
+	}).save().then((user) => {
+		return returnObject = user.attributes
+	});
+
+	await userPromise;
+	return returnObject;
+}

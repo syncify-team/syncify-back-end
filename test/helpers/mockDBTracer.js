@@ -34,4 +34,4 @@ tracker.on('query', (query) => {
 
 module.exports = {
 	tracker: tracker
-}; 
+};

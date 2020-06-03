@@ -31,6 +31,25 @@ data['users'].push(
 	}
 );
 
+data['podcasts'] = [];
+data['podcasts'].push(
+	{
+		id: 1,
+		podcast_name: 'pod_1',
+		rss_feed: 'rss feed 1',
+	},
+	{
+		id: 2,
+		podcast_name: 'pod_2',
+		rss_feed: 'rss feed 2',
+	},
+	{
+		id: 3,
+		podcast_name: 'pod_3',
+		rss_feed: 'rss feed 3',
+	}
+);
+
 module.exports = {
 	data: data
 }; 
