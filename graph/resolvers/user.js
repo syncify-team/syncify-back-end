@@ -13,12 +13,16 @@ export default {
 	},
 
 	user: (_, { id }) => {
-		return User.where({ id: id }).fetch().then((user) => user.attributes )
+		return User.where({ id: id }).fetch().then((user) => user.attributes)
+	},
+
+	userByAuthId: (_, { auth0_id }) => {
+		return User.where({ auth0_id: auth0_id }).fetch().then((user) => user.attributes)
 	},
 }
 
 const valid = (newUser) => {
-	if (newUser.username && newUser.email && newUser.first_name && newUser.last_name 
+	if (newUser.username && newUser.email && newUser.first_name && newUser.last_name
 		&& newUser.social_login_type && newUser.auth0_id) {
 		return Promise.resolve(newUser)
 	} else {

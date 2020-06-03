@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node server",
     "migrate": "knex migrate:latest",
-    "test": "mocha --require @babel/register"
+    "test": "env NODE_ENV=test mocha --recursive --require @babel/register"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -17,6 +17,7 @@
     "apollo-server-express": "^1.2.0",
     "body-parser": "^1.19.0",
     "bookshelf": "^1.1.1",
+    "chai": "^4.2.0",
     "colors": "^1.1.2",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
@@ -32,6 +33,7 @@
     "jwks-rsa": "^1.2.1",
     "knex": "^0.21.1",
     "mocha": "^7.2.0",
+    "mock-knex": "^0.4.9",
     "mongodb": "^2.2.29",
     "mongoose": "^4.10.8",
     "morgan": "^1.10.0",
