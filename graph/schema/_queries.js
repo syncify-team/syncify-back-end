@@ -8,6 +8,8 @@ type Query {
   friendship(id: ID!): Friendship
   podcasts: [Podcast]
   podcast(id: ID!): Podcast
+  episodes: [Episode]
+  episode(id: ID!): Episode
 }
 
 `;
