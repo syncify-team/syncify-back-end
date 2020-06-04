@@ -44,6 +44,7 @@ var strategy = new Auth0Strategy(
     callbackURL: process.env.AUTH0_CALLBACK_URL,
   },
   function (accessToken, refreshToken, extraParams, profile, done) {
+    console.log(extraParams.id_token);
     return done(null, profile);
   },
 );
