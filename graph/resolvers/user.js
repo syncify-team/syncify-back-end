@@ -35,6 +35,7 @@ const valid = (newUser) => {
 };
 
 export const signIn = async (parent, { input: { token } }) => {
+  console.log('Sign In request received');
   const idToken = jwtDecode(token);
   const sub = idToken.sub;
   let user;
@@ -45,7 +46,7 @@ export const signIn = async (parent, { input: { token } }) => {
   }
   if (!user) {
     // create a new record in database
-    return createUser(parent, {
+    createUser(parent, {
       input: {
         username: idToken.nickname ? idToken.nickname : ' ',
         email: idToken.email ? idToken.email : ' ',
@@ -55,6 +56,8 @@ export const signIn = async (parent, { input: { token } }) => {
         auth0_id: idToken.sub,
       },
     });
+
+    user = await User.where({ auth0_id: sub }).fetch();
   }
 
   return user.attributes;
