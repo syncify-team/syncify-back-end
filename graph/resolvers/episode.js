@@ -45,7 +45,7 @@ export const createEpisode = async (_, { input }) => {
 
 export const deleteEpisode = async (_, { id }) => {
   try {
-    const status = new episode({ id: 1 }).destroy({
+    const status = new episode({ id }).destroy({
       require: true,
     });
   } catch (e) {
