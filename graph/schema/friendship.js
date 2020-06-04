@@ -6,6 +6,10 @@ type Friendship implements Node {
   user2: User!
 }
 
+type Friend {
+  friend: User!
+}
+
 input FriendshipCreationInput {
   user1_id: ID!
   user2_id: ID!
