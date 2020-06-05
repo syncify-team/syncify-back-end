@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 import util from 'util'
 import url from 'url'
 import querystring from 'querystring'
-import User from '../models/user'
 
 const router = express.Router();
 dotenv.config();
@@ -31,20 +30,6 @@ router.get("/callback", (req, res, next) => {
 			if (err) {
 				return next(err);
 			}
-
-			User.where({ auth0_id: user.id }).fetchAll()
-				.then((dbUsers) => {
-					if (dbUsers.length === 0) {
-						User.forge({
-							username: user.nickname ? user.nickname : "nickname",
-							email: user.emails[0].value,
-							first_name: user.name.givenName ? user.name.givenName : "first",
-							last_name: user.name.familyName ? user.name.familyName : "last",
-							social_login_type: user.provider,
-							auth0_id: user.id
-						}).save()
-					}
-				});
 
 			const returnTo = req.session.returnTo;
 			delete req.session.returnTo;

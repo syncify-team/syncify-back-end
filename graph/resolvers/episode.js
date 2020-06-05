@@ -1,22 +1,14 @@
-import Episode from '../../models/episode';
+import knex from '../../config/knex'
 
 export default {
   episodes: (_, params, context) => {
-    return Episode.fetchAll().then((episodes) => {
-      const episodeList = [];
-      episodes.forEach((episode) => {
-        episodeList.push(episode.attributes);
-      });
-      return episodeList;
-    });
+    return knex.from('episodes').select('*').then((episodes) => episodes);
   },
 
   episode: (_, { id }) => {
-    return Episode.where({ id: id })
-      .fetch()
-      .then((episode) => episode.attributes);
+    return knex.from('episodes').select('*').where({ id }).first().then((episode) => episode);
   },
-};
+}
 
 const valid = (newEpisode) => {
   if (newEpisode.episode_name && newEpisode.podcast_id) {
@@ -27,30 +19,15 @@ const valid = (newEpisode) => {
 };
 
 export const createEpisode = async (_, { input }) => {
-  await valid(input);
-
-  let returnObject = {};
-  let episodePromise = await Episode.forge({
-    episode_name: input.episode_name,
-    podcast_id: input.podcast_id,
-  })
-    .save()
-    .then((episode) => {
-      return (returnObject = episode.attributes);
-    });
-
-  await episodePromise;
-  return returnObject;
+  return valid(input)
+    .then(() =>
+      knex('episodes').insert({
+        episode_name: input.episode_name,
+        podcast_id: input.podcast_id,
+      }).returning('*').then((episode) => episode[0])
+    )
 };
 
 export const deleteEpisode = async (_, { id }) => {
-  try {
-    const status = new episode({ id }).destroy({
-      require: true,
-    });
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-  return true;
+  return knex('episodes').where({ id }).del().then((result) => result);
 };
