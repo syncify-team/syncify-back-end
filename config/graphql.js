@@ -3,7 +3,6 @@ import { makeExecutableSchema } from 'graphql-tools';
 import Jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import Cors from 'cors';
-import colors from 'colors';
 import schema from '../graph/schema';
 import resolvers from '../graph/resolvers';
 import Connector from '../graph/connector';
@@ -11,22 +10,21 @@ import Connector from '../graph/connector';
 const graph = (usePassport = false) => {
   const graphSchema = makeExecutableSchema({
     typeDefs: schema,
-    resolvers: resolvers,
+    resolvers,
   });
 
   return graphqlExpress((request) => {
-    const user = request.user;
+    const { user } = request;
 
-    const ip =
-      request.headers['x-forwarded-for'] ||
-      request.connection.remoteAddress ||
-      request.socket.remoteAddress ||
-      request.connection.socket.remoteAddress;
+    const ip = request.headers['x-forwarded-for']
+      || request.connection.remoteAddress
+      || request.socket.remoteAddress
+      || request.connection.socket.remoteAddress;
 
     const connector = new Connector({
       uid: usePassport ? user.user_id : user.sub,
       roles: ['user'],
-      ip: ip,
+      ip,
     });
 
     return {
@@ -39,18 +37,14 @@ const graph = (usePassport = false) => {
   });
 };
 
-const graphUi = () => {
-  return graphiqlExpress({
-    endpointURL: '/graphql',
-  });
-};
+const graphUi = () => graphiqlExpress({
+  endpointURL: '/graphql',
+});
 
-const cors = () => {
-  return Cors({
-    methods: ['POST'],
-    allowedHeaders: 'Origin, Accept, Content-Type, Authorization',
-  });
-};
+const cors = () => Cors({
+  methods: ['POST'],
+  allowedHeaders: 'Origin, Accept, Content-Type, Authorization',
+});
 
 const jwt = () => {
   const secret = jwksRsa.expressJwtSecret({
@@ -61,7 +55,7 @@ const jwt = () => {
   });
 
   return Jwt({
-    secret: secret,
+    secret,
     audience: process.env.AUTH0_AUDIENCE,
     issuer: process.env.AUTH0_ISSUER,
     algorithms: ['RS256'],
@@ -80,11 +74,18 @@ export default class GraphQL {
   static configure(app) {
     app.use('/graphql', cors(), jwt(), graph());
 
-    app.use('/graphql-passport', cors(), (req, res, next) => {
-      if (req.user) { return next(); }
-      req.session.returnTo = req.originalUrl;
-      res.redirect("/login");
-    }, graph(true));
+    app.use(
+      '/graphql-passport',
+      cors(),
+      (req, res, next) => {
+        if (req.user) {
+          return next();
+        }
+        req.session.returnTo = req.originalUrl;
+        res.redirect('/login');
+      },
+      graph(true),
+    );
 
     app.use('/graphiql', graphUi());
   }

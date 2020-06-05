@@ -1,8 +1,8 @@
 import core from './core';
-import queries from './_queries.js';
-import mutations from './_mutations.js';
+import queries from './_queries';
+import mutations from './_mutations';
 
-import user from './user.js';
+import user from './user';
 import friendship from './friendship';
 import podcast from './podcast';
 

@@ -3,7 +3,6 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import path from 'path';
-import colors from 'colors';
 import session from 'express-session';
 import dotenv from 'dotenv';
 import passport from 'passport';
@@ -14,7 +13,8 @@ import Routes from './config/routes';
 import authRouter from './config/auth';
 
 const Bundler = require('parcel-bundler');
-let bundler = new Bundler('./server.js', {'target': 'node'});
+
+const bundler = new Bundler('./server.js', { target: 'node' });
 
 const app = express();
 dotenv.config();
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(bundler.middleware());
 }
 
-var sess = {
+const sess = {
   secret: process.env.SESSION_SECRET,
   cookie: {},
   resave: false,
@@ -36,14 +36,14 @@ if (process.env.NODE_ENV === 'production') {
   sess.cookie.secure = true;
 }
 
-var strategy = new Auth0Strategy(
+const strategy = new Auth0Strategy(
   {
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
     callbackURL: process.env.AUTH0_CALLBACK_URL,
   },
-  function (accessToken, refreshToken, extraParams, profile, done) {
+  (accessToken, refreshToken, extraParams, profile, done) => {
     console.log(extraParams.id_token);
     return done(null, profile);
   },
@@ -83,5 +83,5 @@ Routes.configure(app);
 
 app.listen(port, () => {
   console.log(`Syncify Server listening on port ${port}!`.bold);
-  console.log(`-- GraphQL server started`.green);
+  console.log('-- GraphQL server started'.green);
 });

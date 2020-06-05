@@ -1,44 +1,39 @@
 import Friendship from '../../models/friendship';
 import userQueries from './user';
 
-const friendships = (_, params, context) => {
-  return Friendship.fetchAll().then(async (friendships) => {
-    const retLists = [];
-    for (const friendship of friendships) {
-      const { user1_id, user2_id } = friendship.attributes;
-      const user1 = await userQueries.user(_, { id: user1_id });
-      const user2 = await userQueries.user(_, { id: user2_id });
-      friendship.attributes.user1 = user1;
-      friendship.attributes.user2 = user2;
-      retLists.push(friendship.attributes);
-    }
-    return retLists;
-  });
-};
+const friendships = (_, params, context) => Friendship.fetchAll().then(async (friendships) => {
+  const retLists = [];
+  for (const friendship of friendships) {
+    const { user1_id, user2_id } = friendship.attributes;
+    const user1 = await userQueries.user(_, { id: user1_id });
+    const user2 = await userQueries.user(_, { id: user2_id });
+    friendship.attributes.user1 = user1;
+    friendship.attributes.user2 = user2;
+    retLists.push(friendship.attributes);
+  }
+  return retLists;
+});
 
-const friendship = (_, { id }) => {
-  return Friendship.where({ id: id })
-    .fetch()
-    .then(async (friendship) => {
-      const { user1_id, user2_id } = friendship.attributes;
-      const user1 = await userQueries.user(_, { id: user1_id });
-      const user2 = await userQueries.user(_, { id: user2_id });
-      friendship.attributes.user1 = user1;
-      friendship.attributes.user2 = user2;
-      return friendship.attributes;
-    });
-};
+const friendship = (_, { id }) => Friendship.where({ id })
+  .fetch()
+  .then(async (friendship) => {
+    const { user1_id, user2_id } = friendship.attributes;
+    const user1 = await userQueries.user(_, { id: user1_id });
+    const user2 = await userQueries.user(_, { id: user2_id });
+    friendship.attributes.user1 = user1;
+    friendship.attributes.user2 = user2;
+    return friendship.attributes;
+  });
 
 const valid = (newFriendship) => {
   if (
-    newFriendship.user1_id &&
-    newFriendship.user2_id &&
-    newFriendship.user1_id !== newFriendship.user2_id
+    newFriendship.user1_id
+    && newFriendship.user2_id
+    && newFriendship.user1_id !== newFriendship.user2_id
   ) {
     return Promise.resolve(newFriendship);
-  } else {
-    return Promise.reject('Missing Parameters');
   }
+  return Promise.reject('Missing Parameters');
 };
 
 export const createFriendship = async (_, { input }) => {
