@@ -1,7 +1,7 @@
 import Podcast from '../../models/podcast';
 
 export default {
-  podcasts: (_, params, context) => Podcast.fetchAll()
+  podcasts: (params, context) => Podcast.fetchAll()
     .then((podcasts) => {
       const retLists = [];
       podcasts.forEach((podcast) => {
@@ -10,7 +10,7 @@ export default {
       return retLists;
     }),
 
-  podcast: (_, { id }) => Podcast.where({ id }).fetch().then((podcast) => podcast.attributes),
+  podcast: ({ id }) => Podcast.where({ id }).fetch().then((podcast) => podcast.attributes),
 };
 
 const valid = (newPodcast) => {
@@ -24,6 +24,7 @@ export const createPodcast = async (_, { input }) => {
   await valid(input);
 
   let returnObject = {};
+  
   const podPromise = await Podcast.forge({
     podcast_name: input.podcast_name,
     rss_feed: input.rss_feed,
@@ -33,9 +34,9 @@ export const createPodcast = async (_, { input }) => {
   return returnObject;
 };
 
-export const deletePodcast = async (_, { id }) => {
+export const deletePodcast = async ( { id }) => {
   try {
-    const status = new Podcast({ id: 1 }).destroy({
+    const status = new Podcast({ id }).destroy({
       require: true,
     });
   } catch (e) {

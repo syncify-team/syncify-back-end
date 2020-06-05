@@ -14,16 +14,37 @@ const friendships = (_, params, context) => Friendship.fetchAll().then(async (fr
   return retLists;
 });
 
-const friendship = (_, { id }) => Friendship.where({ id })
-  .fetch()
-  .then(async (friendship) => {
-    const { user1_id, user2_id } = friendship.attributes;
-    const user1 = await userQueries.user(_, { id: user1_id });
-    const user2 = await userQueries.user(_, { id: user2_id });
-    friendship.attributes.user1 = user1;
-    friendship.attributes.user2 = user2;
-    return friendship.attributes;
+// // = Find single friendship
+// const friendship = (_, { id }) => {
+//   return Friendship.where({ id: id })
+//     .fetch()
+//     .then(async (friendship) => {
+//       const { user1_id, user2_id } = friendship.attributes;
+//       const user1 = await userQueries.user(_, { id: user1_id });
+//       const user2 = await userQueries.user(_, { id: user2_id });
+//       friendship.attributes.user1 = user1;
+//       friendship.attributes.user2 = user2;
+//       return friendship.attributes;
+//     });
+// };
+
+const friendList = (_, { id }) => {
+  return Friendship.fetchAll().then(async (friendships) => {
+    const retLists = [];
+    for (const friendship of friendships) {
+      const { user1_id, user2_id } = friendship.attributes;
+      if (user1_id == id) {
+        const friend = await userQueries.user(_, { id: user2_id });
+        retLists.push({ friend });
+      }
+      if (user2_id == id) {
+        const friend = await userQueries.user(_, { id: user1_id });
+        retLists.push({ friend });
+      }
+    }
+    return retLists;
   });
+};
 
 const valid = (newFriendship) => {
   if (
@@ -59,4 +80,4 @@ export const deleteFriendship = async (_, { input }) => {
   return true;
 };
 
-export default { friendships, friendship };
+export default { friendships, friendList };

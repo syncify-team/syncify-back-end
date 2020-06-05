@@ -50,6 +50,25 @@ data.podcasts.push(
   },
 );
 
+data['episodes'] = [];
+data['episodes'].push(
+  {
+    id: 1,
+    episode_name: 'episode_1',
+    podcast_id: 1,
+  },
+  {
+    id: 2,
+    episode_name: 'episode_2',
+    podcast_id: 2,
+  },
+  {
+    id: 3,
+    episode_name: 'episode_3',
+    podcast_id: 3,
+  },
+);
+
 module.exports = {
-  data,
+  data: data,
 };
