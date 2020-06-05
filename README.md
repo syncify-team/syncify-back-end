@@ -73,6 +73,7 @@ AUTH0_CLIENT_ID=
 AUTH0_DOMAIN=
 AUTH0_CLIENT_SECRET=
 AUTH0_CALLBACK_URL=http://localhost:3000/callback
+AUTH0_ISSUER=
 
 SESSION_SECRET=change_this_to_a_secret
 
@@ -91,35 +92,29 @@ DB_PORT=5432
 
 Make sure you have DOCKER engine (with _docker-compose_) on your machine, then just play:
 
-For the first run (make sure you don't have ./pgdata directory)
+For the first run:
 
-`docker-compose up`
-
-Wait for the database to full initialize: "*LOG:  database system is ready to accept connections*"
-
-MIGRATION cmd (can be executed in any terminal):
-
-`docker exec {nodejs-app-container-name} sh -c "npm run migrate"`
-
-Some examples of container names: syncify-back-end_app_1, server-syncify_app_1
+1. Make sure you don't have ./pgdata directory
+2. Build - `docker-compose up` (Wait for the database to full initialize: "_LOG: database system is ready to accept connections_")
+3. Migrate - `docker exec {nodejs-app-container-name} sh -c "npm run migrate"` - Check your running instance of docker for the name. It is likey: 'syncify-back-end_app_1' or 'server-syncify_app_1'
 
 And you should be good to test on a browser or other testing tool.
 
+Future running just build with docker. (run migrate if you create a new table)
 
-
-Below are instructions for the app when running without docker..
+1. Build - `docker-compose up`
 
 ---
 
-### Installation
+### Running without docker
+
+#### Installation
 
 `npm install`
 
 `npm run migrate`
 
----
-
-### Run the app
+#### Run the app
 
 `npm start`
 

@@ -1,7 +1,7 @@
 import Podcast from '../../models/podcast'
 
 export default {
-	podcasts: (_, { }) => {
+	podcasts: (_, params, context) => {
 		return Podcast.fetchAll()
 			.then((podcasts) => {
 				const retLists = [];
