@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import User from '../models/user'
 
 export default class Api {
   static up(app) {
