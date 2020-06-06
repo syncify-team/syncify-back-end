@@ -16,7 +16,7 @@ describe('Test PodcastGraphQL User resolvers with mock-knex', () => {
 
     it('the podcast with the matching id', () => {
       const findId = 2;
-      return podcastGraphql.default.podcast({ id: findId }).then((podcast) => {
+      podcastGraphql.default.podcast({ id: findId }).then((podcast) => {
         expect(podcast).to.have.property('id', 2);
         expect(podcast).to.have.property('podcast_name', 'pod_2');
         expect(podcast).to.have.property('rss_feed', 'rss feed 2');

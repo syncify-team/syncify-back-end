@@ -1,11 +1,11 @@
 import knex from '../../config/knex';
 
 export default {
-  podcasts: (_, params, context) => {
+  podcasts: (params, context) => {
     return knex.from('podcasts').select('*').then((podcasts) => podcasts);
   },
 
-  podcast: (_, { id }) => {
+  podcast: ({ id }) => {
     return knex.from('podcasts').select('*').where({ id }).first().then((podcast) => podcast);
   },
 };
@@ -17,7 +17,7 @@ const valid = (newPodcast) => {
   return Promise.reject('Missing Parameters');
 };
 
-export const createPodcast = async (_, { input }) => {
+export const createPodcast = async ({ input }) => {
   return valid(input)
     .then(() =>
       knex('podcasts').insert({
@@ -27,6 +27,6 @@ export const createPodcast = async (_, { input }) => {
     )
 };
 
-export const deletePodcast = (_, { id }) => {
+export const deletePodcast = ({ id }) => {
   return knex('podcasts').where({ id }).del().then((result) => result);
 };

@@ -1,11 +1,11 @@
 import knex from '../../config/knex'
 
 export default {
-  episodes: (_, params, context) => {
+  episodes: (params, context) => {
     return knex.from('episodes').select('*').then((episodes) => episodes);
   },
 
-  episode: (_, { id }) => {
+  episode: ({ id }) => {
     return knex.from('episodes').select('*').where({ id }).first().then((episode) => episode);
   },
 }
@@ -18,7 +18,7 @@ const valid = (newEpisode) => {
   }
 };
 
-export const createEpisode = async (_, { input }) => {
+export const createEpisode = async ({ input }) => {
   return valid(input)
     .then(() =>
       knex('episodes').insert({
@@ -28,6 +28,6 @@ export const createEpisode = async (_, { input }) => {
     )
 };
 
-export const deleteEpisode = async (_, { id }) => {
+export const deleteEpisode = async ({ id }) => {
   return knex('episodes').where({ id }).del().then((result) => result);
 };

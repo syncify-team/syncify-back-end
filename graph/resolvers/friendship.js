@@ -1,11 +1,11 @@
 import knex from '../../config/knex'
 
-const friendships = (_, params, context) => {
+const friendships = (params, context) => {
   return knex.select('*').from('friendships')
     .then((friendships) => friendships);
 };
 
-const friendList = (_, { id }) => {
+const friendList = ({ id }) => {
   return knex.from('friendships').where('user1_id', id).orWhere('user2_id', id)
     .join('users AS a', 'a.id', 'friendships.user1_id')
     .join('users AS b', 'b.id', 'friendships.user2_id')
@@ -64,7 +64,7 @@ const valid = (newFriendship) => {
   return Promise.reject('Missing Parameters');
 };
 
-export const createFriendship = async (_, { input }) => {
+export const createFriendship = async ({ input }) => {
   return valid(input)
     .then(() =>
       knex('friendships').insert({
@@ -74,7 +74,7 @@ export const createFriendship = async (_, { input }) => {
     )
 };
 
-export const deleteFriendship = async (_, { id }) => {
+export const deleteFriendship = async ({ id }) => {
   return knex('friendships').where({ id }).del().then((result) => result);
 };
 
