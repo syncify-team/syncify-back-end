@@ -55,14 +55,13 @@ const friendList = (_, { id }) => {
 
 const valid = (newFriendship) => {
   if (
-    newFriendship.user1_id &&
-    newFriendship.user2_id &&
-    newFriendship.user1_id !== newFriendship.user2_id
+    newFriendship.user1_id
+    && newFriendship.user2_id
+    && newFriendship.user1_id !== newFriendship.user2_id
   ) {
     return Promise.resolve(newFriendship);
-  } else {
-    return Promise.reject('Missing Parameters');
   }
+  return Promise.reject('Missing Parameters');
 };
 
 export const createFriendship = async (_, { input }) => {

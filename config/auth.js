@@ -1,66 +1,97 @@
+<<<<<<< HEAD
 import express from 'express'
 import passport from 'passport'
 import dotenv from 'dotenv'
 import util from 'util'
 import url from 'url'
 import querystring from 'querystring'
+=======
+import express from 'express';
+import passport from 'passport';
+import dotenv from 'dotenv';
+import util from 'util';
+import querystring from 'querystring';
+import User from '../models/user';
+>>>>>>> development
 
 const router = express.Router();
 dotenv.config();
 
 router.get(
-	"/login",
-	passport.authenticate("auth0", {
-		scope: "openid email profile"
-	}),
-	(req, res) => {
-		res.redirect("/");
-	}
+  '/login',
+  passport.authenticate('auth0', {
+    scope: 'openid email profile',
+  }),
+  (req, res) => {
+    res.redirect('/');
+  },
 );
 
-router.get("/callback", (req, res, next) => {
-	passport.authenticate("auth0", (err, user, info) => {
-		if (err) {
-			return next(err);
-		}
-		if (!user) {
-			return res.redirect("/login");
-		}
-		req.logIn(user, (err) => {
-			if (err) {
-				return next(err);
-			}
+router.get('/callback', (req, res, next) => {
+  passport.authenticate('auth0', (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect('/login');
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
 
+<<<<<<< HEAD
 			const returnTo = req.session.returnTo;
 			delete req.session.returnTo;
 			res.redirect(returnTo || "/");
 		});
 	})(req, res, next);
+=======
+      User.where({ auth0_id: user.id })
+        .fetchAll()
+        .then((dbUsers) => {
+          if (dbUsers.length === 0) {
+            User.forge({
+              username: user.nickname ? user.nickname : 'nickname',
+              email: user.emails[0].value,
+              first_name: user.name.givenName ? user.name.givenName : 'first',
+              last_name: user.name.familyName ? user.name.familyName : 'last',
+              social_login_type: user.provider,
+              auth0_id: user.id,
+            }).save();
+          }
+        });
+
+      const { returnTo } = req.session;
+      delete req.session.returnTo;
+      res.redirect(returnTo || '/');
+    });
+  })(req, res, next);
+>>>>>>> development
 });
 
-router.get("/logout", (req, res) => {
-	req.logOut();
+router.get('/logout', (req, res) => {
+  req.logOut();
 
-	let returnTo = req.protocol + "://" + req.hostname;
-	const port = req.connection.localPort;
+  let returnTo = `${req.protocol}://${req.hostname}`;
+  const port = req.connection.localPort;
 
-	if (port !== undefined && port !== 80 && port !== 443) {
-		returnTo =
-			process.env.NODE_ENV === "production"
-				? `${returnTo}/`
-				: `${returnTo}:${port}/`;
-	}
+  if (port !== undefined && port !== 80 && port !== 443) {
+    returnTo = process.env.NODE_ENV === 'production'
+      ? `${returnTo}/`
+      : `${returnTo}:${port}/`;
+  }
 
-	const logoutURL = new URL(
-		util.format("https://%s/logout", process.env.AUTH0_DOMAIN)
-	);
-	const searchString = querystring.stringify({
-		client_id: process.env.AUTH0_CLIENT_ID,
-		returnTo: returnTo
-	});
-	logoutURL.search = searchString;
+  const logoutURL = new URL(
+    util.format('https://%s/logout', process.env.AUTH0_DOMAIN),
+  );
+  const searchString = querystring.stringify({
+    client_id: process.env.AUTH0_CLIENT_ID,
+    returnTo,
+  });
+  logoutURL.search = searchString;
 
-	res.redirect(logoutURL);
+  res.redirect(logoutURL);
 });
 
 module.exports = router;

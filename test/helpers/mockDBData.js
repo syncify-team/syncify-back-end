@@ -1,7 +1,7 @@
 const data = {};
 
-data['users'] = [];
-data['users'].push(
+data.users = [];
+data.users.push(
   {
     id: 1,
     username: 'user_1',
@@ -31,8 +31,8 @@ data['users'].push(
   },
 );
 
-data['podcasts'] = [];
-data['podcasts'].push(
+data.podcasts = [];
+data.podcasts.push(
   {
     id: 1,
     podcast_name: 'pod_1',

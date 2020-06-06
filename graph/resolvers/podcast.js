@@ -13,9 +13,8 @@ export default {
 const valid = (newPodcast) => {
   if (newPodcast.podcast_name && newPodcast.rss_feed) {
     return Promise.resolve(newPodcast);
-  } else {
-    return Promise.reject('Missing Parameters');
   }
+  return Promise.reject('Missing Parameters');
 };
 
 export const createPodcast = async (_, { input }) => {

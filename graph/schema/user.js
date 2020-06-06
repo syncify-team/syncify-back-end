@@ -19,4 +19,4 @@ input UserCreationInput {
   auth0_id: String
 }
 
-`
+`;
