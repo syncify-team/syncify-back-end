@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import _ from 'lodash'
-
-=======
->>>>>>> development
 export default class Api {
   static up(app) {
     const secured = (req, res, next) => {
