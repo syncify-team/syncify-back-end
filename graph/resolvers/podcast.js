@@ -1,49 +1,40 @@
 import Podcast from '../../models/podcast';
 
 export default {
-  podcasts: (_, params, context) => {
-    return Podcast.fetchAll().then((podcasts) => {
+  podcasts: (params, context) => Podcast.fetchAll()
+    .then((podcasts) => {
       const retLists = [];
       podcasts.forEach((podcast) => {
         retLists.push(podcast.attributes);
       });
       return retLists;
-    });
-  },
+    }),
 
-  podcast: (_, { id }) => {
-    return Podcast.where({ id: id })
-      .fetch()
-      .then((podcast) => podcast.attributes);
-  },
+  podcast: ({ id }) => Podcast.where({ id }).fetch().then((podcast) => podcast.attributes),
 };
 
 const valid = (newPodcast) => {
   if (newPodcast.podcast_name && newPodcast.rss_feed) {
     return Promise.resolve(newPodcast);
-  } else {
-    return Promise.reject('Missing Parameters');
   }
+  return Promise.reject('Missing Parameters');
 };
 
 export const createPodcast = async (_, { input }) => {
   await valid(input);
 
   let returnObject = {};
-  let podPromise = await Podcast.forge({
+  
+  const podPromise = await Podcast.forge({
     podcast_name: input.podcast_name,
     rss_feed: input.rss_feed,
-  })
-    .save()
-    .then((podcast) => {
-      return (returnObject = podcast.attributes);
-    });
+  }).save().then((podcast) => returnObject = podcast.attributes);
 
   await podPromise;
   return returnObject;
 };
 
-export const deletePodcast = async (_, { id }) => {
+export const deletePodcast = async ( { id }) => {
   try {
     const status = new Podcast({ id }).destroy({
       require: true,
