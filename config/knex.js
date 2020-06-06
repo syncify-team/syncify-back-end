@@ -24,6 +24,4 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
-const bookshelf = require('bookshelf')(knexConnection);
-
-export default bookshelf;
+export default knexConnection;

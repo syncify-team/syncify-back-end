@@ -2,12 +2,13 @@ export default `
 
 type Mutation {
   createUser(input: UserCreationInput): User!
+  deleteUser(id: ID!): Boolean
   createFriendship(input: FriendshipCreationInput): Friendship!
-  deleteFriendship(input: ID!): Boolean
+  deleteFriendship(id: ID!): Boolean
   createPodcast(input: PodcastCreationInput): Podcast!
-  deletePodcast(input: ID!): Boolean
+  deletePodcast(id: ID!): Boolean
   createEpisode(input: EpisodeCreationInput): Episode!
-  deleteEpisode(input: ID!): Boolean
+  deleteEpisode(id: ID!): Boolean
 }
 
 `;
