@@ -24,10 +24,4 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
-<<<<<<< HEAD:config/knex.js
 export default knexConnection;
-=======
-const bookshelf = require('bookshelf')(knexConnection);
-
-export default bookshelf;
->>>>>>> development:config/bookshelf.js

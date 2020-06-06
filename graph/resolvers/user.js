@@ -1,15 +1,15 @@
 import knex from '../../config/knex';
 
 export default {
-  users: (_, params, context) => {
+  users: (params, context) => {
     return knex.from('users').select('*').then((users) => users);
   },
 
-  user: (_, { id }) => {
+  user: ({ id }) => {
     return knex.from('users').select('*').where({ id }).first().then((user) => user);
   },
 
-  userByAuthId: (_, { auth0_id }) => {
+  userByAuthId: ({ auth0_id }) => {
     return knex.from('users').select('*').where({ auth0_id }).first().then((user) => user);
   },
 }
@@ -23,7 +23,7 @@ const valid = (newUser) => {
   }
 }
 
-export const createUser = (_, { input }) => {
+export const createUser = ({ input }) => {
   return valid(input)
     .then(() =>
       knex('users').insert({
@@ -37,6 +37,6 @@ export const createUser = (_, { input }) => {
     )
 }
 
-export const deleteUser = (_, { id }) => {
+export const deleteUser = ({ id }) => {
   return knex('users').where({ id }).del().then((result) => result);
 }

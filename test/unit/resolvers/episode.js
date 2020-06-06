@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const chai = require('chai');
 const mochaEach = require('mocha-each');
 const episodeGraphql = require('../../../graph/resolvers/episode');
