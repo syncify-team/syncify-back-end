@@ -32,7 +32,7 @@ app: NodeServer
 
 db: PostgreSQL
 
-The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
+The application is currently using [knex.js](http://knexjs.org/)
 
 ---
 
