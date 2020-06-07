@@ -6,7 +6,7 @@ import resolvers from '../graph/resolvers';
 const graph = () => {
   const graphSchema = makeExecutableSchema({
     typeDefs: schema,
-    resolvers: resolvers,
+    resolvers,
   });
 
   return graphqlExpress((request) => {

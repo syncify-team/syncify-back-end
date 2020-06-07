@@ -1,67 +1,81 @@
-import Friendship from '../../models/friendship';
-import userQueries from './user';
+import knex from '../../config/knex'
 
-const friendships = (_, params, context) => {
-  return Friendship.fetchAll().then(async (friendships) => {
-    const retLists = [];
-    for (const friendship of friendships) {
-      const { user1_id, user2_id } = friendship.attributes;
-      const user1 = await userQueries.user(_, { id: user1_id });
-      const user2 = await userQueries.user(_, { id: user2_id });
-      friendship.attributes.user1 = user1;
-      friendship.attributes.user2 = user2;
-      retLists.push(friendship.attributes);
-    }
-    return retLists;
-  });
+const friendships = (params, context) => {
+  return knex.select('*').from('friendships')
+    .then((friendships) => friendships);
 };
 
-const friendship = (_, { id }) => {
-  return Friendship.where({ id: id })
-    .fetch()
-    .then(async (friendship) => {
-      const { user1_id, user2_id } = friendship.attributes;
-      const user1 = await userQueries.user(_, { id: user1_id });
-      const user2 = await userQueries.user(_, { id: user2_id });
-      friendship.attributes.user1 = user1;
-      friendship.attributes.user2 = user2;
-      return friendship.attributes;
+const friendList = ({ id }) => {
+  return knex.from('friendships').where('user1_id', id).orWhere('user2_id', id)
+    .join('users AS a', 'a.id', 'friendships.user1_id')
+    .join('users AS b', 'b.id', 'friendships.user2_id')
+    .select(
+      'a.id as user1_id', 'a.username as user1_username', 'a.email as user1_email',
+      'a.first_name as user1_first_name', 'a.last_name as user1_last_name',
+      'a.social_login_type as user1_social_login_type', 'a.auth0_id as user1_auth0_id',
+
+      'b.id as user2_id', 'b.username as user2_username', 'b.email as user2_email',
+      'b.first_name as user2_first_name', 'b.last_name as user2_last_name',
+      'b.social_login_type as user2_social_login_type', 'b.auth0_id as user2_auth0_id',
+    )
+    .then((friendships) => {
+      const friend_list = []
+      friendships.map((friend) => {
+        if (friend.user1_id !== id.toString()) {
+          friend_list.push({
+              friend: {
+                id: friend.user1_id,
+                username: friend.user1_username,
+                email: friend.user1_email,
+                first_name: friend.user1_first_name,
+                last_name: friend.user1_last_name,
+                social_login_type: friend.user1_social_login_type,
+                auth0_id: friend.user1_auth0_id
+              }
+            });
+        }
+        else if (friend.user2_id !== id.toString()) {
+          friend_list.push({
+              friend: {
+                id: friend.user2_id,
+                username: friend.user2_username,
+                email: friend.user2_email,
+                first_name: friend.user2_first_name,
+                last_name: friend.user2_last_name,
+                social_login_type: friend.user2_social_login_type,
+                auth0_id: friend.user2_auth0_id
+              }
+            });
+        }
+      })
+
+      return friend_list;
     });
 };
 
 const valid = (newFriendship) => {
   if (
-    newFriendship.user1_id &&
-    newFriendship.user2_id &&
-    newFriendship.user1_id !== newFriendship.user2_id
+    newFriendship.user1_id
+    && newFriendship.user2_id
+    && newFriendship.user1_id !== newFriendship.user2_id
   ) {
     return Promise.resolve(newFriendship);
-  } else {
-    return Promise.reject('Missing Parameters');
   }
+  return Promise.reject('Missing Parameters');
 };
 
-export const createFriendship = async (_, { input }) => {
-  await valid(input);
-
-  let newFriendship = await Friendship.forge({
-    user1_id: input.user1_id,
-    user2_id: input.user2_id,
-  }).save();
-  newFriendship = await friendship(_, { id: newFriendship.id });
-  return newFriendship;
+export const createFriendship = async ({ input }) => {
+  return valid(input)
+    .then(() =>
+      knex('friendships').insert({
+        user1_id: input.user1_id,
+        user2_id: input.user2_id,
+      }).returning('*').then((friendship) => friendship[0])
+    )
 };
 
-export const deleteFriendship = async (_, { input }) => {
-  try {
-    const status = await new Friendship({ id: input }).destroy({
-      require: true,
-    });
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-  return true;
+export const deleteFriendship = async ({ id }) => {
+  return knex('friendships').where({ id }).del().then((result) => result);
 };
 
-export default { friendships, friendship };
+export default { friendships, friendList };
