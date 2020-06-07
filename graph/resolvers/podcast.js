@@ -1,13 +1,16 @@
-import knex from '../../config/knex';
+import Podcast from '../../models/podcast';
 
 export default {
-  podcasts: (params, context) => {
-    return knex.from('podcasts').select('*').then((podcasts) => podcasts);
-  },
+  podcasts: (params, context) => Podcast.fetchAll()
+    .then((podcasts) => {
+      const retLists = [];
+      podcasts.forEach((podcast) => {
+        retLists.push(podcast.attributes);
+      });
+      return retLists;
+    }),
 
-  podcast: ({ id }) => {
-    return knex.from('podcasts').select('*').where({ id }).first().then((podcast) => podcast);
-  },
+  podcast: ({ id }) => Podcast.where({ id }).fetch().then((podcast) => podcast.attributes),
 };
 
 const valid = (newPodcast) => {
@@ -17,16 +20,28 @@ const valid = (newPodcast) => {
   return Promise.reject('Missing Parameters');
 };
 
-export const createPodcast = async ({ input }) => {
-  return valid(input)
-    .then(() =>
-      knex('podcasts').insert({
-        podcast_name: input.podcast_name,
-        rss_feed: input.rss_feed,
-      }).returning('*').then((podcast) => podcast[0])
-    )
+export const createPodcast = async (_, { input }) => {
+  await valid(input);
+
+  let returnObject = {};
+  
+  const podPromise = await Podcast.forge({
+    podcast_name: input.podcast_name,
+    rss_feed: input.rss_feed,
+  }).save().then((podcast) => returnObject = podcast.attributes);
+
+  await podPromise;
+  return returnObject;
 };
 
-export const deletePodcast = ({ id }) => {
-  return knex('podcasts').where({ id }).del().then((result) => result);
+export const deletePodcast = async ( { id }) => {
+  try {
+    const status = new Podcast({ id }).destroy({
+      require: true,
+    });
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+  return true;
 };
