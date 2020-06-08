@@ -5,7 +5,7 @@ const friendships = (params, context) => {
     .then((friendships) => friendships);
 };
 
-const friendList = ({ id }) => {
+const friendList = (_, { id }) => {
   return knex.from('friendships').where('user1_id', id).orWhere('user2_id', id)
     .join('users AS a', 'a.id', 'friendships.user1_id')
     .join('users AS b', 'b.id', 'friendships.user2_id')
@@ -21,7 +21,7 @@ const friendList = ({ id }) => {
     .then((friendships) => {
       const friend_list = []
       friendships.map((friend) => {
-        if (friend.user1_id !== id.toString()) {
+        if (friend.user1_id.toString() !== id.toString()) {
           friend_list.push({
               friend: {
                 id: friend.user1_id,
@@ -34,7 +34,7 @@ const friendList = ({ id }) => {
               }
             });
         }
-        else if (friend.user2_id !== id.toString()) {
+        else if (friend.user2_id.toString() !== id.toString()) {
           friend_list.push({
               friend: {
                 id: friend.user2_id,
@@ -64,7 +64,7 @@ const valid = (newFriendship) => {
   return Promise.reject('Missing Parameters');
 };
 
-export const createFriendship = async ({ input }) => {
+export const createFriendship = async (_, { input }) => {
   return valid(input)
     .then(() =>
       knex('friendships').insert({
@@ -74,7 +74,7 @@ export const createFriendship = async ({ input }) => {
     )
 };
 
-export const deleteFriendship = async ({ id }) => {
+export const deleteFriendship = async (_, { id }) => {
   return knex('friendships').where({ id }).del().then((result) => result);
 };
 
