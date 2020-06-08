@@ -1,5 +1,5 @@
-import knex from '../../config/knex';
 import jwtDecode from 'jwt-decode';
+import knex from '../../config/knex';
 
 const users = (params, context) => {
   return knex
@@ -47,33 +47,6 @@ const valid = (newUser) => {
   }
 };
 
-export const signIn = async (parent, { input: { token } }) => {
-  console.log('Sign In request received');
-  const idToken = jwtDecode(token);
-  const sub = idToken.sub;
-  let user;
-  try {
-    user = await userByAuthId({ auth0_id: sub });
-  } catch (e) {
-    console.log('Logged in user not found in DB');
-  }
-  if (!user) {
-    // create a new record in database
-    createUser({
-      input: {
-        username: idToken.nickname ? idToken.nickname : ' ',
-        email: idToken.email ? idToken.email : ' ',
-        first_name: idToken.given_name ? idToken.given_name : ' ',
-        last_name: idToken.family_name ? idToken.family_name : ' ',
-        social_login_type: idToken.provider ? idToken.provider : ' ',
-        auth0_id: idToken.sub,
-      },
-    });
-  }
-
-  return userByAuthId({ sub });
-};
-
 export const createUser = ({ input }) => {
   return valid(input).then(() =>
     knex('users')
@@ -95,4 +68,30 @@ export const deleteUser = ({ id }) => {
     .where({ id })
     .del()
     .then((result) => result);
+};
+
+export const signIn = async (_, { input: { token } }) => {
+  console.log('Sign In request received');
+  const idToken = jwtDecode(token);
+  let user;
+  try {
+    user = await userByAuthId({ auth0_id: idToken.sub });
+  } catch (e) {
+    console.log('Logged in user not found in DB');
+  }
+  if (!user) {
+    // create a new record in database
+    user = await createUser({
+      input: {
+        username: idToken.nickname ? idToken.nickname : ' ',
+        email: idToken.email ? idToken.email : ' ',
+        first_name: idToken.given_name ? idToken.given_name : ' ',
+        last_name: idToken.family_name ? idToken.family_name : ' ',
+        social_login_type: idToken.provider ? idToken.provider : ' ',
+        auth0_id: idToken.sub,
+      },
+    });
+  }
+
+  return user;
 };
