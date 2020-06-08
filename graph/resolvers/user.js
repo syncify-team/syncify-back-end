@@ -5,11 +5,11 @@ export default {
     return knex.from('users').select('*').then((users) => users);
   },
 
-  user: ({ id }) => {
+  user: (_, { id }) => {
     return knex.from('users').select('*').where({ id }).first().then((user) => user);
   },
 
-  userByAuthId: ({ auth0_id }) => {
+  userByAuthId: (_, { auth0_id }) => {
     return knex.from('users').select('*').where({ auth0_id }).first().then((user) => user);
   },
 }
@@ -23,7 +23,7 @@ const valid = (newUser) => {
   }
 }
 
-export const createUser = ({ input }) => {
+export const createUser = (_, { input }) => {
   return valid(input)
     .then(() =>
       knex('users').insert({
@@ -37,6 +37,6 @@ export const createUser = ({ input }) => {
     )
 }
 
-export const deleteUser = ({ id }) => {
+export const deleteUser = (_, { id }) => {
   return knex('users').where({ id }).del().then((result) => result);
 }

@@ -7,7 +7,7 @@ import session from 'express-session';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import Auth0Strategy from 'passport-auth0';
-
+import colors from 'colors';
 import GraphQL from './config/graphql';
 import Routes from './config/routes';
 import authRouter from './config/auth';
