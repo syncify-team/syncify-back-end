@@ -14,7 +14,7 @@ Due to the covid-19 crisis this app suddenly felt a more urgent priority with it
 
 The app isn't released yet but you can signup to be a beta tester here
 
-[Syncify Sign Up](https://syncify.landen.co)
+[Syncify Sign Up](https://syncifyapp.com)
 
 ---
 
@@ -53,6 +53,29 @@ Testing endpoints with your context in GraphIQL:
 
 ---
 
+### Database Schema
+
+The current database structure for the MVP (subject to change)
+
+![](https://i.imgur.com/BsqcZPC.png)
+
+Details and code here - https://dbdiagram.io/d/5e8648fb4495b02c3b892c24
+
+
+---
+
+### Running database
+
+This repo is currently using DOCKER-COMPOSE with two services:
+
+app: NodeServer
+
+db: PostgreSQL
+
+The application is currently using [bookshelf.js](https://bookshelfjs.org/) and [knex.js](http://knexjs.org/)
+
+---
+
 ### Environment Setup (.env file)
 
 - For Auth0 ask someone for the variables
@@ -75,7 +98,6 @@ DB_PASSWORD=somePassw0rD
 DB_HOST=db
 DB_PORT=5432
 ```
-
 ---
 
 ### Running with DOCKER
@@ -107,6 +129,26 @@ Future running just build with docker. (run migrate if you create a new table)
 #### Run the app
 
 `npm start`
+
+---
+
+### Contributing
+You can assign yourself tasks to work on the priority features. Or build features you feel are useful and make a PR and we'll happily review.
+
+#### Pull requests
+We use a development branch
+
+- Create your branches off 'development'
+- Branches should be labelled with relevant tags at the start - `feat/user-login`, `bug/loading-error`
+- Pull requests should be made into 'development'
+
+#### Say hi
+
+Request to join the Slack group
+
+Connect with me at [LinkedIn](https://www.linkedin.com/in/sharris48/)
+
+Thank you!
 
 ---
 
