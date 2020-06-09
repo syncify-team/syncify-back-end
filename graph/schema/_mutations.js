@@ -1,6 +1,7 @@
 export default `
 
 type Mutation {
+  signIn(input: SignInInput!): User!
   createUser(input: UserCreationInput): User!
   deleteUser(id: ID!): Boolean
   createFriendship(input: FriendshipCreationInput): Friendship!

@@ -1,7 +1,7 @@
 import episode, { createEpisode, deleteEpisode } from './episode';
 import friendship, { createFriendship, deleteFriendship } from './friendship';
 import podcast, { createPodcast, deletePodcast } from './podcast';
-import user, { createUser, deleteUser } from './user';
+import user, { signIn, createUser, deleteUser } from './user';
 
 export default {
   Query: {
@@ -12,6 +12,7 @@ export default {
   },
 
   Mutation: {
+    signIn,
     createEpisode,
     deleteEpisode,
     createFriendship,
