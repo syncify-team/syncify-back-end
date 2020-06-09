@@ -3,13 +3,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import logger from 'morgan';
 import dotenv from 'dotenv';
-var jwks = require('jwks-rsa');
-const jwt = require('express-jwt');
-
 import graph, { graphUi } from './config/graphql';
 
 const Bundler = require('parcel-bundler');
-let bundler = new Bundler('./server.js', { target: 'node' });
+const jwks = require('jwks-rsa');
+const jwt = require('express-jwt');
+
+const bundler = new Bundler('./server.js', { target: 'node' });
 
 dotenv.config();
 const port = process.env.PORT || 3000;
