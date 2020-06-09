@@ -1,51 +1,97 @@
-import User from '../../models/user'
+import jwtDecode from 'jwt-decode';
+import knex from '../../config/knex';
+
+const users = (params, context) => {
+  return knex
+    .from('users')
+    .select('*')
+    .then((users) => users);
+};
+
+const user = ({ id }) => {
+  return knex
+    .from('users')
+    .select('*')
+    .where({ id })
+    .first()
+    .then((user) => user);
+};
+
+const userByAuthId = ({ auth0_id }) => {
+  return knex
+    .from('users')
+    .select('*')
+    .where({ auth0_id })
+    .first()
+    .then((user) => user);
+};
 
 export default {
-	users: (_, params, context) => {
-		return User.fetchAll()
-			.then((users) => {
-				const retLists = [];
-				users.forEach((user) => {
-					retLists.push(user.attributes)
-				})
-				return retLists
-			})
-	},
-
-	user: (_, { id }) => {
-		return User.where({ id: id }).fetch().then((user) => user.attributes)
-	},
-
-	userByAuthId: (_, { auth0_id }) => {
-		return User.where({ auth0_id: auth0_id }).fetch().then((user) => user.attributes)
-	},
-}
+  users,
+  user,
+  userByAuthId,
+};
 
 const valid = (newUser) => {
-	if (newUser.username && newUser.email && newUser.first_name && newUser.last_name
-		&& newUser.social_login_type && newUser.auth0_id) {
-		return Promise.resolve(newUser)
-	} else {
-		return Promise.reject('Missing Parameters')
-	}
-}
+  if (
+    newUser.username &&
+    newUser.email &&
+    newUser.first_name &&
+    newUser.last_name &&
+    newUser.social_login_type &&
+    newUser.auth0_id
+  ) {
+    return Promise.resolve(newUser);
+  } else {
+    return Promise.reject('Missing Parameters');
+  }
+};
 
-export const createUser = async (_, { input }) => {
-	await valid(input);
+export const createUser = ({ input }) => {
+  return valid(input).then(() =>
+    knex('users')
+      .insert({
+        username: input.username,
+        email: input.email,
+        first_name: input.first_name,
+        last_name: input.last_name,
+        social_login_type: input.social_login_type,
+        auth0_id: input.auth0_id,
+      })
+      .returning('*')
+      .then((user) => user[0]),
+  );
+};
 
-	let returnObject = {};
+export const deleteUser = ({ id }) => {
+  return knex('users')
+    .where({ id })
+    .del()
+    .then((result) => result);
+};
 
-	let userPromise = await User.forge({
-		username: input.username,
-		email: input.email,
-		first_name: input.first_name,
-		last_name: input.last_name,
-		social_login_type: input.social_login_type,
-		auth0_id: input.auth0_id
-	}).save().then((user) => {
-		return returnObject = user.attributes
-	});
+export const signIn = async (_, { input: { token } }) => {
+  console.log('Sign In request received');
+  const idToken = jwtDecode(token);
+  let user;
+  try {
+    user = await userByAuthId({ auth0_id: idToken.sub });
+  } catch (e) {
+    console.log('Logged in user not found in DB');
+  }
+  if (!user) {
+    // create a new record in database
+    user = await createUser({
+      input: {
+        username: idToken.nickname ? idToken.nickname : ' ',
+        email: idToken.email ? idToken.email : ' ',
+        first_name: idToken.given_name ? idToken.given_name : ' ',
+        last_name: idToken.family_name ? idToken.family_name : ' ',
+        social_login_type: idToken.provider ? idToken.provider : ' ',
+        auth0_id: idToken.sub,
+      },
+    });
+  }
 
-	await userPromise;
-	return returnObject;
-}
+  return user;
+};

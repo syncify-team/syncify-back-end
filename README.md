@@ -24,6 +24,18 @@ This is a NodeJS project with Express, GraphQL, PSQL and Auth0 login
 
 ---
 
+### Database
+
+This repo is currently using DOCKER-COMPOSE with two services:
+
+app: NodeServer
+
+db: PostgreSQL
+
+The application is currently using [knex.js](http://knexjs.org/)
+
+---
+
 ### GraphQL
 
 Testing GraphQL querys/mutations can be done through GraphIQL.
