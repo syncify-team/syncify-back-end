@@ -97,6 +97,7 @@ DB_USER=syncifyDbUser
 DB_PASSWORD=somePassw0rD
 DB_HOST=db
 DB_PORT=5432
+DOCKER_DB_KEY_NAME=db
 ```
 ---
 
@@ -120,6 +121,18 @@ Future running just build with docker. (run migrate if you create a new table)
 
 ### Running without docker
 
+Use a local instance for the database such as postgresQL or SQLlite.
+Create a database and assign a username and password
+
+Ammend the DB configuration section in .env file to your settings
+```
+DB_NAME={my_db_name_here}
+DB_USER={my_db_user_here}
+DB_PASSWORD={my_db_password_here}
+DB_HOST=localhost
+DB_PORT=5432
+```
+
 #### Installation
 
 `npm install`
@@ -129,6 +142,12 @@ Future running just build with docker. (run migrate if you create a new table)
 #### Run the app
 
 `npm start`
+
+#### Adding data
+You can add records into your app using:
+- a client such as 'Postico'
+- manually in the command line database environment
+- manually with postman to post queries (this will be good practice of how the API works!) - [Demo Postman queries](https://app.getpostman.com/join-team?invite_code=52cd1b7fd617fd0c81c0742815c12d06)
 
 ---
 

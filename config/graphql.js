@@ -1,13 +1,13 @@
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
-import schema from '../graph/schema';
-import resolvers from '../graph/resolvers';
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
+import { makeExecutableSchema } from 'graphql-tools'
+import schema from '../graph/schema'
+import resolvers from '../graph/resolvers'
 
 const graph = () => {
   const graphSchema = makeExecutableSchema({
     typeDefs: schema,
     resolvers,
-  });
+  })
 
   return graphqlExpress((request) => {
     return {
@@ -15,14 +15,14 @@ const graph = () => {
       context: {
         user: request.user,
       },
-    };
-  });
-};
+    }
+  })
+}
 
 export const graphUi = () => {
   return graphiqlExpress({
     endpointURL: '/graphql',
-  });
-};
+  })
+}
 
-export default graph;
+export default graph

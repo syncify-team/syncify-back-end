@@ -1,16 +1,16 @@
-import dotenv from 'dotenv';
-import knex from 'knex';
-import mockKnex from 'mock-knex';
+import dotenv from 'dotenv'
+import knex from 'knex'
+import mockKnex from 'mock-knex'
 
-dotenv.config();
-let knexConnection;
+dotenv.config()
+let knexConnection
 
 if (process.env.NODE_ENV === 'test') {
   knexConnection = knex({
     client: 'pg',
     debug: false,
-  });
-  mockKnex.mock(knexConnection);
+  })
+  mockKnex.mock(knexConnection)
 } else {
   knexConnection = knex({
     client: 'pg',
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'test') {
       database: process.env.DB_NAME,
       charset: 'utf8',
     },
-  });
+  })
 }
 
-export default knexConnection;
+export default knexConnection

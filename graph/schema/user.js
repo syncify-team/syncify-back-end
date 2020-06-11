@@ -23,4 +23,4 @@ input SignInInput {
   token: String!
 }
 
-`;
+`
