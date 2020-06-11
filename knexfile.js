@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 
 module.exports = {
   development: {
@@ -47,4 +47,4 @@ module.exports = {
       tableName: 'knex_migrations',
     },
   },
-};
+}

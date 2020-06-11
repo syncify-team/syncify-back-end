@@ -15,4 +15,4 @@ input FriendshipCreationInput {
   user2_id: ID!
 }
 
-`;
+`
