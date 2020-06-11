@@ -75,13 +75,13 @@ export const signIn = async (_, { input: { token } }) => {
   const idToken = jwtDecode(token)
   let user
   try {
-    user = await userByAuthId({ auth0_id: idToken.sub })
+    user = await userByAuthId(_, { auth0_id: idToken.sub });
   } catch (e) {
     console.log('Logged in user not found in DB')
   }
   if (!user) {
     // create a new record in database
-    user = await createUser({
+    user = await createUser(_, {
       input: {
         username: idToken.nickname ? idToken.nickname : ' ',
         email: idToken.email ? idToken.email : ' ',
