@@ -38,6 +38,6 @@ app.use('/graphql', auth, bodyParser.json(), graph());
 app.use('/graphiql', graphUi());
 
 app.listen(port, () => {
-  console.log(`Syncify Server listening on port ${port}!`.bold);
-  console.log(`-- GraphQL server started`.green);
+  console.log(`Syncify Server listening on port ${port}!`);
+  console.log(`-- GraphQL server started`);
 });
