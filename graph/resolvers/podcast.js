@@ -23,7 +23,7 @@ export const createPodcast = async (_, { input }) => {
       knex('podcasts').insert({
         podcast_name: input.podcast_name,
         rss_feed: input.rss_feed,
-      }).returning('*').then((podcast) => podcast[0])
+      }).returning('*').then((podcast) => podcast)
     )
 };
 

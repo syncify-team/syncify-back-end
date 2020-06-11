@@ -8,7 +8,7 @@ const users = (params, context) => {
     .then((users) => users);
 };
 
-const user = ({ id }) => {
+const user = (_, { id }) => {
   return knex
     .from('users')
     .select('*')
@@ -17,7 +17,7 @@ const user = ({ id }) => {
     .then((user) => user);
 };
 
-const userByAuthId = ({ auth0_id }) => {
+const userByAuthId = (_, { auth0_id }) => {
   return knex
     .from('users')
     .select('*')
@@ -47,7 +47,7 @@ const valid = (newUser) => {
   }
 };
 
-export const createUser = ({ input }) => {
+export const createUser = (_, { input }) => {
   return valid(input).then(() =>
     knex('users')
       .insert({
@@ -59,11 +59,11 @@ export const createUser = ({ input }) => {
         auth0_id: input.auth0_id,
       })
       .returning('*')
-      .then((user) => user[0]),
+      .then((user) => user),
   );
 };
 
-export const deleteUser = ({ id }) => {
+export const deleteUser = (_, { id }) => {
   return knex('users')
     .where({ id })
     .del()
