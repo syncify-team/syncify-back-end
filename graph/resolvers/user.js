@@ -8,7 +8,7 @@ const users = (params, context) => {
     .then((users) => users);
 };
 
-const user = ({ id }) => {
+const user = (_, { id }) => {
   return knex
     .from('users')
     .select('*')
@@ -47,7 +47,7 @@ const valid = (newUser) => {
   }
 };
 
-export const createUser = ({ input }) => {
+export const createUser = (_, { input }) => {
   return valid(input).then(() =>
     knex('users')
       .insert({

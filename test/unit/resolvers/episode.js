@@ -7,7 +7,7 @@ const expect = chai.expect;
 describe('Test episodeGraphQL resolvers with mock-knex', () => {
   describe('Get should return', () => {
     it('all episodes', () => {
-      episodeGraphql.default.episodes().then((episodes) => {
+      return episodeGraphql.default.episodes().then((episodes) => {
         expect(episodes).to.have.property('length', 3);
 
         expect(episodes[0]).to.have.property('id', 1);
@@ -18,7 +18,7 @@ describe('Test episodeGraphQL resolvers with mock-knex', () => {
 
     it('the podcast with the matching id', () => {
       const findId = 2;
-      episodeGraphql.default
+      return episodeGraphql.default
         .episode({ id: findId })
         .then((episode) => {
           expect(episode).to.have.property('id', 2);
