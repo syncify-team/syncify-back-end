@@ -114,7 +114,7 @@ describe('PodcastGraphQL', function () {
       expect(regex.test(query.sql)).to.equal(true);
       expect(query.method).to.equal("insert");
       // expect(query.bindings).to.equal([...Object.values(podcast)]);
-      query.response(podcast);
+      query.response([podcast]);
     });
 
     podcastGraphql.createPodcast(_, { input: podcast }).then((res) => {

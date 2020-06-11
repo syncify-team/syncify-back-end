@@ -24,7 +24,7 @@ export const createEpisode = async (_, { input }) => {
       knex('episodes').insert({
         episode_name: input.episode_name,
         podcast_id: input.podcast_id,
-      }).returning('*').then((episode) => episode)
+      }).returning('*').then(([episode]) => episode)
     )
 };
 

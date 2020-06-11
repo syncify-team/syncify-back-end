@@ -115,7 +115,7 @@ describe('EpisodeGraphQL', function () {
       expect(regex.test(query.sql)).to.equal(true);
       expect(query.method).to.equal("insert");
       // expect(query.bindings).to.equal([...Object.values(episode)]);
-      query.response(episode);
+      query.response([episode]);
     });
 
     episodeGraphql.createEpisode(_, { input: episode }).then((res) => {

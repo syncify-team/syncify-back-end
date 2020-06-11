@@ -59,7 +59,7 @@ export const createUser = (_, { input }) => {
         auth0_id: input.auth0_id,
       })
       .returning('*')
-      .then((user) => user),
+      .then(([user]) => user),
   );
 };
 

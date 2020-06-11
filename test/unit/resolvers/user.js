@@ -202,7 +202,7 @@ describe('UserGraphQL', function () {
       expect(regex.test(query.sql)).to.equal(true);
       expect(query.method).to.equal("insert");
       // expect(query.bindings).to.equal([...Object.values(user)]);
-      query.response(user);
+      query.response([user]);
     });
 
     userGraphql.createUser(_, { input: user }).then((res) => {
