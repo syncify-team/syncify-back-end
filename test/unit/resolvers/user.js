@@ -20,7 +20,7 @@ describe('Test GraphQL User resolvers with mock-knex', () => {
 
     it('the user with the matching id', () => {
       const findId = 2;
-      userGraphql.default.user({ id: findId }).then((user) => {
+      return userGraphql.default.user({ id: findId }).then((user) => {
         expect(user).to.have.property('id', 2);
         expect(user).to.have.property('username', 'user_2');
         expect(user).to.have.property('email', 'two@gmail.com');
@@ -33,7 +33,7 @@ describe('Test GraphQL User resolvers with mock-knex', () => {
 
     it('the user with the matching auth0_id', () => {
       const findId = '222222';
-      userGraphql.default
+      return userGraphql.default
         .userByAuthId({ auth0_id: findId })
         .then((user) => {
           expect(user).to.have.property('id', 2);

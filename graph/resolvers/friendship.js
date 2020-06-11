@@ -42,7 +42,7 @@ const friendList = (_, { id }) => knex.from('friendships').where('user1_id', id)
     return userFriendDetails;
   });
 
-const valid = (newFriendship, Error) => {
+const valid = (newFriendship) => {
   if (
     newFriendship.user1_id
     && newFriendship.user2_id
@@ -50,10 +50,10 @@ const valid = (newFriendship, Error) => {
   ) {
     return Promise.resolve(newFriendship);
   }
-  return Promise.reject(Error);
+  return Promise.reject(new Error('Missing Parameters'));
 };
 
-export const createFriendship = async (_, { input }) => valid(input, Error)
+export const createFriendship = async (_, { input }) => valid(input)
   .then(() => knex('friendships').insert({
     user1_id: input.user1_id,
     user2_id: input.user2_id,

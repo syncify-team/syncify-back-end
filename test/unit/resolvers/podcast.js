@@ -16,7 +16,7 @@ describe('Test PodcastGraphQL User resolvers with mock-knex', () => {
 
     it('the podcast with the matching id', () => {
       const findId = 2;
-      podcastGraphql.default.podcast({ id: findId }).then((podcast) => {
+      return podcastGraphql.default.podcast({ id: findId }).then((podcast) => {
         expect(podcast).to.have.property('id', 2);
         expect(podcast).to.have.property('podcast_name', 'pod_2');
         expect(podcast).to.have.property('rss_feed', 'rss feed 2');
@@ -38,8 +38,7 @@ describe('Test PodcastGraphQL User resolvers with mock-knex', () => {
             rss_feed: 'rss feed',
           },
         ],
-      ]).it('with Missing Parameters: %j', (newPodcast) => podcastGraphql
-        .createPodcast({ input: newPodcast })
+      ]).it('with Missing Parameters: %j', (newPodcast) => podcastGraphql.createPodcast({ input: newPodcast })
         .then((podcast) => {
           throw 'somethings broken';
         })

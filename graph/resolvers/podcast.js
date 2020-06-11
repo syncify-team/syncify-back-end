@@ -1,13 +1,11 @@
 import knex from '../../config/knex';
 
 export default {
-  podcasts: (params, context) => {
-    return knex.from('podcasts').select('*').then((podcasts) => podcasts);
-  },
+  podcasts: () => knex.from('podcasts').select('*')
+    .then((podcasts) => podcasts),
 
-  podcast: (_, { id }) => {
-    return knex.from('podcasts').select('*').where({ id }).first().then((podcast) => podcast);
-  },
+  podcast: (_, { id }) => knex.from('podcasts').select('*').where({ id }).first()
+    .then((podcast) => podcast),
 };
 
 const valid = (newPodcast) => {
