@@ -12,4 +12,4 @@ type Query {
   episode(id: ID!): Episode
 }
 
-`;
+`

@@ -11,4 +11,4 @@ schema {
 
 scalar Date
 
-`;
+`

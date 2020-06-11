@@ -1,12 +1,12 @@
-import jwtDecode from 'jwt-decode';
-import knex from '../../config/knex';
+import jwtDecode from 'jwt-decode'
+import knex from '../../config/knex'
 
 const users = (params, context) => {
   return knex
     .from('users')
     .select('*')
-    .then((users) => users);
-};
+    .then((users) => users)
+}
 
 const user = (_, { id }) => {
   return knex
@@ -14,8 +14,8 @@ const user = (_, { id }) => {
     .select('*')
     .where({ id })
     .first()
-    .then((user) => user);
-};
+    .then((user) => user)
+}
 
 const userByAuthId = (_, { auth0_id }) => {
   return knex
@@ -23,14 +23,14 @@ const userByAuthId = (_, { auth0_id }) => {
     .select('*')
     .where({ auth0_id })
     .first()
-    .then((user) => user);
-};
+    .then((user) => user)
+}
 
 export default {
   users,
   user,
   userByAuthId,
-};
+}
 
 const valid = (newUser) => {
   if (
@@ -41,11 +41,11 @@ const valid = (newUser) => {
     newUser.social_login_type &&
     newUser.auth0_id
   ) {
-    return Promise.resolve(newUser);
-  } else {
-    return Promise.reject('Missing Parameters');
-  }
-};
+    return Promise.resolve(newUser)
+  } 
+    return Promise.reject('Missing Parameters')
+  
+}
 
 export const createUser = (_, { input }) => {
   return valid(input).then(() =>
@@ -60,24 +60,24 @@ export const createUser = (_, { input }) => {
       })
       .returning('*')
       .then(([user]) => user),
-  );
-};
+  )
+}
 
 export const deleteUser = (_, { id }) => {
   return knex('users')
     .where({ id })
     .del()
-    .then((result) => result);
-};
+    .then((result) => result)
+}
 
 export const signIn = async (_, { input: { token } }) => {
-  console.log('Sign In request received');
-  const idToken = jwtDecode(token);
-  let user;
+  console.log('Sign In request received')
+  const idToken = jwtDecode(token)
+  let user
   try {
-    user = await userByAuthId({ auth0_id: idToken.sub });
+    user = await userByAuthId({ auth0_id: idToken.sub })
   } catch (e) {
-    console.log('Logged in user not found in DB');
+    console.log('Logged in user not found in DB')
   }
   if (!user) {
     // create a new record in database
@@ -90,8 +90,8 @@ export const signIn = async (_, { input: { token } }) => {
         social_login_type: idToken.provider ? idToken.provider : ' ',
         auth0_id: idToken.sub,
       },
-    });
+    })
   }
 
-  return user;
-};
+  return user
+}

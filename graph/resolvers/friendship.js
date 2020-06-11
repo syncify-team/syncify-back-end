@@ -2,8 +2,8 @@ import knex from '../../config/knex'
 
 const friendships = (params, context) => {
   return knex.select('*').from('friendships')
-    .then((friendships) => friendships);
-};
+    .then((friendships) => friendships)
+}
 
 const friendList = (_, { id }) => {
   return knex.from('friendships').where('user1_id', id).orWhere('user2_id', id)
@@ -32,7 +32,7 @@ const friendList = (_, { id }) => {
                 social_login_type: friend.user1_social_login_type,
                 auth0_id: friend.user1_auth0_id
               }
-            });
+            })
         }
         else if (friend.user2_id.toString() !== id.toString()) {
           friend_list.push({
@@ -45,13 +45,13 @@ const friendList = (_, { id }) => {
                 social_login_type: friend.user2_social_login_type,
                 auth0_id: friend.user2_auth0_id
               }
-            });
+            })
         }
       })
 
-      return friend_list;
-    });
-};
+      return friend_list
+    })
+}
 
 const valid = (newFriendship) => {
   if (
@@ -59,10 +59,10 @@ const valid = (newFriendship) => {
     && newFriendship.user2_id
     && newFriendship.user1_id !== newFriendship.user2_id
   ) {
-    return Promise.resolve(newFriendship);
+    return Promise.resolve(newFriendship)
   }
-  return Promise.reject('Missing Parameters');
-};
+  return Promise.reject('Missing Parameters')
+}
 
 export const createFriendship = async (_, { input }) => {
   return valid(input)
@@ -72,10 +72,10 @@ export const createFriendship = async (_, { input }) => {
         user2_id: input.user2_id,
       }).returning('*').then((friendship) => friendship[0])
     )
-};
+}
 
 export const deleteFriendship = async (_, { id }) => {
-  return knex('friendships').where({ id }).del().then((result) => result);
-};
+  return knex('friendships').where({ id }).del().then((result) => result)
+}
 
-export default { friendships, friendList };
+export default { friendships, friendList }
