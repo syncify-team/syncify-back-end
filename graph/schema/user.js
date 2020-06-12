@@ -8,6 +8,7 @@ type User implements Node {
   last_name: String!
   social_login_type: String!
   auth0_id: String!
+  image_url: String!
 }
 
 input UserCreationInput {
@@ -17,6 +18,7 @@ input UserCreationInput {
   last_name: String
   social_login_type: String
   auth0_id: String
+  image_url: String
 }
 
 input SignInInput {
