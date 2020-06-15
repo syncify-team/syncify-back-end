@@ -12,11 +12,11 @@ const friendList = (_, { id }) => {
     .select(
       'a.id as user1_id', 'a.username as user1_username', 'a.email as user1_email',
       'a.first_name as user1_first_name', 'a.last_name as user1_last_name',
-      'a.social_login_type as user1_social_login_type', 'a.auth0_id as user1_auth0_id',
+      'a.image_url as user1_image_url',
 
       'b.id as user2_id', 'b.username as user2_username', 'b.email as user2_email',
       'b.first_name as user2_first_name', 'b.last_name as user2_last_name',
-      'b.social_login_type as user2_social_login_type', 'b.auth0_id as user2_auth0_id',
+      'b.image_url as user2_image_url',
     )
     .then((friendships) => {
       const friend_list = []
@@ -29,8 +29,7 @@ const friendList = (_, { id }) => {
                 email: friend.user1_email,
                 first_name: friend.user1_first_name,
                 last_name: friend.user1_last_name,
-                social_login_type: friend.user1_social_login_type,
-                auth0_id: friend.user1_auth0_id
+                image_url: friend.user1_image_url
               }
             })
         }
@@ -42,8 +41,7 @@ const friendList = (_, { id }) => {
                 email: friend.user2_email,
                 first_name: friend.user2_first_name,
                 last_name: friend.user2_last_name,
-                social_login_type: friend.user2_social_login_type,
-                auth0_id: friend.user2_auth0_id
+                image_url: friend.user2_image_url
               }
             })
         }
