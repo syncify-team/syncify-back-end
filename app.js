@@ -5,11 +5,8 @@ import logger from 'morgan'
 import dotenv from 'dotenv'
 import graph, { graphUi } from './config/graphql'
 
-const Bundler = require('parcel-bundler')
 const jwks = require('jwks-rsa')
 const jwt = require('express-jwt')
-
-const bundler = new Bundler('./server.js', { target: 'node' })
 
 dotenv.config()
 const port = process.env.PORT || 3000
@@ -17,6 +14,8 @@ const app = express()
 app.use(cors())
 
 if (process.env.NODE_ENV === 'development') {
+  const Bundler = require('parcel-bundler')
+  const bundler = new Bundler('./server.js', { target: 'node' })
   app.use(bundler.middleware())
 }
 
