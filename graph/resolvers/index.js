@@ -1,7 +1,7 @@
-import episode, { createEpisode, deleteEpisode } from './episode';
-import friendship, { createFriendship, deleteFriendship } from './friendship';
-import podcast, { createPodcast, deletePodcast } from './podcast';
-import user, { signIn, createUser, deleteUser } from './user';
+import episode, { createEpisode, deleteEpisode } from './episode'
+import friendship, { createFriendship, deleteFriendship } from './friendship'
+import podcast, { createPodcast, deletePodcast } from './podcast'
+import user, { signIn, createUser, deleteUser } from './user'
 
 export default {
   Query: {
@@ -22,4 +22,4 @@ export default {
     createUser,
     deleteUser,
   },
-};
+}

@@ -12,4 +12,4 @@ type Mutation {
   deleteEpisode(id: ID!): Boolean
 }
 
-`;
+`
