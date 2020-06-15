@@ -39,7 +39,8 @@ const valid = (newUser) => {
     newUser.first_name &&
     newUser.last_name &&
     newUser.social_login_type &&
-    newUser.auth0_id
+    newUser.auth0_id &&
+    newUser.image_url
   ) {
     return Promise.resolve(newUser)
   } 
@@ -57,6 +58,7 @@ export const createUser = (_, { input }) => {
         last_name: input.last_name,
         social_login_type: input.social_login_type,
         auth0_id: input.auth0_id,
+        image_url: input.image_url,
       })
       .returning('*')
       .then(([user]) => user),
@@ -89,6 +91,7 @@ export const signIn = async (_, { input: { token } }) => {
         last_name: idToken.family_name ? idToken.family_name : ' ',
         social_login_type: idToken.provider ? idToken.provider : ' ',
         auth0_id: idToken.sub,
+        image_url: idToken.picture ? idToken.picture : ' ',
       },
     })
   }
