@@ -10,6 +10,7 @@ type Query {
   podcast(id: ID!): Podcast
   episodes: [Episode]
   episode(id: ID!): Episode
+  episodeStatuseees: [EpisodeStatus]
   episodeStatusById(id: ID!): EpisodeStatus
   pausePlayingEpisode(id: ID!): EpisodeStatus
   playPausedEpisode(id: ID!): EpisodeStatus

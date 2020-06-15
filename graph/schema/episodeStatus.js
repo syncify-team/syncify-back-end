@@ -7,7 +7,7 @@ type EpisodeStatus implements Node {
   completed: Boolean!
   timestamp_in_episode: Int!
   duration: Int!
-  utc_time_start: String!
+  utc_time_start: Int!
   publish_date: String!
   episode_title: String!
   episode_image_url: String!
@@ -24,7 +24,7 @@ input EpisodeStatusCreationInput {
   completed: Boolean
   timestamp_in_episode: Int
   duration: Int
-  utc_time_start: String
+  utc_time_start: Int
   publish_date: String
   episode_title: String
   episode_image_url: String
