@@ -32,6 +32,7 @@ export const createEpisodeStatus = async (_, { input }) => {
     .then(() =>
       knex('episodeStatus').insert({
         user_id: input.user_id,
+        is_playing: true,
         completed: false,
         timestamp_in_episode: input.timestamp_in_episode || 0,
         duration: input.duration,

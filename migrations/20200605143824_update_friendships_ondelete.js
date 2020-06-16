@@ -6,7 +6,6 @@ exports.up = function (knex) {
     table.foreign("user1_id").references("users.id").onDelete("CASCADE")
     table.foreign("user2_id").references("users.id").onDelete("CASCADE")
   })
-
 }
 
 exports.down = function (knex) {
