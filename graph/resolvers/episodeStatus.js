@@ -2,11 +2,11 @@ import knex from '../../config/knex'
 
 export default {
   episodeStatuseees: (params, context) => {
-    return knex.from('episodestatus').select('*').then((episodestatuseees) => episodestatuseees)
+    return knex.from('episodeStatus').select('*').then((episodeStatuseees) => episodeStatuseees)
   },
 
   episodeStatusById: (_, { id }) => {
-    return knex.from('episodestatus').select('*').where({ id }).first().then((episodestatus) => episodestatus)
+    return knex.from('episodeStatus').select('*').where({ id }).first().then((episodeStatus) => episodeStatus)
   },
 }
 
