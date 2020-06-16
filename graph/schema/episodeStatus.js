@@ -10,9 +10,9 @@ type EpisodeStatus implements Node {
   utc_time_start: Int!
   publish_date: String!
   episode_title: String!
-  episode_image_url: Text!
-  episode_description: Text!
-  episode_file_url: Text!
+  episode_image_url: String!
+  episode_description: String!
+  episode_file_url: String!
   podcast_title: String!
   podcast_author: String!
 }
@@ -27,9 +27,9 @@ input EpisodeStatusCreationInput {
   utc_time_start: Int
   publish_date: String
   episode_title: String
-  episode_image_url: Text
-  episode_description: Text
-  episode_file_url: Text
+  episode_image_url: String
+  episode_description: String
+  episode_file_url: String
   podcast_title: String
   podcast_author: String
 }
