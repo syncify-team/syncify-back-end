@@ -63,7 +63,7 @@ export const createEpisodeStatus = async (_, { input }) => {
 }
 
 export const deleteEpisodeStatus = async (_, { id }) => {
-  return knex('episodes').where({ id }).del().then((result) => result)
+  return knex('episodeStatus').where({ id }).del().then((result) => result)
 }
 
 
