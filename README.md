@@ -61,6 +61,12 @@ The current database structure for the MVP (subject to change)
 
 Details and code here - https://dbdiagram.io/d/5e8648fb4495b02c3b892c24
 
+#### Ammending the database
+If you make a new table or update one you need to make a new migration
+`npx knex migrate:make _table_name_here_`
+
+[Useful info on migrations](https://gist.github.com/NigelEarle/70db130cc040cc2868555b29a0278261)
+
 
 ---
 
@@ -143,7 +149,9 @@ DB_PORT=5432
 
 `npm start`
 
-#### Adding data
+---
+
+### Adding data
 You can add records into your app using:
 - a client such as 'Postico'
 - manually in the command line database environment
