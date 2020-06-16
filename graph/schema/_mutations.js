@@ -11,6 +11,7 @@ type Mutation {
   createEpisode(input: EpisodeCreationInput): Episode!
   deleteEpisode(id: ID!): Boolean
   createEpisodeStatus(input: EpisodeStatusCreationInput): EpisodeStatus!
+  pauseEpisodeStatus(input: PauseEpisodeStatusInput): EpisodeStatus!
   deleteEpisodeStatus(id: ID!): Boolean
 }
 

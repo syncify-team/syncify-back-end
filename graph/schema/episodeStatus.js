@@ -34,4 +34,9 @@ input EpisodeStatusCreationInput {
   podcast_author: String
 }
 
+input PauseEpisodeStatusInput {
+  id: ID
+  timestamp_in_episode: Int
+}
+
 `

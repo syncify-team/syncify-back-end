@@ -62,6 +62,14 @@ export const createEpisodeStatus = async (_, { input }) => {
     )
 }
 
+export const pauseEpisodeStatus = async (_, { input }) => {
+  return knex('episodeStatus').where({ id: input.id })
+    .update({ timestamp_in_episode: input.timestamp_in_episode })
+    .update({ is_playing: false })
+    .returning('*')
+    .then((result) => result[0])
+}
+
 export const deleteEpisodeStatus = async (_, { id }) => {
   return knex('episodeStatus').where({ id }).del().then((result) => result)
 }
