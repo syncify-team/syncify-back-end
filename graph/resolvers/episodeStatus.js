@@ -36,6 +36,7 @@ export const createEpisodeStatus = async (_, { input }) => {
       .andWhere('podcast_title', input.podcast_title)
       .then(function(rows) {
         if (rows.length===0) {
+          const now = new Date()
           // no matching records found
           return knex('episodeStatus').insert({
             user_id: input.user_id,
@@ -62,10 +63,24 @@ export const createEpisodeStatus = async (_, { input }) => {
     )
 }
 
-export const pauseEpisodeStatus = async (_, { input }) => {
+export const pauseEpisode = async (_, { input }) => {
   return knex('episodeStatus').where({ id: input.id })
     .update({ timestamp_in_episode: input.timestamp_in_episode })
     .update({ is_playing: false })
+    .returning('*')
+    .then((result) => result[0])
+}
+
+export const continueEpisode = async (_, { input }) => {
+  const updated_utc = Date.now() - input.timestamp_in_episode
+  // const date_string = new Date(updated_utc).toISOString()
+
+  // console.log({ updated_utc })
+  // console.log({ date_string })
+
+  return knex('episodeStatus').where({ id: input.id })
+    .update({ utc_time_start: updated_utc })
+    .update({ is_playing: true })
     .returning('*')
     .then((result) => result[0])
 }

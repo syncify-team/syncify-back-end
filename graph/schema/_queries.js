@@ -12,7 +12,6 @@ type Query {
   episode(id: ID!): Episode
   episodeStatuseees: [EpisodeStatus]
   episodeStatusById(id: ID!): EpisodeStatus
-  playPausedEpisode(id: ID!): EpisodeStatus
   completePlayingEpisode(id: ID!): EpisodeStatus
 }
 
