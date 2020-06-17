@@ -26,7 +26,20 @@ const userByAuthId = (_, { auth0_id }) => {
     .then((user) => user)
 }
 
+const findUsersByInput = (_, { input }) => {
+  // console.log( input )
+  return knex
+    .from('users')
+    .select('*')
+    .where( 'first_name', 'ilike', `%${input}%` )
+    .orWhere( 'last_name', 'ilike', `%${input}%` )
+    .orWhere( 'username', 'ilike', `%${input}%` )
+    .orWhere( 'email', 'ilike', `%${input}%`)
+    .then((users) =>  users)
+}
+
 export default {
+  findUsersByInput,
   users,
   user,
   userByAuthId,
