@@ -11,13 +11,14 @@ const friendList = (_, { id }) => {
     .select(
       'b.id as user2_id', 'b.username as user2_username', 'b.email as user2_email',
       'b.first_name as user2_first_name', 'b.last_name as user2_last_name',
-      'b.image_url as user2_image_url',
+      'b.image_url as user2_image_url', 'friendships.id as connection_id',
     )
     .then((friendships) => {
       const friend_list = []
       friendships.map((friend) => {
         if (friend.user2_id.toString() !== id.toString()) {
           friend_list.push({
+              friendship_id: friend.connection_id,
               friend: {
                 id: friend.user2_id,
                 username: friend.user2_username,
