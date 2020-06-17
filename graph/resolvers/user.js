@@ -26,18 +26,28 @@ const userByAuthId = (_, { auth0_id }) => {
     .then((user) => user)
 }
 
-const findUsersByInput = (_, { input }) => {
-  // console.log( input )
+// console.log({ id })
+// console.log({ searchTerm })
+const findUsersByInput = (_, { id, searchTerm }) => {
   return knex
-    .from('users')
     .select('*')
-    .where( 'first_name', 'ilike', `%${input}%` )
-    .orWhere( 'last_name', 'ilike', `%${input}%` )
-    .orWhere( 'username', 'ilike', `%${input}%` )
-    .orWhere( 'email', 'ilike', `%${input}%`)
-    .then((users) =>  users)
-}
-
+    .from('users AS a')
+    .where( 'a.first_name', 'ilike', `%${searchTerm}%` )
+    .orWhere( 'a.last_name', 'ilike', `%${searchTerm}%` )
+    .orWhere( 'a.username', 'ilike', `%${searchTerm}%` )
+    .orWhere( 'a.email', 'ilike', `%${searchTerm}%` )
+    .join('friendships as b','b.user2_id', '=', 'a.id')
+    // .select('*')
+    .then((users) =>  {
+      console.log('logging==========')
+      console.log(users)
+      return users
+    })
+  }
+  // .join('friendships AS b', function() {
+  //   this.on('b.user1_id', '=', id)
+  // })
+  
 export default {
   findUsersByInput,
   users,
