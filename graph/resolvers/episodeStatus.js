@@ -73,11 +73,6 @@ export const pauseEpisode = async (_, { input }) => {
 
 export const continueEpisode = async (_, { input }) => {
   const updated_utc = Date.now() - input.timestamp_in_episode
-  // const date_string = new Date(updated_utc).toISOString()
-
-  // console.log({ updated_utc })
-  // console.log({ date_string })
-
   return knex('episodeStatus').where({ id: input.id })
     .update({ utc_time_start: updated_utc })
     .update({ is_playing: true })
@@ -90,9 +85,14 @@ export const deleteEpisodeStatus = async (_, { id }) => {
 }
 
 
-/* // queries to add
+/* // mutations to add
+  completePlayingEpisode(id: ID!): EpisodeStatus
+
+  // rename mutations?
   pausePlayingEpisode(id: ID!): EpisodeStatus
   playPausedEpisode(id: ID!): EpisodeStatus
-  completePlayingEpisode(id: ID!): EpisodeStatus
+
+  // queries to add
+  userListenHistory(id: ID!): EpisodeStatus
 */
 
