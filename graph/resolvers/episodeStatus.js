@@ -63,7 +63,7 @@ export const createEpisodeStatus = async (_, { input }) => {
     )
 }
 
-export const pauseEpisode = async (_, { input }) => {
+export const pausePlayingEpisode = async (_, { input }) => {
   return knex('episodeStatus').where({ id: input.id })
     .update({ timestamp_in_episode: input.timestamp_in_episode })
     .update({ is_playing: false })
@@ -71,11 +71,20 @@ export const pauseEpisode = async (_, { input }) => {
     .then((result) => result[0])
 }
 
-export const continueEpisode = async (_, { input }) => {
+export const continuePausedEpisode = async (_, { input }) => {
   const updated_utc = Date.now() - input.timestamp_in_episode
   return knex('episodeStatus').where({ id: input.id })
     .update({ utc_time_start: updated_utc })
     .update({ is_playing: true })
+    .returning('*')
+    .then((result) => result[0])
+}
+
+export const completePlayingEpisode = async (_, { input }) => {
+  return knex('episodeStatus').where({ id: input.id })
+    .update({ completed: true })
+    .update({ is_playing: false })
+    .update({ timestamp_in_episode: input.timestamp_in_episode })
     .returning('*')
     .then((result) => result[0])
 }

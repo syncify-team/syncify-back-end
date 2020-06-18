@@ -1,5 +1,11 @@
 import episode, { createEpisode, deleteEpisode } from './episode'
-import episodeStatus, { createEpisodeStatus, pauseEpisode, continueEpisode, deleteEpisodeStatus } from './episodeStatus'
+import episodeStatus, {
+  createEpisodeStatus,
+  pausePlayingEpisode,
+  continuePausedEpisode,
+  completePlayingEpisode,
+  deleteEpisodeStatus
+} from './episodeStatus'
 import friendship, { createFriendship, deleteFriendship } from './friendship'
 import podcast, { createPodcast, deletePodcast } from './podcast'
 import user, { signIn, createUser, deleteUser } from './user'
@@ -18,8 +24,9 @@ export default {
     createEpisode,
     deleteEpisode,
     createEpisodeStatus,
-    pauseEpisode,
-    continueEpisode,
+    pausePlayingEpisode,
+    continuePausedEpisode,
+    completePlayingEpisode,
     deleteEpisodeStatus,
     createFriendship,
     deleteFriendship,
