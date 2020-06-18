@@ -26,29 +26,43 @@ const userByAuthId = (_, { auth0_id }) => {
     .then((user) => user)
 }
 
-// console.log({ id })
-// console.log({ searchTerm })
-const findUsersByInput = (_, { id, searchTerm }) => {
+const findUsersByInput = (_, { userId, searchTerm }) => {
   return knex
     .select('*')
     .from('users AS a')
-    .join('friendships as b', 'b.user2_id', '=', 'a.id')
-    .where( 'a.first_name', 'ilike', `%${searchTerm}%` )
-    .orWhere( 'a.last_name', 'ilike', `%${searchTerm}%` )
-    .orWhere( 'a.username', 'ilike', `%${searchTerm}%` )
-    .orWhere( 'a.email', 'ilike', `%${searchTerm}%` )
-    .whereNot(function() {
-      this.where('a.id', id).orWhere('b.user1_id', '=', id)
+    .whereNot('a.id', userId)
+    .andWhere((row) => {
+      row.where('a.first_name', 'ilike', `%${searchTerm}%` )
+        .orWhere( 'a.last_name', 'ilike', `%${searchTerm}%` )
+        .orWhere( 'a.username', 'ilike', `%${searchTerm}%` )
+        .orWhere( 'a.email', 'ilike', `%${searchTerm}%` )
     })
-    .then((users) =>  {
-      console.log('logging==========')
-      console.log(users)
-      return users
-    })
+    .then((foundUsers) =>  {
+      return knex.from('friendships').where('user1_id', userId)
+        .join('users AS b', 'b.id', 'friendships.user2_id')
+        .select(
+          'b.id as user2_id',
+        )
+        .then((friendships) => {
+          const followedIdList = []
+          friendships.map((friend) => {
+            if (friend.user2_id.toString() !== userId.toString()) {
+              followedIdList.push(friend.user2_id)
+            }
+          })
+          return foundUsers
+            .reduce((acc, user) => {
+              console.log(user.id)
+              if(followedIdList.indexOf(user.id) > -1){
+                acc[0].push(user)
+              } else {
+                acc[1].push(user)
+              }
+              return acc
+            },[[],[]])
+          })
+        })
   }
-  // .join('friendships AS b', function() {
-  //   this.on('b.user1_id', '=', id)
-  // })
   
 export default {
   findUsersByInput,
