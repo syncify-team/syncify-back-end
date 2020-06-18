@@ -26,7 +26,32 @@ const userByAuthId = (_, { auth0_id }) => {
     .then((user) => user)
 }
 
+// console.log({ id })
+// console.log({ searchTerm })
+const findUsersByInput = (_, { id, searchTerm }) => {
+  return knex
+    .select('*')
+    .from('users AS a')
+    .join('friendships as b', 'b.user2_id', '=', 'a.id')
+    .where( 'a.first_name', 'ilike', `%${searchTerm}%` )
+    .orWhere( 'a.last_name', 'ilike', `%${searchTerm}%` )
+    .orWhere( 'a.username', 'ilike', `%${searchTerm}%` )
+    .orWhere( 'a.email', 'ilike', `%${searchTerm}%` )
+    .whereNot(function() {
+      this.where('a.id', id).orWhere('b.user1_id', '=', id)
+    })
+    .then((users) =>  {
+      console.log('logging==========')
+      console.log(users)
+      return users
+    })
+  }
+  // .join('friendships AS b', function() {
+  //   this.on('b.user1_id', '=', id)
+  // })
+  
 export default {
+  findUsersByInput,
   users,
   user,
   userByAuthId,

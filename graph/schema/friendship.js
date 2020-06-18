@@ -7,6 +7,7 @@ type Friendship implements Node {
 }
 
 type Friend {
+  friendship_id: ID!
   friend: User!
 }
 
