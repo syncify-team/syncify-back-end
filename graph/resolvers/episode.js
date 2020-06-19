@@ -8,6 +8,22 @@ export default {
   episode: (_, { id }) => {
     return knex.from('episodes').select('*').where({ id }).first().then((episode) => episode)
   },
+
+  // //  future query - find users that listend to an episode
+  // usersWhoListenedToThisEpisode: (_, { id }) => {
+  //   return knex.from('episodes as a')
+  //     .where( 'a.id', id )
+  //     .join('users as b', 'b.id', '=', 'a.user_id')
+  //     .select(
+  //       'b.id as user2_id', 'b.username as user2_username', 'b.email as user2_email',
+  //       'b.first_name as user2_first_name', 'b.last_name as user2_last_name',
+  //       'b.image_url as user2_image_url',
+  //     )
+  //     .then((episodesAndUsersList) => {
+  //       console.log({ episodesAndUsersList})
+  //       // return episodesAndUsersList
+  //     })
+  // },
 }
 
 const valid = (newEpisode) => {

@@ -13,10 +13,19 @@ export default {
     return knex.from('episodeStatus')
       .select('*')
       .where('user_id', userId )
-      .then((episodeStatusList) => {
-        console.log({ episodeStatusList})
-        return episodeStatusList
-      })
+      .then((episodeStatusList) => episodeStatusList)
+  },
+
+  usersListeningToThisEpisode: (_, { title }) => {
+    return knex.from('episodeStatus as a')
+      .where( 'a.episode_title', title )
+      .join('users as b', 'b.id', '=', 'a.user_id')
+      .select(
+        'b.id as id', 'b.username as username', 'b.email as email',
+        'b.first_name as first_name', 'b.last_name as last_name',
+        'b.image_url as image_url',
+      )
+      .then((episodeStatusAndUsersList) => episodeStatusAndUsersList)
   },
 }
 
