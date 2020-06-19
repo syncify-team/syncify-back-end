@@ -3,7 +3,7 @@ export default `
 type Query {
   users: [User]
   findUsersByInput(userId: ID!, searchTerm: String!): [[Userfriend]]
-  user(id: ID!): User
+  findUserById(id: ID!): User
   userByAuthId(auth0_id: String!): User
   friendships: [Friendship]!
   friendList(id: ID!): [Friend]!
