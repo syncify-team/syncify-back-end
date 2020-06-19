@@ -8,6 +8,16 @@ export default {
   episodeStatusById: (_, { id }) => {
     return knex.from('episodeStatus').select('*').where({ id }).first().then((episodeStatus) => episodeStatus)
   },
+
+  userListenHistory: (_, { userId }) => {
+    return knex.from('episodeStatus')
+      .select('*')
+      .where('user_id', userId )
+      .then((episodeStatusList) => {
+        console.log({ episodeStatusList})
+        return episodeStatusList
+      })
+  },
 }
 
 const valid = (newEpisodestatus) => {
@@ -94,13 +104,7 @@ export const deleteEpisodeStatus = async (_, { id }) => {
 }
 
 
-/* // mutations to add
-  completePlayingEpisode(id: ID!): EpisodeStatus
-
-  // rename mutations?
-  pausePlayingEpisode(id: ID!): EpisodeStatus
-  playPausedEpisode(id: ID!): EpisodeStatus
-
+/* 
   // queries to add
   userListenHistory(id: ID!): EpisodeStatus
 */
