@@ -14,7 +14,7 @@ type Query {
   episodeStatuseees: [EpisodeStatus]
   episodeStatusById(id: ID!): EpisodeStatus
   userListenHistory(userId: ID!): [EpisodeStatus]
-  usersListeningToThisEpisode(title: String!): [User]
+  usersListeningToThisEpisode(input: EpisodeGenerics!): [User]
 }
 
 `

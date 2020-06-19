@@ -16,9 +16,10 @@ export default {
       .then((episodeStatusList) => episodeStatusList)
   },
 
-  usersListeningToThisEpisode: (_, { title }) => {
+  usersListeningToThisEpisode: (_, { input }) => {
     return knex.from('episodeStatus as a')
-      .where( 'a.episode_title', title )
+      .where( 'a.episode_title', input.episode_title )
+      .andWhere( 'a.podcast_title', input.podcast_title )
       .join('users as b', 'b.id', '=', 'a.user_id')
       .select(
         'b.id as id', 'b.username as username', 'b.email as email',
