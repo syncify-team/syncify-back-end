@@ -13,7 +13,8 @@ type Query {
   episode(id: ID!): Episode
   episodeStatuseees: [EpisodeStatus]
   episodeStatusById(id: ID!): EpisodeStatus
-  completePlayingEpisode(id: ID!): EpisodeStatus
+  userListenHistory(userId: ID!): [EpisodeStatus]
+  usersListeningToThisEpisode(input: EpisodeGenerics!): [User]
 }
 
 `

@@ -39,4 +39,9 @@ input ControlEpisodeStatus {
   timestamp_in_episode: Int
 }
 
+input EpisodeGenerics {
+  episode_title: String
+  podcast_title: String
+}
+
 `

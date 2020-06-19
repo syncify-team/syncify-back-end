@@ -8,6 +8,26 @@ export default {
   episodeStatusById: (_, { id }) => {
     return knex.from('episodeStatus').select('*').where({ id }).first().then((episodeStatus) => episodeStatus)
   },
+
+  userListenHistory: (_, { userId }) => {
+    return knex.from('episodeStatus')
+      .select('*')
+      .where('user_id', userId )
+      .then((episodeStatusList) => episodeStatusList)
+  },
+
+  usersListeningToThisEpisode: (_, { input }) => {
+    return knex.from('episodeStatus as a')
+      .where( 'a.episode_title', input.episode_title )
+      .andWhere( 'a.podcast_title', input.podcast_title )
+      .join('users as b', 'b.id', '=', 'a.user_id')
+      .select(
+        'b.id as id', 'b.username as username', 'b.email as email',
+        'b.first_name as first_name', 'b.last_name as last_name',
+        'b.image_url as image_url',
+      )
+      .then((episodeStatusAndUsersList) => episodeStatusAndUsersList)
+  },
 }
 
 const valid = (newEpisodestatus) => {
@@ -63,7 +83,7 @@ export const createEpisodeStatus = async (_, { input }) => {
     )
 }
 
-export const pauseEpisode = async (_, { input }) => {
+export const pausePlayingEpisode = async (_, { input }) => {
   return knex('episodeStatus').where({ id: input.id })
     .update({ timestamp_in_episode: input.timestamp_in_episode })
     .update({ is_playing: false })
@@ -71,11 +91,20 @@ export const pauseEpisode = async (_, { input }) => {
     .then((result) => result[0])
 }
 
-export const continueEpisode = async (_, { input }) => {
+export const continuePausedEpisode = async (_, { input }) => {
   const updated_utc = Date.now() - input.timestamp_in_episode
   return knex('episodeStatus').where({ id: input.id })
     .update({ utc_time_start: updated_utc })
     .update({ is_playing: true })
+    .returning('*')
+    .then((result) => result[0])
+}
+
+export const completePlayingEpisode = async (_, { input }) => {
+  return knex('episodeStatus').where({ id: input.id })
+    .update({ completed: true })
+    .update({ is_playing: false })
+    .update({ timestamp_in_episode: input.timestamp_in_episode })
     .returning('*')
     .then((result) => result[0])
 }
@@ -85,13 +114,7 @@ export const deleteEpisodeStatus = async (_, { id }) => {
 }
 
 
-/* // mutations to add
-  completePlayingEpisode(id: ID!): EpisodeStatus
-
-  // rename mutations?
-  pausePlayingEpisode(id: ID!): EpisodeStatus
-  playPausedEpisode(id: ID!): EpisodeStatus
-
+/* 
   // queries to add
   userListenHistory(id: ID!): EpisodeStatus
 */
