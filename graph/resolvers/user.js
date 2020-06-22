@@ -8,7 +8,7 @@ const users = (params, context) => {
     .then((users) => users)
 }
 
-const user = (_, { id }) => {
+const findUserById = (_, { id }) => {
   return knex
     .from('users')
     .select('*')
@@ -67,7 +67,7 @@ const findUsersByInput = (_, { userId, searchTerm }) => {
 export default {
   findUsersByInput,
   users,
-  user,
+  findUserById,
   userByAuthId,
 }
 
