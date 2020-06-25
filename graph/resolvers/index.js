@@ -1,4 +1,11 @@
 import episode, { createEpisode, deleteEpisode } from './episode'
+import episodeStatus, {
+  createEpisodeStatus,
+  pausePlayingEpisode,
+  continuePausedEpisode,
+  completePlayingEpisode,
+  deleteEpisodeStatus
+} from './episodeStatus'
 import friendship, { createFriendship, deleteFriendship } from './friendship'
 import podcast, { createPodcast, deletePodcast } from './podcast'
 import user, { signIn, createUser, deleteUser } from './user'
@@ -6,6 +13,7 @@ import user, { signIn, createUser, deleteUser } from './user'
 export default {
   Query: {
     ...episode,
+    ...episodeStatus,
     ...friendship,
     ...podcast,
     ...user,
@@ -15,6 +23,11 @@ export default {
     signIn,
     createEpisode,
     deleteEpisode,
+    createEpisodeStatus,
+    pausePlayingEpisode,
+    continuePausedEpisode,
+    completePlayingEpisode,
+    deleteEpisodeStatus,
     createFriendship,
     deleteFriendship,
     createPodcast,
