@@ -52,7 +52,6 @@ const findUsersByInput = (_, { userId, searchTerm }) => {
           })
           return foundUsers
             .reduce((acc, user) => {
-              console.log(user.id)
               if(followedIdList.indexOf(user.id) > -1){
                 acc[0].push(user)
               } else {
