@@ -143,7 +143,7 @@ export const signIn = async (_, { input: { token } }) => {
 			input: {
 				username: nickname || ' ',
 				email: email || ' ',
-				first_name: getNameFromAuthToken(nickname, given_name, email),
+				first_name: getNameFromAuthToken(given_name, nickname, email),
 				last_name: family_name || ' ',
 				social_login_type: getAuthProviderName(sub),
 				auth0_id: sub,
