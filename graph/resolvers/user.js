@@ -112,8 +112,18 @@ export const deleteUser = (_, { id }) => {
 		.then((result) => result)
 }
 
-const getNameFromAuthToken = (firstName, nickName, email) => {
-	return firstName || nickName || email.match(/^([^@]*)@/)[1] || ' '
+const getFirstNameFromAuthToken = (firstName, name, nickName, email) => {
+	return (
+		firstName ||
+		name.split(' ')[0] ||
+		nickName ||
+		email.split('@')[0] ||
+		' '
+	)
+}
+
+const getLastNameFromAuthToken = (lastName, name) => {
+	return lastName || name.split(' ')[1] || ' '
 }
 
 const getAuthProviderName = (sub) => {
@@ -135,6 +145,7 @@ export const signIn = async (_, { input: { token } }) => {
 			nickname,
 			given_name,
 			family_name,
+			name,
 			email,
 			sub,
 			picture,
@@ -143,8 +154,13 @@ export const signIn = async (_, { input: { token } }) => {
 			input: {
 				username: nickname || ' ',
 				email: email || ' ',
-				first_name: getNameFromAuthToken(given_name, nickname, email),
-				last_name: family_name || ' ',
+				first_name: getFirstNameFromAuthToken(
+					given_name,
+					name,
+					nickname,
+					email
+				),
+				last_name: getLastNameFromAuthToken(family_name, name),
 				social_login_type: getAuthProviderName(sub),
 				auth0_id: sub,
 				image_url: picture,
