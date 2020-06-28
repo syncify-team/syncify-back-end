@@ -66,6 +66,7 @@ const findUsersByInput = (_, { userId, searchTerm }) => {
 		})
 }
 
+
 export default {
 	findUsersByInput,
 	users,
