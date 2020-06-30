@@ -29,7 +29,7 @@
     "eslint-plugin-import": "^2.21.2",
     "express": "^4.17.1",
     "express-graphql": "^0.6.11",
-    "express-jwt": "^5.3.3",
+    "express-jwt": "^6.0.0",
     "express-session": "^1.17.1",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.8.0",
