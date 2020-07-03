@@ -28,6 +28,46 @@ export default {
       )
       .then((episodeStatusAndUsersList) => episodeStatusAndUsersList)
   },
+
+  activeFriendsEpisodes: (_, { userId }) => {
+    return knex
+      .from('users AS a')
+      .whereNot('a.id', userId)
+      .join('episodeStatus as b', 'b.user_id', '=', 'a.id')
+      .join('friendships as c', 'c.user2_id', '=', 'b.user_id')
+      .where('b.is_playing', true)
+      .andWhere('c.user1_id', userId)
+      .select(
+        'a.id as user_id', 'a.username as username', 'a.image_url as user_img_url',
+        'b.is_playing as is_playing',
+        'b.id as id', 'b.duration as duration',
+        'b.timestamp_in_episode as timestamp_in_episode', 'b.utc_time_start as utc_time_start',
+        'b.publish_date as publish_date', 'b.episode_title as episode_title',
+        'b.episode_image_url as episode_image_url', 'b.episode_image_url as episode_image_url',
+        'b.episode_description as episode_description', 'b.episode_file_url as episode_file_url',
+        'b.podcast_title as podcast_title', 'b.podcast_author as podcast_author',
+      )
+      .then((friendsLiveEpisodes) => friendsLiveEpisodes)
+  },
+
+  activeUsersEpisodes: (_, { userId }) => {
+    return knex
+      .from('users AS a')
+      .whereNot('a.id', userId)
+      .join('episodeStatus as b', 'b.user_id', '=', 'a.id')
+      .where('b.is_playing', true)
+      .select(
+        'a.id as user_id', 'a.username as username', 'a.image_url as user_img_url',
+        'b.is_playing as is_playing',
+        'b.id as id', 'b.duration as duration',
+        'b.timestamp_in_episode as timestamp_in_episode', 'b.utc_time_start as utc_time_start',
+        'b.publish_date as publish_date', 'b.episode_title as episode_title',
+        'b.episode_image_url as episode_image_url', 'b.episode_image_url as episode_image_url',
+        'b.episode_description as episode_description', 'b.episode_file_url as episode_file_url',
+        'b.podcast_title as podcast_title', 'b.podcast_author as podcast_author',
+      )
+      .then((allLiveEpisodes) => allLiveEpisodes)
+  },
 }
 
 const valid = (newEpisodestatus) => {
@@ -113,9 +153,4 @@ export const deleteEpisodeStatus = async (_, { id }) => {
   return knex('episodeStatus').where({ id }).del().then((result) => result)
 }
 
-
-/* 
-  // queries to add
-  userListenHistory(id: ID!): EpisodeStatus
-*/
 
