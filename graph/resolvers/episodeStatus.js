@@ -47,6 +47,7 @@ export default {
         'b.episode_description as episode_description', 'b.episode_file_url as episode_file_url',
         'b.podcast_title as podcast_title', 'b.podcast_author as podcast_author',
       )
+      .orderBy('b.utc_time_start')
       .then((friendsLiveEpisodes) => friendsLiveEpisodes)
   },
 
@@ -66,6 +67,7 @@ export default {
         'b.episode_description as episode_description', 'b.episode_file_url as episode_file_url',
         'b.podcast_title as podcast_title', 'b.podcast_author as podcast_author',
       )
+      .orderBy('b.utc_time_start')
       .then((allLiveEpisodes) => allLiveEpisodes)
   },
 }
