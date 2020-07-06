@@ -17,6 +17,7 @@ type Query {
   usersListeningToThisEpisode(input: EpisodeGenerics!): [User]
   activeFriendsEpisodes(userId: ID!): [LiveEpisode]
   activeUsersEpisodes(userId: ID!): [LiveEpisode]
+  recentFriendsEpisodes(userId: ID!): [LiveEpisode]
 }
 
 `
