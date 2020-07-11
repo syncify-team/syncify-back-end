@@ -59,7 +59,7 @@ export default {
       .join('friendships as c', 'c.user2_id', '=', 'b.user_id')
       .where('b.is_playing', false)
       .andWhere('c.user1_id', userId)
-      .limit(12)
+      .limit(30)
       .select(
         'a.id as user_id', 'a.username as username', 'a.image_url as user_img_url',
         'b.is_playing as is_playing',
