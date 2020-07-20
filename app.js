@@ -5,8 +5,8 @@ import logger from 'morgan'
 import dotenv from 'dotenv'
 import graph, { graphUi } from './config/graphql'
 
-const jwks = require('jwks-rsa')
-const jwt = require('express-jwt')
+// const jwks = require('jwks-rsa')
+// const jwt = require('express-jwt')
 
 dotenv.config()
 const port = process.env.PORT || 3000
@@ -19,21 +19,22 @@ if (process.env.NODE_ENV === 'development') {
   app.use(bundler.middleware())
 }
 
-const auth = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: `${process.env.AUTH0_ISSUER}.well-known/jwks.json`,
-  }),
-  aud: process.env.AUTH0_AUDIENCE,
-  issuer: process.env.AUTH0_ISSUER,
-  algorithms: ['RS256'],
-})
+// const auth = jwt({
+//   secret: jwks.expressJwtSecret({
+//     cache: true,
+//     rateLimit: true,
+//     jwksRequestsPerMinute: 5,
+//     jwksUri: `${process.env.AUTH0_ISSUER}.well-known/jwks.json`,
+//   }),
+//   aud: process.env.AUTH0_AUDIENCE,
+//   issuer: process.env.AUTH0_ISSUER,
+//   algorithms: ['RS256'],
+// })
 
 app.use(logger('dev'))
 // graphql endpoint
-app.use('/graphql', auth, bodyParser.json(), graph())
+// app.use('/graphql', auth, bodyParser.json(), graph())
+app.use('/graphql', bodyParser.json(), graph())
 app.use('/graphiql', graphUi())
 
 app.listen(port, () => {
