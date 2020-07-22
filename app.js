@@ -26,12 +26,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function checkAuth(req, res, next) {
-  // console.log(req.headers.authorization)
+  console.log(req.headers.authorization)
   if (req.headers.authorization) {
-    // console.log("checking authorization")
+    console.log("checking authorization")
     admin.auth().verifyIdToken(req.headers.authorization)
-      .then(() => {
-        // console.log("auth token parsed")
+      .then((decodedToken) => {
+          let uid = decodedToken.uid
+          console.log({uid})
         next()
       }).catch((err) => {
         // console.log({err})
@@ -41,15 +42,6 @@ function checkAuth(req, res, next) {
     res.status(403).send('Unauthorized')
   }
 }
-
-// admin.auth().verifyIdToken(idToken)
-//   .then(function(decodedToken) {
-//     let uid = decodedToken.uid;
-//     // ...
-//   }).catch(function(error) {
-//     // Handle error
-//   });
-
 
 app.use(logger('dev'))
 // graphql endpoint
