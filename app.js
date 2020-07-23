@@ -26,13 +26,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function checkAuth(req, res, next) {
-  console.log(req.headers.authorization)
+  // console.log(req.headers.authorization)
   if (req.headers.authorization) {
-    console.log("checking authorization")
+    // console.log("checking authorization")
     admin.auth().verifyIdToken(req.headers.authorization)
       .then((decodedToken) => {
-          let uid = decodedToken.uid
-          console.log({uid})
+          // let uid = decodedToken.uid
+          // console.log({uid})
         next()
       }).catch((err) => {
         // console.log({err})
