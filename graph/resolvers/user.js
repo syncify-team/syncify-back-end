@@ -19,11 +19,11 @@ const findUserById = (_, { id }) => {
 		.then((user) => user)
 }
 
-const userByAuthId = (_, { firebase_id }) => {
+const userByAuthId = (_, { auth0_id }) => {
 	return knex
 		.from('users')
 		.select('*')
-		.where('auth0_id', firebase_id )
+		.where({ auth0_id })
 		.first()
 		.then((user) => user)
 }
@@ -124,7 +124,7 @@ export const signIn = async (_, { input: { token } }) => {
 	// console.log(idToken.firebase.identities)
 	let user
 	try {
-		user = await userByAuthId(_, { firebase_id: idToken.user_id })
+		user = await userByAuthId(_, { auth0_id: idToken.user_id })
 	} catch (e) {
 		console.log('Logged in user not found in DB')
 		// create a new record in database
@@ -151,7 +151,7 @@ export const signIn = async (_, { input: { token } }) => {
 				),
 				// last_name: getLastNameFromAuthToken(family_name, name),
 				social_login_type: firebase.sign_in_provider,
-				firebase_id: user_id,
+				auth0_id: user_id,
 				image_url: picture || blankUserIcon,
 			},
 		})
