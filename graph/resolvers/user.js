@@ -1,7 +1,8 @@
 import jwtDecode from 'jwt-decode'
 import knex from '../../config/knex'
 
-const blankUserIcon = "https://banner2.cleanpng.com/20180828/sxw/kisspng-clip-art-computer-icons-user-download-chamber-of-d-talonpaw-svg-png-icon-free-download-175238-on-5b84c95a116717.2809616615354289540713.jpg"
+const blankUserIcon =
+	'https://banner2.cleanpng.com/20180828/sxw/kisspng-clip-art-computer-icons-user-download-chamber-of-d-talonpaw-svg-png-icon-free-download-175238-on-5b84c95a116717.2809616615354289540713.jpg'
 
 const users = (params, context) => {
 	return knex
@@ -68,7 +69,6 @@ const findUsersByInput = (_, { userId, searchTerm }) => {
 		})
 }
 
-
 export default {
 	findUsersByInput,
 	users,
@@ -91,21 +91,43 @@ const validateUser = (newUser) => {
 	return Promise.reject('Missing Parameters')
 }
 
-export const createUser = (_, { input }) => {
-	// return validateUser(input).then(() =>
+export const createUser = (_, { idToken }) => {
+	const {
+		nickname,
+		given_name,
+		family_name,
+		name,
+		email,
+		user_id,
+		firebase,
+		picture,
+	} = idToken
+
+	const potentialUser = {
+		username:
+			nickname || getFirstNameFromAuthToken(given_name, nickname, email),
+		email: email || ' ',
+		first_name: getFirstNameFromAuthToken(given_name, nickname, email),
+		last_name: getLastNameFromAuthToken(family_name, name),
+		social_login_type: firebase.sign_in_provider,
+		auth0_id: user_id,
+		image_url: picture || blankUserIcon,
+	}
+
+	return validateUser(potentialUser).then(() => {
 		return knex('users')
 			.insert({
-				username: "test",
-				email: input.email,
-				first_name: input.first_name,
-				last_name: "test",
-				social_login_type: input.social_login_type,
-				auth0_id: input.firebase_id,
-				image_url: input.image_url,
+				username: potentialUser.username,
+				email: potentialUser.email,
+				first_name: potentialUser.first_name,
+				last_name: potentialUser.last_name,
+				social_login_type: potentialUser.social_login_type,
+				auth0_id: potentialUser.auth0_id,
+				image_url: potentialUser.image_url,
 			})
 			.returning('*')
 			.then(([user]) => user)
-	// )
+	})
 }
 
 export const deleteUser = (_, { id }) => {
@@ -117,75 +139,27 @@ export const deleteUser = (_, { id }) => {
 
 export const signIn = async (_, { input: { token } }) => {
 	console.log('Sign In request received')
-	console.log({token})
+	console.log({ token })
 	const idToken = jwtDecode(token)
-	console.log({idToken})
 	// console.log("identities")
 	// console.log(idToken.firebase.identities)
 	let user
-	try {
-		user = await userByAuthId(_, { auth0_id: idToken.user_id })
-	} catch (e) {
-		console.log('Logged in user not found in DB')
-		// create a new record in database
-		const {
-			nickname,
-			given_name,
-			family_name,
-			name,
-			email,
-			user_id,
-			firebase,
-			picture,
-		} = idToken
-		
-		user = await createUser(_, {
-			input: {
-				// username: nickname || ' ',
-				email: email || ' ',
-				first_name: getFirstNameFromAuthToken(
-					given_name,
-					name,
-					nickname,
-					email
-				),
-				// last_name: getLastNameFromAuthToken(family_name, name),
-				social_login_type: firebase.sign_in_provider,
-				auth0_id: user_id,
-				image_url: picture || blankUserIcon,
-			},
-		})
-	}
-	// if (!user) {
-		
-	// }
+	user = await userByAuthId(_, { auth0_id: idToken.user_id })
 
+	if (!user) {
+		// create a new record in database
+		user = await createUser(_, { idToken })
+	}
 	return user
 }
 
-
-
-
-
-const getFirstNameFromAuthToken = (firstName, name, nickName, email) => {
-	return (
-		firstName ||
-		name ||
-		nickName ||
-		email.split('@')[0] ||
-		' '
-	)
-	// return (
-	// 	firstName ||
-	// 	name.split(' ')[0] ||
-	// 	nickName ||
-	// 	email.split('@')[0] ||
-	// 	' '
-	// )
+const getFirstNameFromAuthToken = (firstName, nickName, email) => {
+	return firstName || nickName || email.split('@')[0] || ' '
+	// name.split(' ')[0] ||
 }
 
-const getLastNameFromAuthToken = (lastName, name) => {
-	return lastName || name.split(' ')[1] || ' '
+const getLastNameFromAuthToken = (family_name, lastName) => {
+	return family_name || lastName || ' '
 }
 
 // const getAuthProviderName = (sub) => {
