@@ -2,7 +2,7 @@ export default `
 
 type Mutation {
   signIn(input: SignInInput!): User!
-  createUser(input: UserCreationInput): User!
+  createUser(token: String!, name: String): User!
   deleteUser(id: ID!): Boolean
   createFriendship(input: FriendshipCreationInput): Friendship!
   deleteFriendship(id: ID!): Boolean

@@ -91,7 +91,9 @@ const validateUser = (newUser) => {
 	return Promise.reject('Missing Parameters')
 }
 
-export const createUser = (_, { idToken }) => {
+export const createUser = (_, { token }) => {
+
+	const idToken = jwtDecode(token)
 	const {
 		nickname,
 		given_name,
@@ -141,6 +143,8 @@ export const signIn = async (_, { input: { token } }) => {
 	console.log('Sign In request received')
 	console.log({ token })
 	const idToken = jwtDecode(token)
+	console.log({ idToken })
+
 	// console.log("identities")
 	// console.log(idToken.firebase.identities)
 	let user
@@ -148,7 +152,7 @@ export const signIn = async (_, { input: { token } }) => {
 
 	if (!user) {
 		// create a new record in database
-		user = await createUser(_, { idToken })
+		user = await createUser(_, { token })
 	}
 	return user
 }
@@ -164,4 +168,44 @@ const getLastNameFromAuthToken = (family_name, lastName) => {
 
 // const getAuthProviderName = (sub) => {
 // 	return sub.split('|')[0] || ' '
+// }
+
+
+// export const createUser = (_, { idToken }) => {
+// 	const {
+// 		nickname,
+// 		given_name,
+// 		family_name,
+// 		name,
+// 		email,
+// 		user_id,
+// 		firebase,
+// 		picture,
+// 	} = idToken
+
+// 	const potentialUser = {
+// 		username:
+// 			nickname || getFirstNameFromAuthToken(given_name, nickname, email),
+// 		email: email || ' ',
+// 		first_name: getFirstNameFromAuthToken(given_name, nickname, email),
+// 		last_name: getLastNameFromAuthToken(family_name, name),
+// 		social_login_type: firebase.sign_in_provider,
+// 		auth0_id: user_id,
+// 		image_url: picture || blankUserIcon,
+// 	}
+
+// 	return validateUser(potentialUser).then(() => {
+// 		return knex('users')
+// 			.insert({
+// 				username: potentialUser.username,
+// 				email: potentialUser.email,
+// 				first_name: potentialUser.first_name,
+// 				last_name: potentialUser.last_name,
+// 				social_login_type: potentialUser.social_login_type,
+// 				auth0_id: potentialUser.auth0_id,
+// 				image_url: potentialUser.image_url,
+// 			})
+// 			.returning('*')
+// 			.then(([user]) => user)
+// 	})
 // }
