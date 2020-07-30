@@ -24,6 +24,8 @@ type Userfriend implements Node {
 }
 
 input UserCreationInput {
+  token: String!
+  name: String
   username: String
   email: String
   first_name: String

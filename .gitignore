@@ -36,6 +36,7 @@ lerna-debug.log*
 
 # Secrets
 .env
+syncifyrbase*
 
 # Parcel Bundler files
 .cache
