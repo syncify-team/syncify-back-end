@@ -5,7 +5,7 @@ type Mutation {
   createUser(token: String!, name: String): User!
   deleteUser(id: ID!): Boolean
   createFriendship(input: FriendshipCreationInput): Friendship!
-  deleteFriendship(id: ID!): Boolean
+  deleteFriendship(friendship_id: ID!): Boolean
   createPodcast(input: PodcastCreationInput): Podcast!
   deletePodcast(id: ID!): Boolean
   createEpisode(input: EpisodeCreationInput): Episode!

@@ -20,11 +20,11 @@ const findUserById = (_, { id }) => {
 		.then((user) => user)
 }
 
-const userByAuthId = (_, { auth0_id }) => {
+const userByAuthId = (_, { firebase_id }) => {
 	return knex
 		.from('users')
 		.select('*')
-		.where({ auth0_id })
+		.where({ firebase_id })
 		.first()
 		.then((user) => user)
 }

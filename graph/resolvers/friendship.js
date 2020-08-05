@@ -5,9 +5,9 @@ const friendships = (params, context) => {
     .then((friendships) => friendships)
 }
 
-const friendList = (_, { id }) => {
-  return knex.from('friendships').where('user1_id', id)
-    .join('users AS b', 'b.id', 'friendships.user2_id')
+const friendList = (_, { user_id }) => {
+  return knex.from('friendships').where('user1_id', user_id)
+    .join('users AS b', 'b.firebase_id', 'friendships.user2_id')
     .select(
       'b.id as user2_id', 'b.username as user2_username', 'b.email as user2_email',
       'b.first_name as user2_first_name', 'b.last_name as user2_last_name',
@@ -65,8 +65,8 @@ export const createFriendship = async (_, { input }) => {
     )
 }
 
-export const deleteFriendship = async (_, { id }) => {
-  return knex('friendships').where({ id }).del().then((result) => result)
+export const deleteFriendship = async (_, { friendship_id }) => {
+  return knex('friendships').where( id, friendship_id ).del().then((result) => result)
 }
 
 export default { friendships, friendList }

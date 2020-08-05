@@ -2,7 +2,7 @@ export default `
 
 type EpisodeStatus implements Node {
   id: ID!
-  user_id: ID!
+  user_id: String!
   is_playing: Boolean!
   completed: Boolean!
   timestamp_in_episode: Int!
@@ -19,7 +19,7 @@ type EpisodeStatus implements Node {
 
 type LiveEpisode implements Node {
   id: ID!
-  user_id: ID!
+  user_id: String!
   username: String!
   user_img_url: String!
   is_playing: Boolean!
@@ -37,7 +37,7 @@ type LiveEpisode implements Node {
 
 input EpisodeStatusCreationInput {
   id: ID
-  user_id: ID
+  user_id: String
   is_playing: Boolean
   completed: Boolean
   timestamp_in_episode: Int
