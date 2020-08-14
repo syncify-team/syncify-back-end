@@ -37,6 +37,7 @@ lerna-debug.log*
 # Secrets
 .env
 syncifyrbase*
+syncify-firebase*
 
 # Parcel Bundler files
 .cache

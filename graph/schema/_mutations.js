@@ -4,7 +4,7 @@ type Mutation {
   signIn(input: SignInInput!): User!
   createUser(token: String!, name: String): User!
   deleteUser(id: ID!): Boolean
-  createFriendship(input: FriendshipCreationInput): Friendship!
+  createFriendship(input: FriendshipCreationInput): Friend!
   deleteFriendship(id: ID!): Boolean
   createPodcast(input: PodcastCreationInput): Podcast!
   deletePodcast(id: ID!): Boolean
