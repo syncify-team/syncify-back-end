@@ -157,7 +157,7 @@ export const pausePlayingEpisode = async (_, { input }) => {
 }
 
 export const continuePausedEpisode = async (_, { input }) => {
-  const updated_utc = Date.now() - input.timestamp_in_episode
+  const updated_utc = Date.now() - new Date(input.timestamp_in_episode * 1000).getTime() 
   return knex('episodeStatus').where({ id: input.id })
     .update({ utc_time_start: updated_utc })
     .update({ is_playing: true })
