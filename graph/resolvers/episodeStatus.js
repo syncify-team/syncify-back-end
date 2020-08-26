@@ -59,7 +59,7 @@ export default {
       .join('friendships as c', 'c.user2_id', '=', 'b.user_id')
       .where('b.is_playing', false)
       .andWhere('c.user1_id', userId)
-      .limit(12)
+      .limit(30)
       .select(
         'a.id as user_id', 'a.username as username', 'a.image_url as user_img_url',
         'b.is_playing as is_playing',
@@ -157,7 +157,7 @@ export const pausePlayingEpisode = async (_, { input }) => {
 }
 
 export const continuePausedEpisode = async (_, { input }) => {
-  const updated_utc = Date.now() - input.timestamp_in_episode
+  const updated_utc = Date.now() - new Date(input.timestamp_in_episode * 1000).getTime() 
   return knex('episodeStatus').where({ id: input.id })
     .update({ utc_time_start: updated_utc })
     .update({ is_playing: true })
