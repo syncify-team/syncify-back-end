@@ -23,6 +23,8 @@ export const createPodcast = async (_, { input }) => {
       knex('podcasts').insert({
         podcast_name: input.podcast_name,
         rss_feed: input.rss_feed,
+        title: input.title,
+        author: input.author,
       }).returning('*').then(([podcast]) => podcast)
     )
 }

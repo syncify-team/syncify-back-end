@@ -1,4 +1,6 @@
 import knex from '../../config/knex'
+import {createEpisode,queryEpisode} from "./episode";
+import {createPodcast,queryPodcast} from "./podcast";
 
 export default {
   episodeStatuseees: (params, context) => {
@@ -108,44 +110,45 @@ const valid = (newEpisodestatus) => {
     && newEpisodestatus.podcast_author
   ) {
     return Promise.resolve(newEpisodestatus)
-  } 
+  }
     return Promise.reject('Missing Parameters')
 }
 
 export const createEpisodeStatus = async (_, { input }) => {
-  return valid(input)
-    .then(() =>
-      knex('episodeStatus')
-      .where('user_id', input.user_id)
-      .andWhere('episode_title', input.episode_title)
-      .andWhere('podcast_title', input.podcast_title)
-      .then(function(rows) {
-        if (rows.length===0) {
-          const now = new Date()
-          // no matching records found
-          return knex('episodeStatus').insert({
-            user_id: input.user_id,
-            is_playing: true,
-            completed: false,
-            timestamp_in_episode: input.timestamp_in_episode || 0,
-            duration: input.duration,
-            utc_time_start: Date.now(),
-            publish_date: input.publish_date,
-            episode_title: input.episode_title,
-            episode_description: input.episode_description,
-            episode_image_url: input.episode_image_url,
-            episode_file_url: input.episode_file_url,
-            podcast_title: input.podcast_title,
-            podcast_author: input.podcast_author,
-          })
-          .returning('*')
-          .then(([episodeStatus]) => episodeStatus)
-        } else {
-          // return episode status that already exists
-          return rows[0]
-        }
-      })
-    )
+  let podcast = await knex.from('podcasts').select('*').where({ title:input.podcast_title,author:input.podcast_author }).first().then((row) => row)
+  if(!podcast) podcast = await knex('podcasts').insert({
+      title: input.podcast_title,
+      author: input.podcast_author,
+      podcast_name: input.podcast_title,
+      rss_feed: input.podcast_title,
+  }).returning('*').then(([podcast]) => podcast)
+  let episode = await await knex.from('episodes').select('*').where({title:input.episode_title,description:input.episode_description}).first().then((row) => row)
+  if(!episode) episode = await knex('episodes').insert({
+      podcast_id: podcast.id,
+      duration: input.duration,
+      publish_date: input.publish_date,
+      title: input.episode_title,
+      image_url: input.episode_image_url,
+      description: input.episode_description,
+      file_url: input.episode_file_url,
+      episode_name:input.episode_title,
+  }).returning('*').then(([episode]) => episode)
+  return knex('episodeStatus').insert({
+      user_id: input.user_id,
+      is_playing: true,
+      completed: false,
+      timestamp_in_episode: input.timestamp_in_episode || 0,
+      episode_id: episode.id,
+      duration: input.duration,
+      utc_time_start: Date.now(),
+      publish_date: input.publish_date,
+      episode_title: input.episode_title,
+      episode_description: input.episode_description,
+      episode_image_url: input.episode_image_url,
+      episode_file_url: input.episode_file_url,
+      podcast_title: input.podcast_title,
+      podcast_author: input.podcast_author,
+  }).returning('*').then(([episodeStatus]) => episodeStatus)
 }
 
 export const pausePlayingEpisode = async (_, { input }) => {
@@ -157,7 +160,7 @@ export const pausePlayingEpisode = async (_, { input }) => {
 }
 
 export const continuePausedEpisode = async (_, { input }) => {
-  const updated_utc = Date.now() - new Date(input.timestamp_in_episode * 1000).getTime() 
+  const updated_utc = Date.now() - new Date(input.timestamp_in_episode * 1000).getTime()
   return knex('episodeStatus').where({ id: input.id })
     .update({ utc_time_start: updated_utc })
     .update({ is_playing: true })
