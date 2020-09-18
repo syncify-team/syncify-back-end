@@ -1,13 +1,14 @@
 
 exports.up = function(knex) {
   return knex.schema.alterTable('episodeStatus', (table) => {
-    table.integer('episode_id')
-    table.foreign('episode_id').references('episodes.id')
+    table.dropColumn('duration')
+    table.dropColumn('publish_date')
   })
 }
 
 exports.down = function(knex) {
   return knex.schema.alterTable('episodeStatus', (table) => {
-    table.dropColumn('episode_id')
+    table.integer('duration').notNull()
+    table.string('publish_date').notNull()
   })
 }

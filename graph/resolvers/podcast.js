@@ -1,12 +1,16 @@
 import knex from '../../config/knex'
 
 export default {
-  podcasts: (params, context) => {
-    return knex.from('podcasts').select('*').then((podcasts) => podcasts)
+  podcasts: () => {
+    return knex.from('podcasts').select('*')
+      .then((podcasts) => podcasts)
   },
 
   podcast: (_, { id }) => {
-    return knex.from('podcasts').select('*').where({ id }).first().then((podcast) => podcast)
+    return knex.from('podcasts').select('*')
+      .where({ id })
+      .first()
+      .then((podcast) => podcast)
   },
 }
 
@@ -25,10 +29,14 @@ export const createPodcast = async (_, { input }) => {
         rss_feed: input.rss_feed,
         title: input.title,
         author: input.author,
-      }).returning('*').then(([podcast]) => podcast)
+      })
+        .returning('*')
+        .then(([podcast]) => podcast)
     )
 }
 
 export const deletePodcast = (_, { id }) => {
-  return knex('podcasts').where({ id }).del().then((result) => result)
+  return knex('podcasts').where({ id })
+    .del()
+    .then((result) => result)
 }

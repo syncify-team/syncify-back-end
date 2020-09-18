@@ -1,11 +1,11 @@
 const _ = require('lodash')
 const chai = require('chai')
-const mockDb = require("mock-knex")
+const mockDb = require('mock-knex')
 const mochaEach = require('mocha-each')
 
-const userGraphql = require("../../../graph/resolvers/user")
-const { development } = require("../../../knexfile")
-const knex = require("./knex")
+const userGraphql = require('../../../graph/resolvers/user')
+const { development } = require('../../../knexfile')
+const knex = require('./knex')
 
 const { expect } = chai
 const tracker = mockDb.getTracker()
@@ -28,7 +28,7 @@ describe('UserGraphQL', function () {
     tracker.uninstall()
   })
 
-  it("get all users", (done) => {
+  it('get all users', (done) => {
     const users = [
       {
         id: 1,
@@ -59,10 +59,10 @@ describe('UserGraphQL', function () {
       },
     ]
 
-    tracker.on("query", (query) => {
+    tracker.on('query', (query) => {
       const regex = /select\s\*\sfrom\s"users"/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("select")
+      expect(query.method).to.equal('select')
       query.response(users)
     })
 
@@ -72,7 +72,7 @@ describe('UserGraphQL', function () {
     })
   })
 
-  it("get user by id", (done) => {
+  it('get user by id', (done) => {
     const user = {
       id: 2,
       username: 'user_2',
@@ -83,10 +83,10 @@ describe('UserGraphQL', function () {
       auth0_id: '222222',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /select\s\*\sfrom\s"users"\swhere\s"id"\s\=\s\$1/
+    tracker.on('query', (query) => {
+      const regex = /select\s\*\sfrom\s"users"\swhere\s"id"\s=\s\$1/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("first")
+      expect(query.method).to.equal('first')
       expect(query.bindings.toString()).to.equal([2, 1].toString())
       query.response(user)
     })
@@ -97,7 +97,7 @@ describe('UserGraphQL', function () {
     })
   })
 
-  it("get user by auth id", (done) => {
+  it('get user by auth id', (done) => {
     const user = {
       id: 2,
       username: 'user_2',
@@ -108,10 +108,10 @@ describe('UserGraphQL', function () {
       auth0_id: '222222',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /select\s\*\sfrom\s"users"\swhere\s"auth0_id"\s\=\s\$1/
+    tracker.on('query', (query) => {
+      const regex = /select\s\*\sfrom\s"users"\swhere\s"auth0_id"\s=\s\$1/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("first")
+      expect(query.method).to.equal('first')
       expect(query.bindings.toString()).to.equal(['222222', 1].toString())
       query.response(user)
     })
@@ -180,14 +180,14 @@ describe('UserGraphQL', function () {
     ],
   ]).it('create with Missing Parameters should fail: %j', (newUser) => userGraphql
     .createUser(_, { input: newUser })
-    .then((user) => {
+    .then(() => {
       throw 'somethings broken'
     })
     .catch((err) => {
       expect(err).to.have.string('Missing Parameters')
     }))
 
-  it("create user should work with valid input", (done) => {
+  it('create user should work with valid input', (done) => {
     const user = {
       username: 'user_2',
       email: 'two@gmail.com',
@@ -197,10 +197,10 @@ describe('UserGraphQL', function () {
       auth0_id: '222222',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /insert\s\into\s"users"\s\("auth0_id"\,\s"email"\,\s"first_name"\,\s"last_name"\,\s"social_login_type"\,\s"username"\)\svalues\s\(\$1\,\s\$2\,\s\$3\,\s\$4\,\s\$5\,\s\$6\)/
+    tracker.on('query', (query) => {
+      const regex = /insert\sinto\s"users"\s\("auth0_id",\s"email",\s"first_name",\s"last_name",\s"social_login_type",\s"username"\)\svalues\s\(\$1,\s\$2,\s\$3,\s\$4,\s\$5,\s\$6\)/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("insert")
+      expect(query.method).to.equal('insert')
       // expect(query.bindings).to.equal([...Object.values(user)]);
       query.response([user])
     })
@@ -211,7 +211,7 @@ describe('UserGraphQL', function () {
     })
   })
 
-  it("delete user", (done) => {
+  it('delete user', (done) => {
     const user = {
       username: 'user_2',
       email: 'two@gmail.com',
@@ -221,10 +221,10 @@ describe('UserGraphQL', function () {
       auth0_id: '222222',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /delete\sfrom\s"users"\swhere\s"id"\s\=\s\$1/
+    tracker.on('query', (query) => {
+      const regex = /delete\sfrom\s"users"\swhere\s"id"\s=\s\$1/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("del")
+      expect(query.method).to.equal('del')
       expect(query.bindings.toString()).to.equal([2].toString())
       query.response(user)
     })
