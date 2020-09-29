@@ -45,7 +45,8 @@
     "mock-knex": "^0.4.9",
     "morgan": "^1.10.0",
     "pg": "^8.2.1",
-    "q": "^1.5.1"
+    "q": "^1.5.1",
+    "unirest": "^0.6.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.1.1",

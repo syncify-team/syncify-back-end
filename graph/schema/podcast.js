@@ -6,6 +6,9 @@ type Podcast implements Node {
   rss_feed: String!
   title: String!
   author: String!
+  description: String!
+  image_url: String!
+  episodes:[Episode]
 }
 
 input PodcastCreationInput {

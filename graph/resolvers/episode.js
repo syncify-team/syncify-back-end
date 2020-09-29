@@ -1,4 +1,6 @@
 import knex from '../../config/knex'
+import {convertGetEpisodeResponse} from '../adapters/listenNoteAdapter'
+import {getEpisode} from '../clients/listenNoteClient'
 
 export default {
   episodes: () => {
@@ -13,21 +15,9 @@ export default {
       .then((episode) => episode)
   },
 
-  // //  future query - find users that listend to an episode
-  // usersWhoListenedToThisEpisode: (_, { id }) => {
-  //   return knex.from('episodes as a')
-  //     .where( 'a.id', id )
-  //     .join('users as b', 'b.id', '=', 'a.user_id')
-  //     .select(
-  //       'b.id as user2_id', 'b.username as user2_username', 'b.email as user2_email',
-  //       'b.first_name as user2_first_name', 'b.last_name as user2_last_name',
-  //       'b.image_url as user2_image_url',
-  //     )
-  //     .then((episodesAndUsersList) => {
-  //       console.log({ episodesAndUsersList})
-  //       // return episodesAndUsersList
-  //     })
-  // },
+  episodeFromListenNote:async(_,{id})=>{
+    return convertGetEpisodeResponse(await getEpisode(id))
+  }
 }
 
 const valid = (newEpisode) => {

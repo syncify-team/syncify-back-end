@@ -1,4 +1,6 @@
 import knex from '../../config/knex'
+import {getBestPodcasts,getPodcast,search} from '../clients/listenNoteClient'
+import {convertBestPodcastsResponse,convertGetPodcastResponse,convertSearchPodcastsResponse} from '../adapters/listenNoteAdapter'
 
 export default {
   podcasts: () => {
@@ -12,7 +14,22 @@ export default {
       .first()
       .then((podcast) => podcast)
   },
+
+  bestPodcasts:async(_,{page})=>{
+    return convertBestPodcastsResponse(await getBestPodcasts(page))
+  },
+
+
+  podcastFromListenNote:async(_,{id})=>{
+    return convertGetPodcastResponse(await getPodcast(id))
+  },
+
+  searchPodcasts:async(_,{query,offset})=>{
+    return convertSearchPodcastsResponse(await search(query,offset))
+  }
 }
+
+
 
 const valid = (newPodcast) => {
   if (newPodcast.podcast_name && newPodcast.rss_feed) {
@@ -20,6 +37,7 @@ const valid = (newPodcast) => {
   }
   return Promise.reject('Missing Parameters')
 }
+
 
 export const createPodcast = async (_, { input }) => {
   return valid(input)
