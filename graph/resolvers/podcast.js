@@ -1,6 +1,6 @@
 import knex from '../../config/knex'
-import {getBestPodcasts,getPodcast,search} from '../clients/listenNoteClient'
-import {convertBestPodcastsResponse,convertGetPodcastResponse,convertSearchPodcastsResponse} from '../adapters/listenNoteAdapter'
+import {getBestPodcasts, getPodcast, search} from '../clients/listenNoteClient'
+import {convertBestPodcastsResponse, convertGetPodcastResponse, convertSearchPodcastsResponse} from '../adapters/listenNoteAdapter'
 
 export default {
   podcasts: () => {
@@ -15,20 +15,18 @@ export default {
       .then((podcast) => podcast)
   },
 
-  bestPodcasts:async(_,{page})=>{
+  bestPodcasts:async(_, {page})=>{
     return convertBestPodcastsResponse(await getBestPodcasts(page))
   },
 
-
-  podcastFromListenNote:async(_,{id})=>{
+  podcastFromListenNote:async(_, {id})=>{
     return convertGetPodcastResponse(await getPodcast(id))
   },
 
-  searchPodcasts:async(_,{query,offset})=>{
-    return convertSearchPodcastsResponse(await search(query,offset))
+  searchPodcasts:async(_, {query, offset})=>{
+    return convertSearchPodcastsResponse(await search(query, offset))
   }
 }
-
 
 
 const valid = (newPodcast) => {

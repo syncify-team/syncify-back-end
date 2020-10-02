@@ -15,7 +15,7 @@ export default {
       .then((episode) => episode)
   },
 
-  episodeFromListenNote:async(_,{id})=>{
+  episodeFromListenNote:async(_, {id})=>{
     return convertGetEpisodeResponse(await getEpisode(id))
   }
 }

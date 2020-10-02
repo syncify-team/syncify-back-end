@@ -1,7 +1,9 @@
 import jwtDecode from 'jwt-decode'
 import knex from '../../config/knex'
 
+
 const blankUserIcon =
+//eslint-disable-next-line max-len
 	'https://banner2.cleanpng.com/20180828/sxw/kisspng-clip-art-computer-icons-user-download-chamber-of-d-talonpaw-svg-png-icon-free-download-175238-on-5b84c95a116717.2809616615354289540713.jpg'
 
 const users = () => {

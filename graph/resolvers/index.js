@@ -6,7 +6,7 @@ import episodeStatus, {
   completePlayingEpisode,
   deleteEpisodeStatus
 } from './episodeStatus'
-import episodeGroup,{createEpisodeGroup,updateEpisodeGroup,deleteEpisodeGroup,insertEpisodeGroupItemToGroup,deleteEpisodeGroupItemToGroup} from './episodeGroup'
+import episodeGroup, {createEpisodeGroup, updateEpisodeGroup, deleteEpisodeGroup, insertEpisodeGroupItemToGroup, deleteEpisodeGroupItemToGroup} from './episodeGroup'
 import friendship, { createFriendship, deleteFriendship } from './friendship'
 import podcast, { createPodcast, deletePodcast } from './podcast'
 import user, { signIn, createUser, deleteUser } from './user'

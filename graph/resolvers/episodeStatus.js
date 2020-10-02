@@ -17,9 +17,9 @@ export default {
     return knex.from('episodeStatus AS a')
       .join('episodes as b', 'b.id', '=', 'a.episode_id')
       .join('podcasts as c', 'c.id', '=', 'b.podcast_id')
-      .select('a.id','a.user_id','a.is_playing','a.completed','a.timestamp_in_episode','b.duration','a.utc_time_start',
-        'b.publish_date','b.title as episode_title','b.image_url as episode_image_url','b.description as episode_description',
-        'b.file_url as episode_file_url','c.title as podcast_title','c.author as podcast_author')
+      .select('a.id', 'a.user_id', 'a.is_playing', 'a.completed', 'a.timestamp_in_episode', 'b.duration', 'a.utc_time_start',
+        'b.publish_date', 'b.title as episode_title', 'b.image_url as episode_image_url', 'b.description as episode_description',
+        'b.file_url as episode_file_url', 'c.title as podcast_title', 'c.author as podcast_author')
       .where('user_id', userId )
       .then((episodeStatusList) => episodeStatusList)
   },
@@ -132,7 +132,7 @@ const isValidEpisodeStatusInput = (newEpisodestatus) => {
 export const createEpisodeStatus = async (_, { input }) => {
   if(isValidEpisodeStatusInput(input)){
     let podcast = await knex.from('podcasts').select('*')
-      .where({ title:input.podcast_title,author:input.podcast_author })
+      .where({ title:input.podcast_title, author:input.podcast_author })
       .first()
       .then((row) => row)
     if(!podcast) podcast = await knex('podcasts').insert({
@@ -144,7 +144,7 @@ export const createEpisodeStatus = async (_, { input }) => {
       .returning('*')
       .then(([podcast]) => podcast)
     let episode = await await knex.from('episodes').select('*')
-      .where({title:input.episode_title,description:input.episode_description})
+      .where({title:input.episode_title, description:input.episode_description})
       .first()
       .then((row) => row)
     if(!episode) episode = await knex('episodes').insert({

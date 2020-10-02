@@ -33,6 +33,17 @@
       "error",
       "never"
     ],
+    "max-len": [
+      "error",
+      { "code": 180 }
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
     "no-trailing-spaces": 1,
     "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }]
   }

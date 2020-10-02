@@ -4,17 +4,17 @@ export default {
   episodeGroups: (_, { userId }) => {
     return knex.from('episodeGroups AS a')
       .where('a.user_id', userId )
-      .select('a.id','a.name')
+      .select('a.id', 'a.name')
       .first()
-      .then(({id,name})=>{
-        return {id,name,user_id:userId,
+      .then(({id, name})=>{
+        return {id, name, user_id:userId,
           items:knex.from('episodeGroupItems AS b').where('b.group_id', id )
             .join('episodes AS c', 'c.id', '=', 'b.episode_id')
             .select('c.*')
             .then((episodes) => episodes)}
       })
   },
-  episodeGroupItems: (_, { userId,groupId }) => {
+  episodeGroupItems: (_, { userId, groupId }) => {
     return knex.from('episodeGroupItems as a')
       .where('a.group_id', groupId )
       .join('episodeGroups as b', 'b.id', '=', 'a.group_id')
@@ -40,7 +40,7 @@ const isValidEpisodeGroupCreationInput = (newEpisodeGroup) => {
 export const createEpisodeGroup = async (_, { input }) => {
   if(isValidEpisodeGroupCreationInput(input)){
     return knex.from('episodeGroups').select('*')
-      .where({ user_id:input.user_id,name:input.name })
+      .where({ user_id:input.user_id, name:input.name })
       .first()
       .then((episodeGroup) => {
         return episodeGroup ||
@@ -103,11 +103,11 @@ const isValidEpisodeGroupItemModificationInput = (newItemInsertionInput) => {
 export const insertEpisodeGroupItemToGroup = async (_, { input }) => {
   if(isValidEpisodeGroupItemModificationInput(input)){
     return knex.from('episodeGroupItems').select('*')
-      .where({ episode_id:input.episode_id,group_id:input.group_id })
+      .where({ episode_id:input.episode_id, group_id:input.group_id })
       .first()
       .then((episodeGroupItem) => {
         return episodeGroupItem || knex('episodeGroupItems').insert({
-          episode_id:input.episode_id,group_id:input.group_id
+          episode_id:input.episode_id, group_id:input.group_id
         })
           .returning('*')
           .then(([episodeGroupItem]) => episodeGroupItem)
@@ -121,7 +121,7 @@ export const insertEpisodeGroupItemToGroup = async (_, { input }) => {
 export const deleteEpisodeGroupItemToGroup = async (_, { input }) => {
   if(isValidEpisodeGroupItemModificationInput(input)){
     return knex.from('episodeGroupItems').select('*')
-      .where({ episode_id:input.episode_id,group_id:input.group_id })
+      .where({ episode_id:input.episode_id, group_id:input.group_id })
       .first()
       .then((episodeGroupItem) => {
         return knex('episodeGroupItems').where({ id:episodeGroupItem.id })
