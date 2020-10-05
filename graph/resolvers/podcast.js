@@ -20,7 +20,45 @@ export default {
   },
 
   podcastFromListenNote:async(_, {id})=>{
-    return convertGetPodcastResponse(await getPodcast(id))
+    return await knex.from('podcasts').select('*')
+      .where({ listen_note_id:id})
+      .first()
+      .then(async(podcast)=>{
+        const episodes = await knex.from('episodes').select('*')
+          .where({podcast_id: podcast.id})
+          .then((episodes) => episodes)
+        return {
+          id: podcast.id,
+          author: podcast.author,
+          rss_feed: podcast.rss_feed,
+          image_url: podcast.image_url,
+          title: podcast.title,
+          thumbnail: podcast.image_url,
+          description: podcast.description,
+          episodes: episodes?.map(episode => {
+            return {
+              id: episode.id,
+              title: episode.title,
+              //TODO
+              subtitle: '',
+              description: episode.description,
+              image_url: episode.image_url,
+              publish_date: episode.publish_date,
+              duration: episode.duration,
+              //TODO: what is lenght
+              length: '48101297',
+              //TODO: where is type in listennote
+              type: 'audio/mpeg',
+              file_url: episode.file_url
+            }
+          })
+        }
+      }
+      )
+      .catch(async()=>{
+        return convertGetPodcastResponse(await getPodcast(id))
+      })
+
   },
 
   searchPodcasts:async(_, {query, offset})=>{
@@ -41,7 +79,6 @@ export const createPodcast = async (_, { input }) => {
   return valid(input)
     .then(() =>
       knex('podcasts').insert({
-        podcast_name: input.podcast_name,
         rss_feed: input.rss_feed,
         title: input.title,
         author: input.author,
