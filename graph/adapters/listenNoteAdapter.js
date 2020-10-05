@@ -1,3 +1,5 @@
+import knex from '../../config/knex'
+
 export const convertBestPodcastsResponse = (res)=>{
   return res.podcasts?.map(podcast=>{
     return convertGetPodcastResponse(podcast)
@@ -26,9 +28,24 @@ export const convertSearchPodcastResponse = (res)=>{
 }
 
 
-export const convertGetPodcastResponse = (res)=>{
+export const convertGetPodcastResponse = async(res)=>{
   //eslint-disable-next-line
   const {id,publisher,description,genre_ids,language,listennotes_url,thumbnail,title,total_episodes,type,website,rss,image} = res
+
+  let podcast = await knex.from('podcasts').select('*')
+    .where({ listen_note_id:id})
+    .first()
+    .then((row) => row)
+
+  podcast = await knex('podcasts').insert({
+    rss_feed: rss,
+    title,
+    author: publisher,
+    listen_note_id:id,
+  })
+    .returning('*')
+    .then(([podcast]) => podcast)
+
   return {
     id,
     author:publisher,
@@ -38,14 +55,26 @@ export const convertGetPodcastResponse = (res)=>{
     thumbnail,
     description,
     episodes: res.episodes?.map(episode=>{
-      return convertGetEpisodeResponse(episode)
+      return convertGetEpisodeResponse(episode, podcast)
     })
   }
 }
 
-export const convertGetEpisodeResponse = (res)=>{
+export const convertGetEpisodeResponse = async(res, podcast)=>{
   //eslint-disable-next-line
   const {id,link,audio,image,title,thumbnail,description,listennotes_url,audio_length_sec,website,pub_date_ms} = res
+
+  await knex('episodes').insert({
+    title,
+    description,
+    podcast_id:podcast.id,
+    image_url:image,
+    publish_date:pub_date_ms,
+    duration:audio_length_sec,
+    file_url: audio,
+    listen_note_id:id,
+  })
+
   return {
     id,
     title,
