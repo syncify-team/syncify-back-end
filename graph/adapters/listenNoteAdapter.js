@@ -32,12 +32,7 @@ export const convertGetPodcastResponse = async(res)=>{
   //eslint-disable-next-line
   const {id,publisher,description,genre_ids,language,listennotes_url,thumbnail,title,total_episodes,type,website,rss,image} = res
 
-  let podcast = await knex.from('podcasts').select('*')
-    .where({ listen_note_id:id})
-    .first()
-    .then((row) => row)
-
-  podcast = await knex('podcasts').insert({
+  const podcast = await knex('podcasts').insert({
     rss_feed: rss,
     title,
     author: publisher,
