@@ -1,7 +1,9 @@
 
 exports.up = function (knex) {
   return knex.schema.table('users', (table) => {
-    table.string('auth0_id').index().unique().notNull()
+    table.string('auth0_id').index()
+      .unique()
+      .notNull()
   })
 }
 

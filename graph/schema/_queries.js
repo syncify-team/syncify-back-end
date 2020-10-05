@@ -7,10 +7,16 @@ type Query {
   userByAuthId(auth0_id: String!): User
   friendships: [Friendship]!
   friendList(id: ID!): [Friend]!
+  episodeGroupItems(userId: ID!,groupId:ID!):[Episode]
+  episodeGroups(userId: ID!):EpisodeGroup
   podcasts: [Podcast]
   podcast(id: ID!): Podcast
+  bestPodcasts(page: Int!): [Podcast]
+  searchPodcasts(query: String!,offset:Int!): [Podcast]
+  podcastFromListenNote(id: ID!): Podcast
   episodes: [Episode]
   episode(id: ID!): Episode
+  episodeFromListenNote(id: ID!): Episode
   episodeStatuseees: [EpisodeStatus]
   episodeStatusById(id: ID!): EpisodeStatus
   userListenHistory(userId: ID!): [EpisodeStatus]

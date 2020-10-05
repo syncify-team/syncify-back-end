@@ -1,11 +1,11 @@
 const _ = require('lodash')
 const chai = require('chai')
-const mockDb = require("mock-knex")
+const mockDb = require('mock-knex')
 const mochaEach = require('mocha-each')
 
-const podcastGraphql = require("../../../graph/resolvers/podcast")
-const { development } = require("../../../knexfile")
-const knex = require("./knex")
+const podcastGraphql = require('../../../graph/resolvers/podcast')
+const { development } = require('../../../knexfile')
+const knex = require('./knex')
 
 const { expect } = chai
 const tracker = mockDb.getTracker()
@@ -28,7 +28,7 @@ describe('PodcastGraphQL', function () {
     tracker.uninstall()
   })
 
-  it("get all podcasts", (done) => {
+  it('get all podcasts', (done) => {
     const podcasts = [
       {
         id: 1,
@@ -47,10 +47,10 @@ describe('PodcastGraphQL', function () {
       },
     ]
 
-    tracker.on("query", (query) => {
+    tracker.on('query', (query) => {
       const regex = /select\s\*\sfrom\s"podcasts"/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("select")
+      expect(query.method).to.equal('select')
       query.response(podcasts)
     })
 
@@ -60,17 +60,17 @@ describe('PodcastGraphQL', function () {
     })
   })
 
-  it("get podcast by id", (done) => {
+  it('get podcast by id', (done) => {
     const podcast = {
       id: 2,
       podcast_name: 'pod_2',
       rss_feed: 'rss feed 2',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /select\s\*\sfrom\s"podcasts"\swhere\s"id"\s\=\s\$1/
+    tracker.on('query', (query) => {
+      const regex = /select\s\*\sfrom\s"podcasts"\swhere\s"id"\s=\s\$1/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("first")
+      expect(query.method).to.equal('first')
       expect(query.bindings.toString()).to.equal([2, 1].toString())
       query.response(podcast)
     })
@@ -95,7 +95,7 @@ describe('PodcastGraphQL', function () {
     ],
   ]).it('with Missing Parameters: %j', (newPodcast) => podcastGraphql
     .createPodcast(_, { input: newPodcast })
-    .then((podcast) => {
+    .then(() => {
       throw 'somethings broken'
     })
     .catch((err) => {
@@ -103,16 +103,16 @@ describe('PodcastGraphQL', function () {
     }))
 
 
-  it("create podcast should work with valid input", (done) => {
+  it('create podcast should work with valid input', (done) => {
     const podcast = {
       podcast_name: 'pod_2',
       rss_feed: 'rss feed 2',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /insert\s\into\s"podcasts"\s\("podcast_name"\,\s"rss_feed"\)\svalues\s\(\$1\,\s\$2\)/
+    tracker.on('query', (query) => {
+      const regex = /insert\sinto\s"podcasts"\s\("podcast_name",\s"rss_feed"\)\svalues\s\(\$1,\s\$2\)/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("insert")
+      expect(query.method).to.equal('insert')
       // expect(query.bindings).to.equal([...Object.values(podcast)]);
       query.response([podcast])
     })
@@ -124,16 +124,16 @@ describe('PodcastGraphQL', function () {
 
   })
 
-  it("delete podcast", (done) => {
+  it('delete podcast', (done) => {
     const podcast = {
       podcast_name: 'pod_2',
       rss_feed: 'rss feed 2',
     }
 
-    tracker.on("query", (query) => {
-      const regex = /delete\sfrom\s"podcasts"\swhere\s"id"\s\=\s\$1/
+    tracker.on('query', (query) => {
+      const regex = /delete\sfrom\s"podcasts"\swhere\s"id"\s=\s\$1/
       expect(regex.test(query.sql)).to.equal(true)
-      expect(query.method).to.equal("del")
+      expect(query.method).to.equal('del')
       expect(query.bindings.toString()).to.equal([2].toString())
       query.response(podcast)
     })

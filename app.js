@@ -22,8 +22,8 @@ const serviceAccount = JSON.parse(`{
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://syncifyrbase.firebaseio.com"
-});
+  databaseURL: 'https://syncifyrbase.firebaseio.com'
+})
 
 dotenv.config()
 const port = process.env.PORT || 3000
@@ -42,13 +42,14 @@ function checkAuth(req, res, next) {
     // console.log("checking authorization")
     admin.auth().verifyIdToken(req.headers.authorization)
       .then((decodedToken) => {
-          // let uid = decodedToken.uid
-          // console.log({uid})
+        // let uid = decodedToken.uid
+        // console.log({uid})
         next()
-      }).catch((err) => {
+      })
+      .catch((err) => {
         // console.log({err})
         res.status(403).send('Unauthorized')
-      });
+      })
   } else {
     res.status(403).send('Unauthorized')
   }
@@ -56,12 +57,12 @@ function checkAuth(req, res, next) {
 
 app.use(logger('dev'))
 // graphql endpoint
-app.use('/graphql', checkAuth, bodyParser.json(), graph())
+app.use('/graphql', bodyParser.json(), graph())
 app.use('/graphiql', graphUi())
 
 app.listen(port, () => {
   console.log(`Syncify Server listening on port ${port}!`)
-  console.log(`-- GraphQL server started`)
+  console.log('-- GraphQL server started')
 })
 
 
@@ -70,7 +71,7 @@ app.listen(port, () => {
 // --------------- Auth0 setup -----------------
 
 // const jwks = require('jwks-rsa')
-// const jwt = require('express-jwt') 
+// const jwt = require('express-jwt')
 
 // const auth = jwt({
 //   secret: jwks.expressJwtSecret({
