@@ -21,7 +21,7 @@ export default {
 }
 
 const valid = (newEpisode) => {
-  if (newEpisode.episode_name && newEpisode.podcast_id) {
+  if (newEpisode.title && newEpisode.podcast_id) {
     return Promise.resolve(newEpisode)
   }
   return Promise.reject('Missing Parameters')
@@ -32,7 +32,6 @@ export const createEpisode = async (_, { input }) => {
   return valid(input)
     .then(() =>
       knex('episodes').insert({
-        episode_name: input.episode_name,
         podcast_id: input.podcast_id,
         duration: input.duration,
         publish_date: input.publish_date,
