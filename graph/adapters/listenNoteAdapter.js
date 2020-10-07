@@ -2,7 +2,7 @@ import knex from '../../config/knex'
 
 export const convertBestPodcastsResponse = (res)=>{
   return res.podcasts?.map(podcast=>{
-    return convertGetPodcastResponse(podcast)
+    return convertGetBestPodcastResponse(podcast)
   })
 }
 
@@ -54,6 +54,21 @@ export const convertGetPodcastResponse = async(res)=>{
     episodes: res.episodes?.map(episode=>{
       return convertGetEpisodeResponse(episode, podcast)
     })
+  }
+}
+
+export const convertGetBestPodcastResponse = async(res)=>{
+  //eslint-disable-next-line
+    const {id,publisher,description,genre_ids,language,listennotes_url,thumbnail,title,total_episodes,type,website,rss,image} = res
+
+  return {
+    id,
+    author:publisher,
+    rss_feed:rss,
+    image_url:image,
+    title,
+    thumbnail,
+    description,
   }
 }
 
