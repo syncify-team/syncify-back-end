@@ -2,7 +2,6 @@ export default `
 
 type Episode implements Node {
   id: ID!
-  episode_name: String!
   podcast_id: ID!
   duration: Int!
   publish_date: String!
@@ -13,7 +12,6 @@ type Episode implements Node {
 }
 
 input EpisodeCreationInput {
-  episode_name: String
   podcast_id: ID!
   duration: Int!
   publish_date: String!
