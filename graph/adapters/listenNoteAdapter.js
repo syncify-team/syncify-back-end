@@ -37,6 +37,8 @@ export const convertGetPodcastResponse = async(res)=>{
     title,
     author: publisher,
     listen_note_id:id,
+    description,
+    image_url:image,
   })
     .returning('*')
     .then(([podcast]) => podcast)
