@@ -37,12 +37,17 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function checkAuth(req, res, next) {
+  // console.log(req.headers.authorization)
   if (req.headers.authorization) {
+    // console.log("checking authorization")
     admin.auth().verifyIdToken(req.headers.authorization)
       .then((decodedToken) => {
+        // let uid = decodedToken.uid
+        // console.log({uid})
         next()
       })
       .catch((err) => {
+        // console.log({err})
         res.status(403).send('Unauthorized')
       })
   } else {
@@ -51,6 +56,7 @@ function checkAuth(req, res, next) {
 }
 
 app.use(logger('dev'))
+// graphql endpoint
 app.use('/graphql', bodyParser.json(), graph())
 app.use('/graphiql', graphUi())
 
