@@ -9,8 +9,14 @@ export default {
   },
 
   episode: (_, { id }) => {
-    return knex.from('episodes').select('*')
-      .where({ id })
+    const whereCondition = isNaN(id) ? ['episodes.listen_note_id', id] : ['episodes.id', id]
+
+    return knex('episodes')
+      .join('podcasts', 'episodes.podcast_id', 'podcasts.id')
+      .where(...whereCondition)
+      .select('episodes.id', 'episodes.title', 'episodes.duration', 'episodes.publish_date', 'episodes.description',
+        'episodes.image_url', 'episodes.file_url', 'episodes.podcast_id', 'episodes.image_url',
+        'podcasts.author', 'podcasts.title as podcastTitle')
       .first()
       .then((episode) => episode)
   },

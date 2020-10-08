@@ -9,6 +9,8 @@ type Episode implements Node {
   image_url: String!
   description: String!
   file_url: String!
+  author: String
+  podcastTitle: String
 }
 
 input EpisodeCreationInput {
