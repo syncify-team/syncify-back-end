@@ -105,6 +105,7 @@ export default {
         'c.publish_date as publish_date', 'c.title as episode_title',
         'c.image_url as episode_image_url', 'c.image_url as episode_image_url',
         'c.description as episode_description', 'c.file_url as episode_file_url',
+        'c.id as episode_id',
         'd.title as podcast_title', 'd.author as podcast_author',
       )
       .orderBy('b.utc_time_start', 'desc')
