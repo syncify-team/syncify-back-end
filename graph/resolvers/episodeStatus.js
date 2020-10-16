@@ -53,7 +53,7 @@ export default {
       .select(
         'a.id as user_id', 'a.username as username', 'a.image_url as user_img_url',
         'b.is_playing as is_playing',
-        'b.id as id', 'd.duration as duration',
+        'b.id as id', 'd.id as episode_id', 'd.duration as duration',
         'b.timestamp_in_episode as timestamp_in_episode', 'b.utc_time_start as utc_time_start',
         'd.publish_date as publish_date', 'd.title as episode_title',
         'd.image_url as episode_image_url', 'd.image_url as episode_image_url',
@@ -83,6 +83,7 @@ export default {
         'd.publish_date as publish_date', 'd.title as episode_title',
         'd.image_url as episode_image_url', 'd.image_url as episode_image_url',
         'd.description as episode_description', 'd.file_url as episode_file_url',
+        'd.id as episode_id',
         'e.title as podcast_title', 'e.author as podcast_author',
       )
       .orderBy('b.utc_time_start', 'desc')
@@ -105,7 +106,7 @@ export default {
         'c.publish_date as publish_date', 'c.title as episode_title',
         'c.image_url as episode_image_url', 'c.image_url as episode_image_url',
         'c.description as episode_description', 'c.file_url as episode_file_url',
-        'c.id as episode_id',
+        'c.id as episode_id', 'c.id as episode_id',
         'd.title as podcast_title', 'd.author as podcast_author',
       )
       .orderBy('b.utc_time_start', 'desc')

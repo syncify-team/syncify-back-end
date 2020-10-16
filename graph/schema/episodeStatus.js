@@ -33,6 +33,7 @@ type LiveEpisode implements Node {
   episode_file_url: String!
   podcast_title: String!
   podcast_author: String!
+  episode_id: ID
 }
 
 input EpisodeStatusCreationInput {
