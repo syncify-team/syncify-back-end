@@ -17,7 +17,7 @@ export default {
     return knex.from('episodeStatus AS a')
       .join('episodes as b', 'b.id', '=', 'a.episode_id')
       .join('podcasts as c', 'c.id', '=', 'b.podcast_id')
-      .select('a.id', 'a.user_id', 'a.is_playing', 'a.completed', 'a.timestamp_in_episode', 'b.duration', 'a.utc_time_start',
+      .select('a.id', 'a.episode_id','a.user_id', 'a.is_playing', 'a.completed', 'a.timestamp_in_episode', 'b.duration', 'a.utc_time_start',
         'b.publish_date', 'b.title as episode_title', 'b.image_url as episode_image_url', 'b.description as episode_description',
         'b.file_url as episode_file_url', 'c.title as podcast_title', 'c.author as podcast_author')
       .where('user_id', userId )
