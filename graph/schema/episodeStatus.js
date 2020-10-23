@@ -7,6 +7,7 @@ type EpisodeStatus implements Node {
   completed: Boolean!
   timestamp_in_episode: Int!
   duration: Int!
+  episode_id: ID
   utc_time_start: String!
   publish_date: String!
   episode_title: String!
