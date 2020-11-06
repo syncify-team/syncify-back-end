@@ -10,6 +10,7 @@ import episodeGroup, {createEpisodeGroup, updateEpisodeGroup, deleteEpisodeGroup
 import friendship, { createFriendship, deleteFriendship } from './friendship'
 import podcast, { createPodcast, deletePodcast } from './podcast'
 import user, { signIn, createUser, deleteUser } from './user'
+import recommendation, {createRecommendation, deleteRecommendation} from './recommendation'
 
 export default {
   Query: {
@@ -19,6 +20,7 @@ export default {
     ...friendship,
     ...podcast,
     ...user,
+    ...recommendation,
   },
 
   Mutation: {
@@ -41,5 +43,7 @@ export default {
     deletePodcast,
     createUser,
     deleteUser,
+    createRecommendation,
+    deleteRecommendation,
   },
 }

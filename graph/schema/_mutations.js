@@ -20,6 +20,8 @@ type Mutation {
   continuePausedEpisode(input: ControlEpisodeStatus): EpisodeStatus!
   completePlayingEpisode(input: ControlEpisodeStatus): EpisodeStatus!
   deleteEpisodeStatus(id: ID!): Boolean
+  createRecommendation(input: RecommendationCreationInput): RecommendationDetail
+  deleteRecommendation(id: ID!): Boolean
 }
 
 `
