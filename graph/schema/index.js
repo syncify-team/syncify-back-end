@@ -8,5 +8,6 @@ import episodeGroup from './episodeGroup'
 import friendship from './friendship'
 import podcast from './podcast'
 import user from './user'
+import recommendation from './recommendation'
 
-export default [core, episode, episodeStatus, episodeGroup, friendship, mutations, podcast, queries, user]
+export default [core, episode, episodeStatus, episodeGroup, friendship, mutations, podcast, queries, user, recommendation]

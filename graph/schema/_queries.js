@@ -24,6 +24,10 @@ type Query {
   activeFriendsEpisodes(userId: ID!): [LiveEpisode]
   activeUsersEpisodes(userId: ID!): [LiveEpisode]
   recentFriendsEpisodes(userId: ID!): [LiveEpisode]
+  recommendations:[Recommendation]
+  recommendationById(id: ID!):RecommendationDetail
+  recommendationsFromUser(sourceUserId: ID!):[RecommendationDetail]!
+  recommendationsToUser(targetUserId: ID!):[RecommendationDetail]!
 }
 
 `
