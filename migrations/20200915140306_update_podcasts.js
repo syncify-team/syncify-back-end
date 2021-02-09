@@ -2,7 +2,9 @@
 exports.up = function(knex) {
   return knex.schema.alterTable('podcasts', (table) => {
     table.string('title').notNull()
+      .defaultTo('')
     table.string('author').notNull()
+      .defaultTo('')
   })
 }
 
